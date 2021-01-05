@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="fill-height">
     <v-row align="center" justify="center">
-      <v-col cols="2">
+      <v-col cols="10" md="6" lg="3">
         <v-card>
           <v-container>
             <v-row class="pa-2">
@@ -85,6 +85,8 @@ export default class Home extends Vue {
   login() {
     // codigo consulta api login
     console.log("login");
+    //cambio de ruta
+    this.$router.push({ name: "barcos" });
   }
 }
 </script>

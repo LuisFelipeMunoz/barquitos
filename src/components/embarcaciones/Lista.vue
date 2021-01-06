@@ -28,15 +28,18 @@
             <v-row no-gutters>
               <v-col cols="auto" class="pl-2 text-caption">5 encuestas</v-col>
             </v-row>
-            <v-divider></v-divider>
-            <v-row class="pt-2" no-gutters>
-              <v-col cols="12">
-                <v-btn block color="success" @click="$emit('click-item')">
-                  arrendar
-                </v-btn>
-              </v-col>
-            </v-row>
           </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn
+              block
+              elevation="2"
+              color="success"
+              @click="$emit('click-item')"
+            >
+              arrendar
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>

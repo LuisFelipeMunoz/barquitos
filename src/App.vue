@@ -28,16 +28,28 @@ import NavDrawer from "@/components/navDrawer/NavDrawer.vue";
 })
 export default class Home extends Vue {
   nav = true;
-  rutas = [
-    {
-      icon: "mdi-home",
-      text: "barcos",
-      to: { name: "barcos" },
-    },
-  ];
 
   get ruta() {
     return this.$route.name;
+  }
+
+  get rutas() {
+    if (this.ruta == "arriendos.pendientes") {
+      return [
+        {
+          icon: "mdi-home",
+          text: "arriendos",
+          to: { name: "arriendos.pendientes" },
+        },
+      ];
+    }
+    return [
+      {
+        icon: "mdi-home",
+        text: "barcos",
+        to: { name: "barcos" },
+      },
+    ];
   }
 
   logout() {

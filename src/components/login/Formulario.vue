@@ -7,7 +7,7 @@
         </v-col>
         <v-col cols="auto">
           <v-btn small icon>
-            <v-icon small color="grey">mdi-close</v-icon>
+            <v-icon small>mdi-close</v-icon>
           </v-btn>
         </v-col>
       </v-row>

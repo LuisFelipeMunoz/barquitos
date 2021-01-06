@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Barcos from "../views/Barcos.vue";
 import Login from "../views/Login.vue";
+import Barcos from "../views/Barcos.vue";
+import ArriendosPendientes from "../views/ArriendosPendientes.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes: Array<RouteConfig> = [
     path: "/barcos",
     name: "barcos",
     component: Barcos,
+  },
+  {
+    path: "/arriendos/pendientes",
+    name: "arriendos.pendientes",
+    component: ArriendosPendientes,
   },
 ];
 

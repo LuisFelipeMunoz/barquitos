@@ -48,7 +48,7 @@ interface Rutas {
 }
 
 @Component
-export default class ListaRutasNavegador extends Vue {
+export default class ListaRutasNavDrawer extends Vue {
   @Prop() rutas!: Rutas;
   @Prop() colorActive?: string;
   @Prop() colorIcon?: string;

@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col
-        v-for="(barco, index) in barcos"
+        v-for="(barco, index) in items"
         :key="index"
         cols="12"
         sm="6"
@@ -31,7 +31,9 @@
             <v-divider></v-divider>
             <v-row class="pt-2" no-gutters>
               <v-col cols="12">
-                <v-btn block color="success">arrendar</v-btn>
+                <v-btn block color="success" @click="$emit('click-item')">
+                  arrendar
+                </v-btn>
               </v-col>
             </v-row>
           </v-card-text>
@@ -42,20 +44,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class Lista extends Vue {
-  barcos = [
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-  ];
+export default class ListaEmbarcaciones extends Vue {
+  @Prop() readonly items!: Array<string>;
 }
 </script>

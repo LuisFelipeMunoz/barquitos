@@ -46,8 +46,8 @@ export default class Home extends Vue {
     return [
       {
         icon: "mdi-home",
-        text: "barcos",
-        to: { name: "barcos" },
+        text: "embarcaciones",
+        to: { name: "embarcaciones.disponibles" },
       },
     ];
   }

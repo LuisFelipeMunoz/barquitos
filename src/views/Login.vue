@@ -47,7 +47,7 @@ export default class Home extends Vue {
     switch (usuario) {
       case "cliente":
         // cambio de ruta
-        this.$router.push({ name: "barcos" });
+        this.$router.push({ name: "embarcaciones.disponibles" });
         break;
       case "asistente":
         this.$router.push({ name: "arriendos.pendientes" });

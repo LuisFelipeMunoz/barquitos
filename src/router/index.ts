@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Login from "../views/Login.vue";
-import Barcos from "../views/Barcos.vue";
-import ArriendosPendientes from "../views/ArriendosPendientes.vue";
+import Login from "@/views/Login.vue";
+import EmbarcacionesDisponibles from "@/views/EmbarcacionesDisponibles.vue";
+import ArriendosPendientes from "@/views/ArriendosPendientes.vue";
+import Usuarios from "@/views/Usuarios.vue";
 
 Vue.use(VueRouter);
 
@@ -13,14 +14,19 @@ const routes: Array<RouteConfig> = [
     component: Login,
   },
   {
-    path: "/barcos",
-    name: "barcos",
-    component: Barcos,
+    path: "/embarcaciones/disponibles",
+    name: "embarcaciones.disponibles",
+    component: EmbarcacionesDisponibles,
   },
   {
     path: "/arriendos/pendientes",
     name: "arriendos.pendientes",
     component: ArriendosPendientes,
+  },
+  {
+    path: "/usuarios",
+    name: "usuarios",
+    component: Usuarios,
   },
 ];
 

@@ -37,7 +37,7 @@ import DescargarComprobanteArriendo from "@/components/arriendos/DescargarCompro
     DescargarComprobanteArriendo,
   },
 })
-export default class Barcos extends Vue {
+export default class EmbarcacionesDisponibles extends Vue {
   dialogoArrendar = false;
   dialogoComprobante = false;
 

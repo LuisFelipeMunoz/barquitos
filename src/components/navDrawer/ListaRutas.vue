@@ -38,14 +38,8 @@
 <script lang="ts">
 // decoradores
 import { Component, Vue, Prop } from "vue-property-decorator";
-
-interface Rutas {
-  [id: string]: {
-    icon: string;
-    text: string;
-    to?: { name: string };
-  };
-}
+// tipos
+import { Rutas } from "@/typings/store";
 
 @Component
 export default class ListaRutasNavDrawer extends Vue {

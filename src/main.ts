@@ -5,8 +5,8 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
-// import "./plugins/vue-the-mask";
-// import "./plugins/vuelidate";
+import "./plugins/vue-the-mask";
+import "./plugins/vuelidate";
 
 Vue.config.productionTip = false;
 

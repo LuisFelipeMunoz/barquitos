@@ -19,10 +19,8 @@
 import { Component, Vue, Prop, Model } from "vue-property-decorator";
 // componentes
 import ListaRutas from "@/components/navDrawer/ListaRutas.vue";
-
-interface Rutas {
-  [id: string]: {};
-}
+// tipos
+import { Rutas } from "@/typings/store";
 
 @Component({
   components: {

@@ -1,74 +1,51 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
+      <v-col cols="100%">
         <v-text-field
-            v-model="message"
-            outlined
-            clearable
-            label="Ingresa el Arriendo a buscar"
-            type="text"
-          >
-          </v-text-field>
- 
-    
-    <v-dialog
-      v-model="dialog"
-      width="500"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        
-        <v-btn block
-          color="black"
-          dark
-          v-bind="attrs"
-          v-on="on"
+          v-model="message"
+          outlined
+          clearable
+          label="Ingresa el Arriendo a buscar"
+          type="text"
         >
-          BUSCAR
+        </v-text-field>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn color="black" dark @click="abrirDialogoInfo">
+          buscar
         </v-btn>
-      </template>
-
+      </v-col>
+    </v-row>
+    <v-dialog v-model="dialogoInfo" width="500">
       <v-card>
         <v-card-title class="headline grey lighten-2">
-          INFORMACIÓN DEL ARRIENDO
+          informacion del arriendo
         </v-card-title>
-        
-        <v-row dense>
-          <v-card-text>
-            
-            <v-col cols="12">ID_ARRIENDO:</v-col>
-            <v-col cols="12">ID_ASISTENTE:</v-col>
-            <v-col cols="12">ID_EMBARCACION:</v-col>
-            <v-col cols="12">RUT:</v-col>
-            <v-col cols="12">ID_SEGURO:</v-col>
-            <v-col cols="12">LUGAR_RETIRO:</v-col>
-            <v-col cols="12">LUGAR_ENTREGA:</v-col>
-            <v-col cols="12">HORA_RETIRO:</v-col>
-            <v-col cols="12">HORA_ENTREG:</v-col>
-            <v-col cols="12">FECHA_RETIRO:</v-col>
-            <v-col cols="12">FECHA_ENTREGA:</v-col>
-            <v-col cols="12">VALOR:</v-col>
-      
-          </v-card-text>
-        </v-row>
-
-        
-
+        <v-card-text>
+          <v-row dense>
+            <v-col cols="12">id:</v-col>
+            <v-col cols="12">asistente:</v-col>
+            <v-col cols="12">embarcacion:</v-col>
+            <v-col cols="12">cliente:</v-col>
+            <v-col cols="12">lugar retiro:</v-col>
+            <v-col cols="12">fecha retiro:</v-col>
+            <v-col cols="12">hora retiro:</v-col>
+            <v-col cols="12">lugar entrega:</v-col>
+            <v-col cols="12">fecha entrega:</v-col>
+            <v-col cols="12">hora entrega:</v-col>
+            <v-col cols="12">precio arriendo:</v-col>
+            <v-col cols="12">precio seguro:</v-col>
+            <v-col cols="12">total:</v-col>
+          </v-row>
+        </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="dialog = false"
-          >
-            CONFIRMO RECEPCIÓN
+          <v-btn color="primary" text @click="dialogoInfo = false">
+            confirmo recepcion
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
- 
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
@@ -86,16 +63,16 @@ import ListaEmbarcaciones from "@/components/embarcaciones/Lista.vue"; // @ is a
 export default class ArriendosPendientes extends Vue {
   dialogoInfo = false;
 
-  barcos = [
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
-    "barco",
+  arriendos = [
+    "arriendo",
+    "arriendo",
+    "arriendo",
+    "arriendo",
+    "arriendo",
+    "arriendo",
+    "arriendo",
+    "arriendo",
+    "arriendo",
   ];
 
   abrirDialogoInfo() {

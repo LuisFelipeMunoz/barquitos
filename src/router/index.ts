@@ -4,6 +4,8 @@ import Login from "@/views/Login.vue";
 import EmbarcacionesDisponibles from "@/views/EmbarcacionesDisponibles.vue";
 import ArriendosPendientes from "@/views/ArriendosPendientes.vue";
 import Usuarios from "@/views/Usuarios.vue";
+import Seguros from "@/views/Seguros.vue";
+import Embarcaciones from "@/views/Embarcaciones.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +29,16 @@ const routes: Array<RouteConfig> = [
     path: "/usuarios",
     name: "usuarios",
     component: Usuarios,
+  },
+  {
+    path: "/seguros",
+    name: "seguros",
+    component: Seguros,
+  },
+  {
+    path: "/embarcaciones",
+    name: "embarcaciones",
+    component: Embarcaciones,
   },
 ];
 

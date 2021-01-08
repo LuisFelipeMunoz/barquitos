@@ -8,12 +8,12 @@
     </v-col>
     <v-col cols="12" class="px-3">
       <v-text-field
-        v-model="tipoEmbarcacion"
+        v-model="tipo"
         label="Tipo de Embarcación"
         hide-details="auto"
-        :error-messages="tipoEmbarcacionError"
-        @input="$v.tipoEmbarcacion.$touch()"
-        @blur="$v.tipoEmbarcacion.$touch()"
+        :error-messages="tipoError"
+        @input="$v.tipo.$touch()"
+        @blur="$v.tipo.$touch()"
       ></v-text-field>
     </v-col>
     <v-col cols="12" class="px-3 mb-3">
@@ -27,22 +27,22 @@
       ></v-select>
     </v-col>
     <v-col cols="12" class="px-3">
-        <v-text-field
-          v-model="patente"
-          :error-messages="patenteError"
-          label="Patente"
-          hide-details="auto"
-          @input="$v.patente.$touch()"
-          @blur="$v.patente.$touch()"
-        ></v-text-field>
-
+      <v-text-field
+        v-model="patente"
+        :error-messages="patenteError"
+        label="Patente"
+        hide-details="auto"
+        @input="$v.patente.$touch()"
+        @blur="$v.patente.$touch()"
+      ></v-text-field>
+    </v-col>
     <v-col cols="12" class="py-2">
       <v-divider></v-divider>
     </v-col>
     <v-col cols="12">
-      <v-btn color="success" large block elevation="2" @click="guardar"
-        >guardar</v-btn
-      >
+      <v-btn color="success" large block elevation="2" @click="guardar">
+        guardar
+      </v-btn>
     </v-col>
   </v-row>
 </template>
@@ -51,27 +51,25 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 //vuelidate
-import { required, minLength } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 
 @Component({
   validations: {
-    tipoEmbarcacion: { required },
+    tipo: { required },
     precio: { required },
     patente: { required },
-
   },
 })
 export default class FormularioUsuario extends Vue {
-  
-  tipoEmbarcacion= "";
-  precio= 0;
-  patente= "";
+  tipo = "";
+  precio = 0;
+  patente = "";
 
 
-  get tipoEmbarcacionError() {
+  get tipoError() {
     const errors: Array<string> = [];
-    if (!this.$v.tipoEmbarcacion.$dirty) return errors;
-    if (!this.$v.tipoEmbarcacion.required) errors.push("Requerido");
+    if (!this.$v.tipo.$dirty) return errors;
+    if (!this.$v.tipo.required) errors.push("Requerido");
     return errors;
   }
 

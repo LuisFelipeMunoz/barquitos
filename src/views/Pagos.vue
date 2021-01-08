@@ -7,13 +7,13 @@
           elevation="2"
           color="success"
           @click="dialogoFormulario = true"
-          >nuevo encuesta</v-btn
+          >nuevo pago</v-btn
         >
       </v-col>
       <v-col cols="12">
         <v-card>
           <v-card-text>
-            <TablaEncuestas :items="items"></TablaEncuestas>
+            <TablaPagos :items="items"></TablaPagos>
           </v-card-text>
         </v-card>
       </v-col>
@@ -21,7 +21,7 @@
     <v-dialog v-model="dialogoFormulario" max-width="600">
       <v-card>
         <v-card-text>
-          <FormularioEncuesta v-if="dialogoFormulario"></FormularioEncuesta>
+          <FormularioPago v-if="dialogoFormulario"></FormularioPago>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -32,20 +32,20 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 // tipos
-import { Encuesta } from "@/typings/store";
+import { Pago } from "@/typings/store";
 // componentes
-import TablaEncuestas from "@/components/usuarios/Tabla.vue";
-import FormularioEncuesta from "@/components/usuarios/Formulario.vue";
+import TablaPagos from "@/components/pagos/Tabla.vue";
+import FormularioPago from "@/components/pagos/Formulario.vue";
 
 @Component({
   components: {
-    TablaEncuestas,
-    FormularioEncuesta,
+    TablaPagos,
+    FormularioPago,
   },
 })
-export default class VistaEncuestas extends Vue {
+export default class Pagos extends Vue {
   dialogoFormulario = false;
 
-  items: Array<Encuesta> = [];
+  items: Array<Pago> = [];
 }
 </script>

@@ -26,7 +26,7 @@
         @blur="$v.tipo.$touch()"
       ></v-select>
     </v-col>
-    
+
     <v-col cols="12">
       <v-btn color="success" large block elevation="2" @click="guardar"
         >guardar</v-btn
@@ -39,22 +39,18 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 //vuelidate
-import { required, minLength } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 
 @Component({
   validations: {
     valor: { required },
     tipo: { required },
-    
-
   },
 })
 export default class FormularioUsuario extends Vue {
-  
-  valor= "";
-  tipo= 0;
-  patente= "";
-
+  valor = "";
+  tipo = 0;
+  patente = "";
 
   get valorError() {
     const errors: Array<string> = [];

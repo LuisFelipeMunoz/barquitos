@@ -33,6 +33,70 @@ interface Usuarios {
   [id: string]: Usuario;
 }
 
+interface Embarcacion {
+  id: number;
+  tipo: string;
+  precio: number;
+  patente: number;
+  asistente: Asistente;
+}
+
+interface Seguro {
+  id: number;
+  valor: number;
+  embarcacion: Embarcacion;
+}
+
+interface Arriendo {
+  id: number;
+  asistente: Asistente;
+  embarcacion: Embarcacion;
+  cliente: Cliente;
+  seguro: Seguro;
+  retiro: {
+    lugar: string;
+    fecha: string;
+    hora: string;
+  };
+  entrada: {
+    lugar: string;
+    fecha: string;
+    hora: string;
+  };
+  valor: number;
+  estado: boolean; // false = pendiente, true = finalizado
+}
+
+interface Encuesta {
+  id: number;
+  valoracion: number;
+  comentario: string;
+  cliente: Cliente;
+  arriendo: Arriendo;
+}
+
+interface ArriendoDisponible {
+  id: number;
+  retiro: {
+    lugar: string;
+    fecha: string;
+    hora: string;
+  };
+  entrada: {
+    lugar: string;
+    fecha: string;
+    hora: string;
+  };
+  embarcacion: Embarcacion;
+}
+
+interface Pago {
+  id: number;
+  valor: number;
+  tipo: string;
+  arriendo: Arriendo;
+}
+
 interface Ruta {
   id: string;
   icon: string;

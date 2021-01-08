@@ -27,32 +27,33 @@
 // decoradores
 import { Component, Vue, Prop } from "vue-property-decorator";
 // tipos
-import { Usuario } from "@/typings/store";
+import { Encuesta } from "@/typings/store";
 
 @Component
-export default class TablaUsuarios extends Vue {
-  @Prop() readonly items!: Array<Usuario>;
+export default class TablaEncuestas extends Vue {
+  @Prop() readonly items!: Array<Encuesta>;
 
   headers = [
-    { text: "tipoEmbarcacion", value: "tipoEmbarcacion" },
-    { text: "precio", value: "precio" },
-    { text: "tipo", value: "tipo" },
+    { text: "id", value: "id" },
+    { text: "id arriendo", value: "idArriendo" },
+    { text: "rut cliente", value: "rutCliente" },
+    { text: "valoracion", value: "valoracion" },
+    { text: "comentario", value: "comentario" },
   ];
 
   get itemsMap() {
     return this.items.map((item) => {
-      let tipoEmbarcacion = "";
-      let precio = "";
-      let patente = "";
-      
-      tipoEmbarcacion = item.embarcacion?.tipoEmbarcacion.toString() ?? "";
-      precio = item.embarcacion?.precio.toString() ?? "";
-      patente = item.embarcacion?.patente.toString() ?? "";
-      }
+      const id = item.id;
+      const idArriendo = item.arriendo.id;
+      const rutCliente = item.cliente.rut;
+      const valoracion = item.valoracion;
+      const comentario = item.comentario;
       return {
-        tipoEmbarcacion,
-        precio,
-        patente,
+        id,
+        idArriendo,
+        rutCliente,
+        valoracion,
+        comentario,
       };
     });
   }

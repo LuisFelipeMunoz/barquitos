@@ -6,6 +6,8 @@ import ArriendosPendientes from "@/views/ArriendosPendientes.vue";
 import Usuarios from "@/views/Usuarios.vue";
 import Seguros from "@/views/Seguros.vue";
 import Embarcaciones from "@/views/Embarcaciones.vue";
+import Pagos from "@/views/Pagos.vue";
+import Encuestas from "@/views/Encuestas.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +41,16 @@ const routes: Array<RouteConfig> = [
     path: "/embarcaciones",
     name: "embarcaciones",
     component: Embarcaciones,
+  },
+  {
+    path: "/pagos",
+    name: "pagos",
+    component: Pagos,
+  },
+  {
+    path: "/encuestas",
+    name: "encuestas",
+    component: Encuestas,
   },
 ];
 

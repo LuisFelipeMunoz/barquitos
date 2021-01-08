@@ -35,7 +35,7 @@
           @input="$v.patente.$touch()"
           @blur="$v.patente.$touch()"
         ></v-text-field>
-           
+
     <v-col cols="12" class="py-2">
       <v-divider></v-divider>
     </v-col>
@@ -67,7 +67,6 @@ export default class FormularioUsuario extends Vue {
   precio= 0;
   patente= "";
 
-  tipos = ["administrador", "cliente", "asistente"];
 
   get tipoEmbarcacionError() {
     const errors: Array<string> = [];

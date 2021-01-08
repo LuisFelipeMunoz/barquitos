@@ -34,25 +34,19 @@ export default class TablaUsuarios extends Vue {
   @Prop() readonly items!: Array<Usuario>;
 
   headers = [
-    { text: "tipoEmbarcacion", value: "tipoEmbarcacion" },
-    { text: "precio", value: "precio" },
-    { text: "tipo", value: "tipo" },
+    { text: "valorSeguro", value: "valorSeguro" },
   ];
 
   get itemsMap() {
     return this.items.map((item) => {
-      let tipoEmbarcacion = "";
+      let valorSeguro = "";
       let precio = "";
       let patente = "";
       
-      tipoEmbarcacion = item.embarcacion?.tipoEmbarcacion.toString() ?? "";
-      precio = item.embarcacion?.precio.toString() ?? "";
-      patente = item.embarcacion?.patente.toString() ?? "";
+      valorSeguro = item.seguro?.valorSeguro.toString() ?? "";
       }
       return {
-        tipoEmbarcacion,
-        precio,
-        patente,
+        valorSeguro,
       };
     });
   }

@@ -51,9 +51,8 @@ import { required, minLength } from "vuelidate/lib/validators";
 })
 export default class FormularioUsuario extends Vue {
   
-  valor= "";
-  tipo= 0;
-  patente= "";
+  valor= 0;
+  tipo= "";
 
 
   get valorError() {

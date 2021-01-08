@@ -41,7 +41,7 @@ import { required, minLength } from "vuelidate/lib/validators";
 })
 export default class FormularioUsuario extends Vue {
   
-  valorSeguro= "";
+  valorSeguro= 0;
 
   get valorSeguroError() {
     const errors: Array<string> = [];

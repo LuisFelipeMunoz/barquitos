@@ -27,26 +27,28 @@
 // decoradores
 import { Component, Vue, Prop } from "vue-property-decorator";
 // tipos
-import { Usuario } from "@/typings/store";
+import { Seguro } from "@/typings/store";
 
 @Component
-export default class TablaUsuarios extends Vue {
-  @Prop() readonly items!: Array<Usuario>;
+export default class TablaSeguros extends Vue {
+  @Prop() readonly items!: Array<Seguro>;
 
   headers = [
-    { text: "valorSeguro", value: "valorSeguro" },
+    { text: "id", value: "id" },
+    { text: "valor", value: "valor" },
+    { text: "embarcacion", value: "embarcacion" },
   ];
 
   get itemsMap() {
     return this.items.map((item) => {
-      let valorSeguro = "";
-      let precio = "";
-      let patente = "";
-      
-      valorSeguro = item.seguro?.valorSeguro.toString() ?? "";
-      }
+      const id = item.id;
+      const valor = item.valor;
+      const embarcacion = item.embarcacion.patente;
       return {
-        valorSeguro,
+        id,
+        valor,
+        embarcacion,
+        item: item,
       };
     });
   }

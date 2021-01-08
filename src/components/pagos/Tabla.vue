@@ -27,32 +27,31 @@
 // decoradores
 import { Component, Vue, Prop } from "vue-property-decorator";
 // tipos
-import { Usuario } from "@/typings/store";
+import { Pago } from "@/typings/store";
 
 @Component
-export default class TablaUsuarios extends Vue {
-  @Prop() readonly items!: Array<Usuario>;
+export default class TablaPagos extends Vue {
+  @Prop() readonly items!: Array<Pago>;
 
   headers = [
-    { text: "tipoEmbarcacion", value: "tipoEmbarcacion" },
-    { text: "precio", value: "precio" },
+    { text: "id", value: "id" },
+    { text: "precio", value: "valor" },
     { text: "tipo", value: "tipo" },
+    { text: "id arriendo", value: "arriendo" },
   ];
 
   get itemsMap() {
     return this.items.map((item) => {
-      let tipoEmbarcacion = "";
-      let precio = "";
-      let patente = "";
-      
-      tipoEmbarcacion = item.embarcacion?.tipoEmbarcacion.toString() ?? "";
-      precio = item.embarcacion?.precio.toString() ?? "";
-      patente = item.embarcacion?.patente.toString() ?? "";
-      }
+      const id = item.id;
+      const valor = item.valor;
+      const tipo = item.tipo;
+      const arriendo = item.arriendo.id;
       return {
-        tipoEmbarcacion,
-        precio,
-        patente,
+        id,
+        valor,
+        tipo,
+        arriendo,
+        item: item,
       };
     });
   }

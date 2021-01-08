@@ -91,9 +91,9 @@
       <v-divider></v-divider>
     </v-col>
     <v-col cols="12">
-      <v-btn color="success" large block elevation="2" @click="guardar"
-        >guardar</v-btn
-      >
+      <v-btn color="success" large block elevation="2" @click="guardar">
+        guardar
+      </v-btn>
     </v-col>
   </v-row>
 </template>

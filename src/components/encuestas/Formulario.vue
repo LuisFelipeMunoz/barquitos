@@ -51,7 +51,7 @@ import { required, minLength } from "vuelidate/lib/validators";
 export default class FormularioUsuario extends Vue {
   
   valoracion= "";
-  comentario= 0;
+  comentario= "";
 
   get valoracionError() {
     const errors: Array<string> = [];

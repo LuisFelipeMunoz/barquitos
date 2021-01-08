@@ -6,7 +6,7 @@
     <v-col cols="12">
       <v-divider></v-divider>
     </v-col>
-    <v-col cols="12" class="px-3 mb-3">
+    <v-col cols="12" class="px-3">
       <v-select
         v-model="cliente"
         label="cliente"
@@ -18,112 +18,112 @@
         @blur="$v.cliente.$touch()"
       ></v-select>
     </v-col>
-    <v-col cols="12" class="px-3 mb-3">
+    <v-col cols="12" class="px-3">
       <v-select
         v-model="embarcacion"
         label="embarcacion"
         hide-details="auto"
         :error-messages="embarcacionError"
-        :items="embarcacion"
+        :items="embarcaciones"
         return-object
         @input="$v.embarcacion.$touch()"
         @blur="$v.embarcacion.$touch()"
       ></v-select>
     </v-col>
-    <v-col cols="12" class="px-3 mb-3">
+    <v-col cols="12" class="px-3">
       <v-select
         v-model="asistente"
         label="asistente"
         hide-details="auto"
         :error-messages="asistenteError"
-        :items="asistente"
+        :items="asistentes"
         return-object
         @input="$v.asistente.$touch()"
         @blur="$v.asistente.$touch()"
       ></v-select>
     </v-col>
-    <v-col cols="12" class="px-3 mb-3">
+    <v-col cols="12" class="px-3">
       <v-select
         v-model="seguro"
         label="seguro"
         hide-details="auto"
         :error-messages="seguroError"
-        :items="seguro"
+        :items="seguros"
         return-object
         @input="$v.seguro.$touch()"
         @blur="$v.seguro.$touch()"
       ></v-select>
     </v-col>
-      <v-col cols="12" class="px-3">
-        <v-text-field
-          v-model="lugarRetiro"
-          :error-messages="lugarRetiroError"
-          label="lugar retiro"
-          hide-details="auto"
-          @input="$v.lugarRetiro.$touch()"
-          @blur="$v.lugarRetiro.$touch()"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" class="px-3">
-        <v-text-field
-          v-model="lugarEntrada"
-          :error-messages="lugarEntradaError"
-          label="lugar entrada"
-          hide-details="auto"
-          @input="$v.lugarEntrada.$touch()"
-          @blur="$v.lugarEntrada.$touch()"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" class="px-3">
-        <v-text-field
-          v-model="fechaRetiro"
-          :error-messages="fechaRetiroError"
-          label="fecha retito"
-          hide-details="auto"
-          @input="$v.fechaRetiro.$touch()"
-          @blur="$v.fechaRetiro.$touch()"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" class="px-3">
-        <v-text-field
-          v-model="fechaEntrada"
-          :error-messages="fechaEntradaError"
-          label="fecha entrada"
-          hide-details="auto"
-          @input="$v.fechaEntrada.$touch()"
-          @blur="$v.fechaEntrada.$touch()"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" class="px-3">
-        <v-text-field
-          v-model="horaRetiro"
-          :error-messages="horaRetiroError"
-          label="hora retiro"
-          hide-details="auto"
-          @input="$v.horaRetiro.$touch()"
-          @blur="$v.horaRetiro.$touch()"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" class="px-3">
-        <v-text-field
-          v-model="horaEntrada"
-          :error-messages="horaEntradaError"
-          label="hora entrada"
-          hide-details="auto"
-          @input="$v.horaEntrada.$touch()"
-          @blur="$v.horaEntrada.$touch()"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" class="px-3">
-        <v-text-field
-          v-model.number="valor"
-          :error-messages="valorError"
-          label="valor"
-          hide-details="auto"
-          @input="$v.valor.$touch()"
-          @blur="$v.valor.$touch()"
-        ></v-text-field>
-      </v-col>
+    <v-col cols="12" class="px-3">
+      <v-text-field
+        v-model="lugarRetiro"
+        :error-messages="lugarRetiroError"
+        label="lugar retiro"
+        hide-details="auto"
+        @input="$v.lugarRetiro.$touch()"
+        @blur="$v.lugarRetiro.$touch()"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" class="px-3">
+      <v-text-field
+        v-model="lugarEntrada"
+        :error-messages="lugarEntradaError"
+        label="lugar entrada"
+        hide-details="auto"
+        @input="$v.lugarEntrada.$touch()"
+        @blur="$v.lugarEntrada.$touch()"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" class="px-3">
+      <v-text-field
+        v-model="fechaRetiro"
+        :error-messages="fechaRetiroError"
+        label="fecha retito"
+        hide-details="auto"
+        @input="$v.fechaRetiro.$touch()"
+        @blur="$v.fechaRetiro.$touch()"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" class="px-3">
+      <v-text-field
+        v-model="fechaEntrada"
+        :error-messages="fechaEntradaError"
+        label="fecha entrada"
+        hide-details="auto"
+        @input="$v.fechaEntrada.$touch()"
+        @blur="$v.fechaEntrada.$touch()"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" class="px-3">
+      <v-text-field
+        v-model="horaRetiro"
+        :error-messages="horaRetiroError"
+        label="hora retiro"
+        hide-details="auto"
+        @input="$v.horaRetiro.$touch()"
+        @blur="$v.horaRetiro.$touch()"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" class="px-3">
+      <v-text-field
+        v-model="horaEntrada"
+        :error-messages="horaEntradaError"
+        label="hora entrada"
+        hide-details="auto"
+        @input="$v.horaEntrada.$touch()"
+        @blur="$v.horaEntrada.$touch()"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" class="px-3">
+      <v-text-field
+        v-model.number="valor"
+        :error-messages="valorError"
+        label="valor"
+        hide-details="auto"
+        @input="$v.valor.$touch()"
+        @blur="$v.valor.$touch()"
+      ></v-text-field>
+    </v-col>
     <v-col cols="12" class="px-3 mb-3">
       <v-select
         v-model="estado"
@@ -141,15 +141,16 @@
     <v-col cols="12">
       <v-btn color="success" large block elevation="2" @click="guardar">
         guardar
-      </v-btn> 
+      </v-btn>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 // decoradores
+import { Component, Vue, Prop } from "vue-property-decorator";
+// tipos
 import { Asistente, Cliente, Embarcacion, Seguro } from "@/typings/store";
-import { Component, Vue } from "vue-property-decorator";
 //vuelidate
 import { required } from "vuelidate/lib/validators";
 
@@ -158,7 +159,7 @@ import { required } from "vuelidate/lib/validators";
     asistente: { required }, //listo
     embarcacion: { required }, //listo
     cliente: { required }, //LISTO
-    seguro: { required }, //listo 
+    seguro: { required }, //listo
     lugarRetiro: { required },
     lugarEntrada: { required },
     fechaRetiro: { required },
@@ -170,6 +171,11 @@ import { required } from "vuelidate/lib/validators";
   },
 })
 export default class FormularioArriendo extends Vue {
+  @Prop() readonly asistentes!: Array<Asistente>;
+  @Prop() readonly embarcaciones!: Array<Embarcacion>;
+  @Prop() readonly clientes!: Array<Cliente>;
+  @Prop() readonly seguros!: Array<Seguro>;
+
   asistente: Asistente | null | undefined = null;
   embarcacion: Embarcacion | null | undefined = null;
   cliente: Cliente | null | undefined = null;
@@ -183,8 +189,7 @@ export default class FormularioArriendo extends Vue {
   valor = 0;
   estado = false;
 
-  estados = ['pendiente', 'finalizado'];
-
+  estados = ["pendiente", "finalizado"];
 
   get clienteError() {
     const errors: Array<string> = [];
@@ -221,7 +226,7 @@ export default class FormularioArriendo extends Vue {
     return errors;
   }
 
-  get LugarEntradaError() {
+  get lugarEntradaError() {
     const errors: Array<string> = [];
     if (!this.$v.lugarEntrada.$dirty) return errors;
     if (!this.$v.lugarEntrada.required) errors.push("Requerido");
@@ -242,28 +247,28 @@ export default class FormularioArriendo extends Vue {
     return errors;
   }
 
-    get horaRetiroError() {
+  get horaRetiroError() {
     const errors: Array<string> = [];
     if (!this.$v.horaRetiro.$dirty) return errors;
     if (!this.$v.horaRetiro.required) errors.push("Requerido");
     return errors;
   }
 
-    get horaEntradaError() {
+  get horaEntradaError() {
     const errors: Array<string> = [];
     if (!this.$v.horaEntrada.$dirty) return errors;
     if (!this.$v.horaEntrada.required) errors.push("Requerido");
     return errors;
   }
 
-    get valorError() {
+  get valorError() {
     const errors: Array<string> = [];
     if (!this.$v.valor.$dirty) return errors;
     if (!this.$v.valor.required) errors.push("Requerido");
     return errors;
   }
 
-    get estadoError() {
+  get estadoError() {
     const errors: Array<string> = [];
     if (!this.$v.estado.$dirty) return errors;
     if (!this.$v.estado.required) errors.push("Requerido");

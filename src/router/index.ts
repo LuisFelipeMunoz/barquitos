@@ -8,6 +8,7 @@ import Seguros from "@/views/Seguros.vue";
 import Embarcaciones from "@/views/Embarcaciones.vue";
 import Pagos from "@/views/Pagos.vue";
 import Encuestas from "@/views/Encuestas.vue";
+import Arriendos from "@/views/Arriendos.vue";
 
 Vue.use(VueRouter);
 
@@ -51,6 +52,11 @@ const routes: Array<RouteConfig> = [
     path: "/encuestas",
     name: "encuestas",
     component: Encuestas,
+  },
+  {
+    path: "/arriendos",
+    name: "arriendos",
+    component: Arriendos,
   },
 ];
 

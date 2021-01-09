@@ -75,12 +75,67 @@ async function ListaEncuestasPendientes(
   );
 }
 
-// Una funcion que enliste todos los arriendos disponibles de un barco: recibe como parametro el id del barco
+// CRUD EMBARCACIONES
 async function listaEmbarcaciones(connection: oracledb.Connection) {
   return await connection.execute("select * from embarcacion", [], {
     // maxRows: 1,
     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
   });
+}
+
+// CRUD SEGUROS
+async function listaSeguros(connection: oracledb.Connection) {
+  return await connection.execute("select * from seguro", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
+
+// CRUD ARRIENDO
+async function listaArriendos(connection: oracledb.Connection) {
+  return await connection.execute("select * from arriendo", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
+
+// CRUD PAGO
+async function listaPagos(connection: oracledb.Connection) {
+  return await connection.execute("select * from pago", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
+
+// CRUD ENCUESTA
+async function listaEncuestas(connection: oracledb.Connection) {
+  return await connection.execute("select * from encuesta", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
+
+// CRUD ENCUESTA
+async function listaArriendoDisponibles(connection: oracledb.Connection) {
+  return await connection.execute("select * from arriendos_disponibles", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
+
+//una funcion que retorne todos los arriendos activos que estan asociados al asistente: recibe como parametro el id del asistente
+async function listaArriendosActivos(
+  connection: oracledb.Connection,
+  idAsistente: number
+) {
+  return await connection.execute(
+    "select * from arriendo where arriendo.id_asistente = :id and arriendo.estado = 0;",
+    [idAsistente],
+    {
+      // maxRows: 1,
+      //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+    }
+  );
 }
 
 run();

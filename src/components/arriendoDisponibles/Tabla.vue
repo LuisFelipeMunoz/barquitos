@@ -41,11 +41,11 @@ export default class TablaArriendoDisponible extends Vue {
   get itemsMap() {
     return this.items.map((item) => {
       const id = item.id;
-      const embarcacion = item.embarcacion;
+      const embarcacion = item.embarcacion.id;
       return {
         item: item,
         id,
-        embarcacion
+        embarcacion,
       };
     });
   }

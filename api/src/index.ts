@@ -14,12 +14,11 @@ async function run() {
       connectString: "localhost/XEPDB1",
     });
 
-    const result = await connection.execute(
-      `SELECT manager_id, department_id, department_name
-       FROM departments
-       WHERE manager_id = :id`,
-      [103]
-    );
+    const result = await connection.execute("SELECT * FROM embarcaciones", [], {
+      // maxRows: 1,
+      //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+    });
+    console.log(result.metaData);
     console.log(result.rows);
   } catch (err) {
     console.error(err);
@@ -32,6 +31,33 @@ async function run() {
       }
     }
   }
+}
+
+// Una funcion que enliste todos los barcos que tiene arriendos disponibles
+async function listaBarcosArriendoDisponibles(connection: oracledb.Connection) {
+  return await connection.execute(
+    "select * from embarcaciones inner join arriendos_disponibles.id_embarcacion on embarcaciones.id_embarcacion = arriendos_disponibles.id_embarcacion",
+    [],
+    {
+      // maxRows: 1,
+      //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+    }
+  );
+}
+
+// Una funcion que enliste todos los arriendos disponibles de un barco: recibe como parametro el id del barco
+async function listaBarcosArriendoDisponibles(
+  connection: oracledb.Connection,
+  idEmbarcacion: number
+) {
+  return await connection.execute(
+    "select * from arriendos_disponibles where id_embarcacion = :id",
+    [idEmbarcacion],
+    {
+      // maxRows: 1,
+      //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+    }
+  );
 }
 
 run();

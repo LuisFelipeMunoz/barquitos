@@ -60,6 +60,21 @@ async function listaArriendosDisponiblesBarco(
   );
 }
 
+// Todos los arriendo finalizados que tienen la encuesta pendiente por usuario
+async function ListaEncuestasPendientes(
+  connection: oracledb.Connection,
+  idCliente: number
+) {
+  return await connection.execute(
+    "select * from arriendo a left outer join encuesta e on a.id_arriendo = e.id_arriendo where e.id_cliente = :id",
+    [idCliente],
+    {
+      // maxRows: 1,
+      //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+    }
+  );
+}
+
 // Una funcion que enliste todos los arriendos disponibles de un barco: recibe como parametro el id del barco
 async function listaEmbarcaciones(connection: oracledb.Connection) {
   return await connection.execute("select * from embarcacion", [], {

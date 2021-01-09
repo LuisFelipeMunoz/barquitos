@@ -46,7 +46,7 @@ async function listaBarcosArriendoDisponibles(connection: oracledb.Connection) {
 }
 
 // Una funcion que enliste todos los arriendos disponibles de un barco: recibe como parametro el id del barco
-async function listaBarcosArriendoDisponibles(
+async function listaArriendosDisponiblesBarco(
   connection: oracledb.Connection,
   idEmbarcacion: number
 ) {

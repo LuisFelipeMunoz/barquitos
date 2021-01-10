@@ -196,7 +196,7 @@ app.post("/api/iniciar_sesion", async function(req, res) {
 });
 
 app.get("/api/embarcaciones/arriendos_disponibles", async function(req, res) {
-  let resultado = undefined;
+  let resultado: Resultado = {};
   try {
     connection = await oracledb.getConnection({
       user: usuario,
@@ -204,10 +204,24 @@ app.get("/api/embarcaciones/arriendos_disponibles", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
-    resultado = await listaBarcosArriendoDisponibles(connection);
+    const rawBD = await listaBarcosArriendoDisponibles(connection);
 
-    console.log(resultado.metaData);
-    console.log(resultado.rows);
+    rawBD.rows?.forEach((item) => {
+      const datos = item as Array<any>;
+
+      const embarcacion: EntraBD = {};
+
+      datos.forEach((val, index) => {
+        const nombreCampo = rawBD.metaData
+          ? rawBD.metaData[index].name
+          : "COL" + index.toString();
+        if (val) {
+          embarcacion[nombreCampo] = val;
+        }
+      });
+
+      resultado[embarcacion.ID_EMBARCACION] = embarcacion;
+    });
   } catch (err) {
     console.error(err);
     resultado = err;
@@ -225,7 +239,7 @@ app.get("/api/embarcaciones/arriendos_disponibles", async function(req, res) {
 });
 
 app.get("/api/arriendos_disponibles/embarcacion/:id", async function(req, res) {
-  let resultado = undefined;
+  let resultado: Resultado = {};
   const idEmbarcacion = parseInt(req.params.id);
   try {
     connection = await oracledb.getConnection({
@@ -234,10 +248,29 @@ app.get("/api/arriendos_disponibles/embarcacion/:id", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
-    resultado = await listaArriendosDisponiblesBarco(connection, idEmbarcacion);
+    const rawBD = await listaArriendosDisponiblesBarco(
+      connection,
+      idEmbarcacion
+    );
 
-    console.log(resultado.metaData);
-    console.log(resultado.rows);
+    rawBD.rows?.forEach((item) => {
+      const datos = item as Array<any>;
+
+      const arriendosDisponibles: EntraBD = {};
+
+      datos.forEach((val, index) => {
+        const nombreCampo = rawBD.metaData
+          ? rawBD.metaData[index].name
+          : "COL" + index.toString();
+        if (val) {
+          arriendosDisponibles[nombreCampo] = val;
+        }
+      });
+
+      resultado[
+        arriendosDisponibles.ID_ARRIENDO_DISPONIBLES
+      ] = arriendosDisponibles;
+    });
   } catch (err) {
     console.error(err);
     resultado = err;

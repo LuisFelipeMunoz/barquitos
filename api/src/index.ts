@@ -349,7 +349,7 @@ app.get("/api/embarcaciones", async function(req, res) {
 });
 
 app.get("/api/seguros", async function(req, res) {
-  let resultado = undefined;
+  let resultado: Resultado = {};
   try {
     connection = await oracledb.getConnection({
       user: usuario,
@@ -357,20 +357,32 @@ app.get("/api/seguros", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
-    resultado = await listaSeguros(connection);
+    const rawBD = await listaSeguros(connection);
+    rawBD.rows?.forEach((item) => {
+      const datos = item as Array<any>;
 
-    console.log(resultado.metaData);
-    console.log(resultado.rows);
+      const seguro: EntraBD = {};
+
+      datos.forEach((val, index) => {
+        const nombreCampo = rawBD.metaData
+          ? rawBD.metaData[index].name
+          : "COL" + index.toString();
+        seguro[nombreCampo] = val;
+      });
+
+      resultado[seguro.ID_SEGURO] = seguro;
+    });
+
   } catch (err) {
     console.error(err);
-    resultado = err;
+    resultado[0] = { error: err };
   } finally {
     if (connection) {
       try {
         await connection.close();
       } catch (err) {
         console.error(err);
-        resultado = err;
+        resultado[0] = { error: err };
       }
     }
   }
@@ -378,7 +390,7 @@ app.get("/api/seguros", async function(req, res) {
 });
 
 app.get("/api/arriendos", async function(req, res) {
-  let resultado = undefined;
+  let resultado: Resultado = {};
   try {
     connection = await oracledb.getConnection({
       user: usuario,
@@ -386,20 +398,31 @@ app.get("/api/arriendos", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
-    resultado = await listaArriendos(connection);
+    const rawBD = await listaArriendos(connection);
+    rawBD.rows?.forEach((item) => {
+      const datos = item as Array<any>;
 
-    console.log(resultado.metaData);
-    console.log(resultado.rows);
+      const arriendo: EntraBD = {};
+
+      datos.forEach((val, index) => {
+        const nombreCampo = rawBD.metaData
+          ? rawBD.metaData[index].name
+          : "COL" + index.toString();
+        arriendo[nombreCampo] = val;
+      });
+
+      resultado[arriendo.ID_ARRIENDO] = arriendo;
+    });
   } catch (err) {
     console.error(err);
-    resultado = err;
+    resultado[0] = { error: err };
   } finally {
     if (connection) {
       try {
         await connection.close();
       } catch (err) {
         console.error(err);
-        resultado = err;
+        resultado[0] = { error: err };
       }
     }
   }
@@ -407,7 +430,7 @@ app.get("/api/arriendos", async function(req, res) {
 });
 
 app.get("/api/pagos", async function(req, res) {
-  let resultado = undefined;
+  let resultado: Resultado = {};
   try {
     connection = await oracledb.getConnection({
       user: usuario,
@@ -415,20 +438,31 @@ app.get("/api/pagos", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
-    resultado = await listaPagos(connection);
+    const rawBD = await listaPagos(connection);
+    rawBD.rows?.forEach((item) => {
+      const datos = item as Array<any>;
 
-    console.log(resultado.metaData);
-    console.log(resultado.rows);
+      const pago: EntraBD = {};
+
+      datos.forEach((val, index) => {
+        const nombreCampo = rawBD.metaData
+          ? rawBD.metaData[index].name
+          : "COL" + index.toString();
+        pago[nombreCampo] = val;
+      });
+
+      resultado[pago.ID_PAGO] = pago;
+    });
   } catch (err) {
     console.error(err);
-    resultado = err;
+    resultado[0] = { error: err };
   } finally {
     if (connection) {
       try {
         await connection.close();
       } catch (err) {
         console.error(err);
-        resultado = err;
+        resultado[0] = { error: err };
       }
     }
   }
@@ -436,7 +470,7 @@ app.get("/api/pagos", async function(req, res) {
 });
 
 app.get("/api/encuestas", async function(req, res) {
-  let resultado = undefined;
+  let resultado: Resultado = {};
   try {
     connection = await oracledb.getConnection({
       user: usuario,
@@ -444,20 +478,31 @@ app.get("/api/encuestas", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
-    resultado = await listaEncuestas(connection);
+    const rawBD = await listaEncuestas(connection);
+    rawBD.rows?.forEach((item) => {
+      const datos = item as Array<any>;
 
-    console.log(resultado.metaData);
-    console.log(resultado.rows);
+      const encuesta: EntraBD = {};
+
+      datos.forEach((val, index) => {
+        const nombreCampo = rawBD.metaData
+          ? rawBD.metaData[index].name
+          : "COL" + index.toString();
+        encuesta[nombreCampo] = val;
+      });
+
+      resultado[encuesta.ID_ENCUESTA] = encuesta;
+    });
   } catch (err) {
     console.error(err);
-    resultado = err;
+    resultado[0] = { error: err };
   } finally {
     if (connection) {
       try {
         await connection.close();
       } catch (err) {
         console.error(err);
-        resultado = err;
+        resultado[0] = { error: err };
       }
     }
   }
@@ -465,7 +510,7 @@ app.get("/api/encuestas", async function(req, res) {
 });
 
 app.get("/api/arriendoDisponibles", async function(req, res) {
-  let resultado = undefined;
+  let resultado: Resultado = {};
   try {
     connection = await oracledb.getConnection({
       user: usuario,
@@ -473,20 +518,31 @@ app.get("/api/arriendoDisponibles", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
-    resultado = await listaArriendoDisponibles(connection);
+    const rawBD = await listaArriendoDisponibles(connection);
+    rawBD.rows?.forEach((item) => {
+      const datos = item as Array<any>;
 
-    console.log(resultado.metaData);
-    console.log(resultado.rows);
+      const arriendos_disponibles: EntraBD = {};
+
+      datos.forEach((val, index) => {
+        const nombreCampo = rawBD.metaData
+          ? rawBD.metaData[index].name
+          : "COL" + index.toString();
+        arriendos_disponibles[nombreCampo] = val;
+      });
+
+      resultado[arriendos_disponibles.ID_arriendo_disponibles] = arriendos_disponibles;
+    });
   } catch (err) {
     console.error(err);
-    resultado = err;
+    resultado[0] = { error: err };
   } finally {
     if (connection) {
       try {
         await connection.close();
       } catch (err) {
         console.error(err);
-        resultado = err;
+        resultado[0] = { error: err };
       }
     }
   }

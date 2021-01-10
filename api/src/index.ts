@@ -5,6 +5,7 @@ import * as history_api from "connect-history-api-fallback";
 interface EntraBD {
   [nombreCampo: string]: any;
 }
+
 interface Resultado {
   [id: number]: EntraBD;
 }
@@ -48,6 +49,20 @@ interface CrearEncuestaData {
   comentario: string;
 }
 
+interface HaceUnPagoData {
+  id: number;
+  idArriendo: number;
+  valor: number;
+  tipo: string;
+}
+
+interface IngresarEmbarcacionData {
+  id: number;
+  tipo: string;
+  precio: number;
+  patente: string;
+}
+
 let connection: oracledb.Connection | undefined = undefined;
 
 const usuario = "usuario";
@@ -86,13 +101,13 @@ async function crearUsuario(
 
 async function iniciarSesion(
   connection: oracledb.Connection,
-  login: { rut: number; password: string }
+  data: { rut: number; password: string }
 ) {
   return await connection.execute(
     "begin iniciar_sesion(:rut, :password, :resultado, :mensaje); end;",
     {
-      rut: login.rut,
-      password: login.password,
+      rut: data.rut,
+      password: data.password,
       resultado: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
       mensaje: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
     }
@@ -101,44 +116,44 @@ async function iniciarSesion(
 //****************************************************************************************************************** */
 async function haceUnPago(
   connection: oracledb.Connection,
-  login: { id: number; idArriendo: number; valor: number; tipo: string }
+  data: HaceUnPagoData
 ) {
   return await connection.execute(
     "begin hace_unpago(:id, :idArriendo, :valor, :tipo); END;",
     {
-      id: login.id,
-      idArriendo: login.idArriendo,
-      valor: login.valor,
-      tipo: login.tipo,
+      id: data.id,
+      idArriendo: data.idArriendo,
+      valor: data.valor,
+      tipo: data.tipo,
     }
   );
 }
 
 async function ingresarEmbarcacion(
   connection: oracledb.Connection,
-  login: { id: number; tipo: string; precio: number; patente: string }
+  data: IngresarEmbarcacionData
 ) {
   return await connection.execute(
     "begin ingresar_embarcacion(:id, :tipo, :precio, :patente); END;",
     {
-      id: login.id,
-      tipo: login.tipo,
-      precio: login.precio,
-      patente: login.patente,
+      id: data.id,
+      tipo: data.tipo,
+      precio: data.precio,
+      patente: data.patente,
     }
   );
 }
 
 async function quitarEmbarcacion(
   connection: oracledb.Connection,
-  login: { tipo: string; precio: number; patente: string }
+  data: { tipo: string; precio: number; patente: string }
 ) {
   return await connection.execute(
     "begin quitar_embarcacion(:tipo, :precio, :patente, :mensaje); END;",
     {
-      tipo: login.tipo,
-      precio: login.precio,
-      patente: login.patente,
+      tipo: data.tipo,
+      precio: data.precio,
+      patente: data.patente,
       mensaje: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
     }
   );
@@ -183,13 +198,13 @@ async function crearEncuesta(
 
 async function esAsistente(
   connection: oracledb.Connection,
-  login: { rut: number; password: string }
+  data: { rut: number; password: string }
 ) {
   return await connection.execute(
     "begin es_asistente(:rut, :password, :resultado, :mensaje); END;",
     {
-      rut: login.rut,
-      password: login.password,
+      rut: data.rut,
+      password: data.password,
       resultado: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
       mensaje: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
     }
@@ -353,7 +368,7 @@ app.post("/api/crear_usuario", async function(req, res) {
 
 app.post("/api/iniciar_sesion", async function(req, res) {
   let resultado = undefined;
-  const login = req.body as { rut: number; password: string };
+  const data = req.body as { rut: number; password: string };
   try {
     connection = await oracledb.getConnection({
       user: usuario,
@@ -361,7 +376,7 @@ app.post("/api/iniciar_sesion", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
-    const rawBD = await iniciarSesion(connection, login);
+    const rawBD = await iniciarSesion(connection, data);
 
     resultado = rawBD;
   } catch (err) {
@@ -411,12 +426,7 @@ app.post("/api/ingresoArriendoBarco", async function(req, res) {
 
 app.post("/api/hace_unpago", async function(req, res) {
   let resultado = undefined;
-  const data = req.body as {
-    id: number;
-    idArriendo: number;
-    valor: number;
-    tipo: string;
-  };
+  const data = req.body as HaceUnPagoData;
   try {
     connection = await oracledb.getConnection({
       user: usuario,
@@ -474,12 +484,7 @@ app.post("/api/crearEncuesta", async function(req, res) {
 
 app.post("/api/ingresar_embarcacion", async function(req, res) {
   let resultado = undefined;
-  const data = req.body as {
-    id: number;
-    tipo: string;
-    precio: number;
-    patente: string;
-  };
+  const data = req.body as IngresarEmbarcacionData;
   try {
     connection = await oracledb.getConnection({
       user: usuario,

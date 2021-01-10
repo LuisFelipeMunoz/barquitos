@@ -2,9 +2,28 @@ import * as oracledb from "oracledb";
 import * as express from "express";
 import * as history_api from "connect-history-api-fallback";
 
+interface EntraBD {
+  [nombreCampo: string]: any;
+}
+interface Resultado {
+  [id: number]: EntraBD;
+}
+
 let connection: oracledb.Connection | undefined = undefined;
 
+const usuario = "usuario";
 const mypw = "123456";
+
+async function listaUsuarios(connection: oracledb.Connection) {
+  return await connection.execute(
+    "select * from usuario left outer join cliente on (cliente.id_usuario = usuario.id_usuario) left outer join asistente on (asistente.id_usuario = usuario.id_usuario)",
+    [],
+    {
+      // maxRows: 1,
+      //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+    }
+  );
+}
 
 // Una funcion que enliste todos los barcos que tiene arriendos disponibles
 async function listaBarcosArriendoDisponibles(connection: oracledb.Connection) {
@@ -56,60 +75,60 @@ async function listaEmbarcaciones(connection: oracledb.Connection) {
   });
 }
 
- // CRUD SEGUROS
- async function listaSeguros(connection: oracledb.Connection) {
-   return await connection.execute("select * from seguro", [], {
-     // maxRows: 1,
-     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-   });
-  }
+// CRUD SEGUROS
+async function listaSeguros(connection: oracledb.Connection) {
+  return await connection.execute("select * from seguro", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
 
- // CRUD ARRIENDO
- async function listaArriendos(connection: oracledb.Connection) {
-   return await connection.execute("select * from arriendo", [], {
-     // maxRows: 1,
-     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-   });
- }
+// CRUD ARRIENDO
+async function listaArriendos(connection: oracledb.Connection) {
+  return await connection.execute("select * from arriendo", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
 
- // CRUD PAGO
- async function listaPagos(connection: oracledb.Connection) {
-   return await connection.execute("select * from pago", [], {
-     // maxRows: 1,
-     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-   });
- }
+// CRUD PAGO
+async function listaPagos(connection: oracledb.Connection) {
+  return await connection.execute("select * from pago", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
 
- // CRUD ENCUESTA
- async function listaEncuestas(connection: oracledb.Connection) {
-   return await connection.execute("select * from encuesta", [], {
-     // maxRows: 1,
-     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-   });
- }
+// CRUD ENCUESTA
+async function listaEncuestas(connection: oracledb.Connection) {
+  return await connection.execute("select * from encuesta", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
 
- // CRUD ARRIENDOS DISPONIBLES
- async function listaArriendoDisponibles(connection: oracledb.Connection) {
-   return await connection.execute("select * from arriendos_disponibles", [], {
-     // maxRows: 1,
-     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-   });
- }
+// CRUD ARRIENDOS DISPONIBLES
+async function listaArriendoDisponibles(connection: oracledb.Connection) {
+  return await connection.execute("select * from arriendos_disponibles", [], {
+    // maxRows: 1,
+    //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+  });
+}
 
-// //una funcion que retorne todos los arriendos activos que estan asociados al asistente: recibe como parametro el id del asistente
-// async function listaArriendosActivos(
-//   connection: oracledb.Connection,
-//   idAsistente: number
-// ) {
-//   return await connection.execute(
-//     "select * from arriendo where arriendo.id_asistente = :id and arriendo.estado = 0;",
-//     [idAsistente],
-//     {
-//       // maxRows: 1,
-//       //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-//     }
-//   );
-// }
+//una funcion que retorne todos los arriendos activos que estan asociados al asistente: recibe como parametro el id del asistente
+async function listaArriendosActivos(
+  connection: oracledb.Connection,
+  idAsistente: number
+) {
+  return await connection.execute(
+    "select * from arriendo where arriendo.id_asistente = :id and arriendo.estado = 0;",
+    [idAsistente],
+    {
+      // maxRows: 1,
+      //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+    }
+  );
+}
 
 const history = history_api({
   disableDotRule: true,
@@ -130,6 +149,8 @@ app.use((req, res, next) => {
   }
 });
 
+// login
+
 app.get("/api/iniciar_sesion", function(req, res) {
   res.send("OK");
 });
@@ -138,7 +159,7 @@ app.get("/api/embarcaciones/arriendos_disponibles", async function(req, res) {
   let resultado = undefined;
   try {
     connection = await oracledb.getConnection({
-      user: "usuario",
+      user: usuario,
       password: mypw,
       connectString: "localhost/XEPDB1",
     });
@@ -168,7 +189,7 @@ app.get("/api/arriendos_disponibles/embarcacion/:id", async function(req, res) {
   const idEmbarcacion = parseInt(req.params.id);
   try {
     connection = await oracledb.getConnection({
-      user: "usuario",
+      user: usuario,
       password: mypw,
       connectString: "localhost/XEPDB1",
     });
@@ -201,7 +222,7 @@ app.get("/api/arriendos/encuestas/pendientes/cliente/:id", async function(
   const idCliente = parseInt(req.params.id);
   try {
     connection = await oracledb.getConnection({
-      user: "usuario",
+      user: usuario,
       password: mypw,
       connectString: "localhost/XEPDB1",
     });
@@ -226,16 +247,17 @@ app.get("/api/arriendos/encuestas/pendientes/cliente/:id", async function(
   res.send(resultado);
 });
 
-app.get("/api/embarcaciones", async function(req, res) {
+app.get("/api/arriendos/activos/asistente/:id", async function(req, res) {
   let resultado = undefined;
+  const idAsistente = parseInt(req.params.id);
   try {
     connection = await oracledb.getConnection({
-      user: "usuario",
+      user: usuario,
       password: mypw,
       connectString: "localhost/XEPDB1",
     });
 
-    resultado = await listaEmbarcaciones(connection);
+    resultado = await listaArriendosActivos(connection, idAsistente);
 
     console.log(resultado.metaData);
     console.log(resultado.rows);
@@ -255,11 +277,82 @@ app.get("/api/embarcaciones", async function(req, res) {
   res.send(resultado);
 });
 
+app.get("/api/usuarios", async function(req, res) {
+  let resultado = undefined;
+  try {
+    connection = await oracledb.getConnection({
+      user: usuario,
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    resultado = await listaUsuarios(connection);
+
+    console.log(resultado.metaData);
+    console.log(resultado.rows);
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.get("/api/embarcaciones", async function(req, res) {
+  let resultado: Resultado = {};
+
+  try {
+    connection = await oracledb.getConnection({
+      user: usuario,
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    const rawBD = await listaEmbarcaciones(connection);
+
+    rawBD.rows?.forEach((item) => {
+      const datos = item as Array<any>;
+
+      const embarcacion: EntraBD = {};
+
+      datos.forEach((val, index) => {
+        const nombreCampo = rawBD.metaData
+          ? rawBD.metaData[index].name
+          : "COL" + index.toString();
+        embarcacion[nombreCampo] = val;
+      });
+
+      resultado[embarcacion.ID_EMBARCACION] = embarcacion;
+    });
+  } catch (err) {
+    console.error(err);
+    resultado[0] = { error: err };
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado[0] = { error: err };
+      }
+    }
+  }
+  res.send(resultado);
+});
+
 app.get("/api/seguros", async function(req, res) {
   let resultado = undefined;
   try {
     connection = await oracledb.getConnection({
-      user: "usuario",
+      user: usuario,
       password: mypw,
       connectString: "localhost/XEPDB1",
     });
@@ -288,7 +381,7 @@ app.get("/api/arriendos", async function(req, res) {
   let resultado = undefined;
   try {
     connection = await oracledb.getConnection({
-      user: "usuario",
+      user: usuario,
       password: mypw,
       connectString: "localhost/XEPDB1",
     });
@@ -317,7 +410,7 @@ app.get("/api/pagos", async function(req, res) {
   let resultado = undefined;
   try {
     connection = await oracledb.getConnection({
-      user: "usuario",
+      user: usuario,
       password: mypw,
       connectString: "localhost/XEPDB1",
     });
@@ -346,7 +439,7 @@ app.get("/api/encuestas", async function(req, res) {
   let resultado = undefined;
   try {
     connection = await oracledb.getConnection({
-      user: "usuario",
+      user: usuario,
       password: mypw,
       connectString: "localhost/XEPDB1",
     });
@@ -375,7 +468,7 @@ app.get("/api/arriendoDisponibles", async function(req, res) {
   let resultado = undefined;
   try {
     connection = await oracledb.getConnection({
-      user: "usuario",
+      user: usuario,
       password: mypw,
       connectString: "localhost/XEPDB1",
     });
@@ -399,9 +492,6 @@ app.get("/api/arriendoDisponibles", async function(req, res) {
   }
   res.send(resultado);
 });
-
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening at port:${port}`);

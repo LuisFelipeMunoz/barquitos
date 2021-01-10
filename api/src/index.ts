@@ -395,6 +395,102 @@ app.post("/api/iniciar_sesion", async function(req, res) {
   res.send(resultado);
 });
 
+//---------------------------------------------------
+//ARRIENDOS ACTIVOS 
+//---------------------------------------------------
+
+async function arriendosActivos(
+  connection: oracledb.Connection,
+  data: {   ASISTENTE_ID: number,
+            ARRIENDOS_: string,
+
+   }
+) {
+  return await connection.execute(
+    "begin ARRIENDOS_ACTIVOS(:ASISTENTE_ID, :ARRIENDOS_); END;",
+    {
+      
+      ASISTENTE_ID : data.ASISTENTE_ID,
+      ARRIENDOS_:       { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    
+      }
+  );
+}
+
+//---------------------------------------------------
+// FIN ARRIENDO
+//---------------------------------------------------
+
+async function finArriendos(
+  connection: oracledb.Connection,
+  data: {   ID_ARRIENDO_ES: number,
+            ESTADO_ES: number,
+   }
+) {
+  return await connection.execute(
+    "begin FIN_ARRIENDO(:ID_ARRIENDO_ES, :ESTADO_ES, :MENSAJE_ES, :ESTADO_ES); END;",
+    {
+      
+      ID_ARRIENDO_ES:   data.ID_ARRIENDO_ES, 
+      ESTADO_ES:        data.ESTADO_ES,
+      MENSAJE_ES:       { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+      ESTADO_ES:        { type: oracledb.BOOLEAN, dir: oracledb.BIND_OUT },
+
+      }
+  );
+}
+
+//---------------------------------------------------
+//ESTADO ARRIENDO
+//---------------------------------------------------
+
+async function estadoArriendo(
+  connection: oracledb.Connection,
+  data: {   IDENTIFICADORARR_: string, 
+   }
+) {
+  return await connection.execute(
+    "begin ESTADO_ARRIENDO(:IDENTIFICADORARR_, : MENSAJE_VERIFICADOR); END;",
+    {
+      
+      IDENTIFICADORARR_ :         data.IDENTIFICADORARR_ , 
+      MENSAJE_VERIFICADOR:       { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    
+      }
+  );
+}
+
+//---------------------------------------------------
+// NUEVO ARRIENDO
+//---------------------------------------------------
+
+async function nuevoArriendo(
+  connection: oracledb.Connection,
+  data: {   
+            NEW_ID_ARRIENDO:                number  ,
+            NEW_RUT:                        number  ,
+            NEW_ID_EMBARCACION:             number  ,
+            NEW_ID_ARRIENDO_DISPONIBLES:    number  ,
+            RESULTADO_OUT:                  boolean ,
+   }
+) {
+  return await connection.execute(
+    "begin NUEVO_ARRIENDO(:NEW_ID_ARRIENDO, :NEW_RUT, : NEW_ID_EMBARCACION, :NEW_ID_ARRIENDO_DISPONIBLES, :RESULTADO_OUT ); END;",
+    {
+            NEW_ID_ARRIENDO:              data.NEW_ID_ARRIENDO,               
+            NEW_RUT:                      data.NEW_RUT,                
+            NEW_ID_EMBARCACION:           data.NEW_ID_EMBARCACION,  
+            NEW_ID_ARRIENDO_DISPONIBLES:  data.NEW_ID_ARRIENDO_DISPONIBLES,
+            RESULTADO_OUT:                { type: oracledb.BOOLEAN, dir: oracledb.BIND_OUT },
+      }
+  );
+}
+
+// -------------------------------------------------
+
+app.post("/api/estadoArriendo", async function(req, res) {
+  let resultado = undefined;
+  const login = req.body as { rut: number; password: string };
 app.post("/api/ingresoArriendoBarco", async function(req, res) {
   let resultado = undefined;
   const data = req.body as IngresoArriendoBarcoData;
@@ -434,6 +530,7 @@ app.post("/api/hace_unpago", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
+    const rawBD = await estadoArriendo(connection, login);
     const rawBD = await haceUnPago(connection, data);
 
     resultado = rawBD;
@@ -453,6 +550,11 @@ app.post("/api/hace_unpago", async function(req, res) {
   res.send(resultado);
 });
 
+// -------------------------------------------------
+
+app.post("/api/nuevoArriendo", async function(req, res) {
+  let resultado = undefined;
+  const login = req.body as { rut: number; password: string };
 app.post("/api/crearEncuesta", async function(req, res) {
   let resultado = undefined;
   const data = req.body as CrearEncuestaData;
@@ -463,6 +565,7 @@ app.post("/api/crearEncuesta", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
+    const rawBD = await nuevoArriendo(connection, login);
     const rawBD = await crearEncuesta(connection, data);
 
     resultado = rawBD;
@@ -482,6 +585,11 @@ app.post("/api/crearEncuesta", async function(req, res) {
   res.send(resultado);
 });
 
+// -------------------------------------------------
+
+app.post("/api/arriendosActivos", async function(req, res) {
+  let resultado = undefined;
+  const login = req.body as { rut: number; password: string };
 app.post("/api/ingresar_embarcacion", async function(req, res) {
   let resultado = undefined;
   const data = req.body as IngresarEmbarcacionData;
@@ -492,6 +600,7 @@ app.post("/api/ingresar_embarcacion", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
+    const rawBD = await arriendosActivos(connection, login);
     const rawBD = await ingresarEmbarcacion(connection, data);
 
     resultado = rawBD;
@@ -511,6 +620,12 @@ app.post("/api/ingresar_embarcacion", async function(req, res) {
   res.send(resultado);
 });
 
+
+// -------------------------------------------------
+
+app.post("/api/finArriendos", async function(req, res) {
+  let resultado = undefined;
+  const login = req.body as { rut: number; password: string };
 app.post("/api/quitar_embarcacion", async function(req, res) {
   let resultado = undefined;
   const data = req.body as { tipo: string; precio: number; patente: string };
@@ -550,6 +665,7 @@ app.post("/api/es_asistente", async function(req, res) {
       connectString: "localhost/XEPDB1",
     });
 
+    const rawBD = await finArriendos(connection, login);
     const rawBD = await esAsistente(connection, data);
 
     resultado = rawBD;
@@ -568,6 +684,8 @@ app.post("/api/es_asistente", async function(req, res) {
   }
   res.send(resultado);
 });
+
+// -------------------------------------------------
 
 app.get("/api/embarcaciones/arriendos_disponibles", async function(req, res) {
   let resultado: Resultado = {};

@@ -9,6 +9,45 @@ interface Resultado {
   [id: number]: EntraBD;
 }
 
+interface CrearUsuarioData {
+  usuario: {
+    nombre: string;
+    password: string;
+    tipo: "administrador" | "cliente" | "asistente";
+  };
+  persona: {
+    rut: string;
+    nombre: string;
+    telefono: string;
+    direccion: string;
+  };
+}
+
+interface IngresoArriendoBarcoData {
+  idCliente: number;
+  idEmbarcacion: number;
+  idAsistente: number;
+  idSeguro: number;
+  idPago: number;
+  retiro: {
+    lugar: string;
+    fecha: string;
+    hora: string;
+  };
+  entrega: {
+    lugar: string;
+    fecha: string;
+    hora: string;
+  };
+}
+
+interface CrearEncuestaData {
+  idCliente: number;
+  idArriendo: number;
+  valoracion: number;
+  comentario: string;
+}
+
 let connection: oracledb.Connection | undefined = undefined;
 
 const usuario = "usuario";
@@ -25,17 +64,74 @@ async function listaUsuarios(connection: oracledb.Connection) {
   );
 }
 
+async function crearUsuario(
+  connection: oracledb.Connection,
+  data: CrearUsuarioData
+) {
+  return await connection.execute(
+    "begin crear_usuario(:nombreUsuario, :password, :tipo, :rut, :nombrePersona, :telefono, :direccion, :mensaje, :resultado); end;",
+    {
+      nombreUsuario: data.usuario.nombre,
+      password: data.usuario.password,
+      tipo: data.usuario.tipo,
+      rut: data.persona.rut,
+      nombrePersona: data.persona.nombre,
+      telefono: data.persona.telefono,
+      direccion: data.persona.direccion,
+      resultado: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+      mensaje: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    }
+  );
+}
+
 async function iniciarSesion(
   connection: oracledb.Connection,
   login: { rut: number; password: string }
 ) {
   return await connection.execute(
-    "begin iniciar_sesion(:rut, :password, :resultado, :mensaje); END;",
+    "begin iniciar_sesion(:rut, :password, :resultado, :mensaje); end;",
     {
       rut: login.rut,
       password: login.password,
       resultado: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
       mensaje: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    }
+  );
+}
+
+async function ingresoArriendoBarco(
+  connection: oracledb.Connection,
+  data: IngresoArriendoBarcoData
+) {
+  return await connection.execute(
+    "begin ingresoarriendo_barco(:idEmbarcacion, :idAsistente, :idCliente, :idSeguro, :idPago, :lugarEntrega, :lugarRetiro, :fechaEntrega, :fechaRetiro, :horaEntrega, :horaRetiro); end;",
+    {
+      idEmbarcacion: data.idEmbarcacion,
+      idAsistente: data.idAsistente,
+      idCliente: data.idCliente,
+      idSeguro: data.idSeguro,
+      idPago: data.idPago,
+      lugarEntrega: data.entrega.lugar,
+      lugarRetiro: data.retiro.lugar,
+      fechaEntrega: data.entrega.fecha,
+      fechaRetiro: data.retiro.fecha,
+      horaEntrega: data.entrega.hora,
+      horaRetiro: data.retiro.hora,
+    }
+  );
+}
+
+async function crearEncuesta(
+  connection: oracledb.Connection,
+  data: CrearEncuestaData
+) {
+  return await connection.execute(
+    "begin ingresoarriendo_barco(:idCliente, :idArriendo, :valoracion, :comentario); end;",
+    {
+      idCliente: data.idCliente,
+      idArriendo: data.idArriendo,
+      valoracion: data.valoracion,
+      comenrario: data.comentario,
     }
   );
 }
@@ -164,7 +260,34 @@ app.use((req, res, next) => {
   }
 });
 
-// login
+app.post("/api/crear_usuario", async function(req, res) {
+  let resultado = undefined;
+  const data = req.body as CrearUsuarioData;
+  try {
+    connection = await oracledb.getConnection({
+      user: usuario,
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    const rawBD = await crearUsuario(connection, data);
+
+    resultado = rawBD;
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
 
 app.post("/api/iniciar_sesion", async function(req, res) {
   let resultado = undefined;
@@ -177,6 +300,64 @@ app.post("/api/iniciar_sesion", async function(req, res) {
     });
 
     const rawBD = await iniciarSesion(connection, login);
+
+    resultado = rawBD;
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.post("/api/ingresoArriendoBarco", async function(req, res) {
+  let resultado = undefined;
+  const data = req.body as IngresoArriendoBarcoData;
+  try {
+    connection = await oracledb.getConnection({
+      user: usuario,
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    const rawBD = await ingresoArriendoBarco(connection, data);
+
+    resultado = rawBD;
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.post("/api/crearEncuesta", async function(req, res) {
+  let resultado = undefined;
+  const data = req.body as CrearEncuestaData;
+  try {
+    connection = await oracledb.getConnection({
+      user: usuario,
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    const rawBD = await crearEncuesta(connection, data);
 
     resultado = rawBD;
   } catch (err) {
@@ -487,7 +668,6 @@ app.get("/api/seguros", async function(req, res) {
 
       resultado[seguro.ID_SEGURO] = seguro;
     });
-
   } catch (err) {
     console.error(err);
     resultado[0] = { error: err };
@@ -646,7 +826,9 @@ app.get("/api/arriendoDisponibles", async function(req, res) {
         arriendos_disponibles[nombreCampo] = val;
       });
 
-      resultado[arriendos_disponibles.ID_arriendo_disponibles] = arriendos_disponibles;
+      resultado[
+        arriendos_disponibles.ID_arriendo_disponibles
+      ] = arriendos_disponibles;
     });
   } catch (err) {
     console.error(err);

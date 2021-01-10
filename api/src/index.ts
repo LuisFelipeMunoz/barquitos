@@ -98,6 +98,51 @@ async function iniciarSesion(
     }
   );
 }
+//****************************************************************************************************************** */
+async function haceUnPago(
+  connection: oracledb.Connection,
+  login: { id: number; idArriendo: number; valor: number; tipo: string }
+) {
+  return await connection.execute(
+    "begin hace_unpago(:id, :idArriendo, :valor, :tipo); END;",
+    {
+      id: login.id,
+      idArriendo: login.idArriendo,
+      valor: login.valor,
+      tipo: login.tipo,
+    }
+  );
+}
+
+async function ingresarEmbarcacion(
+  connection: oracledb.Connection,
+  login: { id: number; tipo: string; precio: number; patente: string }
+) {
+  return await connection.execute(
+    "begin ingresar_embarcacion(:id, :tipo, :precio, :patente); END;",
+    {
+      id: login.id,
+      tipo: login.tipo,
+      precio: login.precio,
+      patente: login.patente,
+    }
+  );
+}
+
+async function quitarEmbarcacion(
+  connection: oracledb.Connection,
+  login: { tipo: string; precio: number; patente: string }
+) {
+  return await connection.execute(
+    "begin quitar_embarcacion(:tipo, :precio, :patente, :mensaje); END;",
+    {
+      tipo: login.tipo,
+      precio: login.precio,
+      patente: login.patente,
+      mensaje: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    }
+  );
+}
 
 async function ingresoArriendoBarco(
   connection: oracledb.Connection,
@@ -126,7 +171,7 @@ async function crearEncuesta(
   data: CrearEncuestaData
 ) {
   return await connection.execute(
-    "begin ingresoarriendo_barco(:idCliente, :idArriendo, :valoracion, :comentario); end;",
+    "begin crear_encuesta(:idCliente, :idArriendo, :valoracion, :comentario); end;",
     {
       idCliente: data.idCliente,
       idArriendo: data.idArriendo,
@@ -135,6 +180,23 @@ async function crearEncuesta(
     }
   );
 }
+
+async function esAsistente(
+  connection: oracledb.Connection,
+  login: { rut: number; password: string }
+) {
+  return await connection.execute(
+    "begin es_asistente(:rut, :password, :resultado, :mensaje); END;",
+    {
+      rut: login.rut,
+      password: login.password,
+      resultado: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+      mensaje: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    }
+  );
+}
+
+/**********************************************************************************************************************/
 
 // Una funcion que enliste todos los barcos que tiene arriendos disponibles
 async function listaBarcosArriendoDisponibles(connection: oracledb.Connection) {
@@ -347,6 +409,40 @@ app.post("/api/ingresoArriendoBarco", async function(req, res) {
   res.send(resultado);
 });
 
+app.post("/api/hace_unpago", async function(req, res) {
+  let resultado = undefined;
+  const data = req.body as {
+    id: number;
+    idArriendo: number;
+    valor: number;
+    tipo: string;
+  };
+  try {
+    connection = await oracledb.getConnection({
+      user: usuario,
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    const rawBD = await haceUnPago(connection, data);
+
+    resultado = rawBD;
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
 app.post("/api/crearEncuesta", async function(req, res) {
   let resultado = undefined;
   const data = req.body as CrearEncuestaData;
@@ -358,6 +454,98 @@ app.post("/api/crearEncuesta", async function(req, res) {
     });
 
     const rawBD = await crearEncuesta(connection, data);
+
+    resultado = rawBD;
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.post("/api/ingresar_embarcacion", async function(req, res) {
+  let resultado = undefined;
+  const data = req.body as {
+    id: number;
+    tipo: string;
+    precio: number;
+    patente: string;
+  };
+  try {
+    connection = await oracledb.getConnection({
+      user: usuario,
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    const rawBD = await ingresarEmbarcacion(connection, data);
+
+    resultado = rawBD;
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.post("/api/quitar_embarcacion", async function(req, res) {
+  let resultado = undefined;
+  const data = req.body as { tipo: string; precio: number; patente: string };
+  try {
+    connection = await oracledb.getConnection({
+      user: usuario,
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    const rawBD = await quitarEmbarcacion(connection, data);
+
+    resultado = rawBD;
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.post("/api/es_asistente", async function(req, res) {
+  let resultado = undefined;
+  const data = req.body as { rut: number; password: string };
+  try {
+    connection = await oracledb.getConnection({
+      user: usuario,
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    const rawBD = await esAsistente(connection, data);
 
     resultado = rawBD;
   } catch (err) {

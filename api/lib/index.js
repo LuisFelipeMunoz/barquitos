@@ -222,16 +222,28 @@ app.get("/api/arriendos/activos/asistente/:id", async function (req, res) {
     res.send(resultado);
 });
 app.get("/api/usuarios", async function (req, res) {
-    let resultado = undefined;
+    var _a;
+    let resultado = {};
     try {
         connection = await oracledb.getConnection({
             user: usuario,
             password: mypw,
             connectString: "localhost/XEPDB1",
         });
-        resultado = await listaUsuarios(connection);
-        console.log(resultado.metaData);
-        console.log(resultado.rows);
+        const rawBD = await listaUsuarios(connection);
+        (_a = rawBD.rows) === null || _a === void 0 ? void 0 : _a.forEach((item) => {
+            const datos = item;
+            const usuario = {};
+            datos.forEach((val, index) => {
+                const nombreCampo = rawBD.metaData
+                    ? rawBD.metaData[index].name
+                    : "COL" + index.toString();
+                if (val) {
+                    usuario[nombreCampo] = val;
+                }
+            });
+            resultado[usuario.ID_USUARIO] = usuario;
+        });
     }
     catch (err) {
         console.error(err);

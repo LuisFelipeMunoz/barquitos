@@ -56,45 +56,45 @@ async function listaEmbarcaciones(connection: oracledb.Connection) {
   });
 }
 
-// // CRUD SEGUROS
-// async function listaSeguros(connection: oracledb.Connection) {
-//   return await connection.execute("select * from seguro", [], {
-//     // maxRows: 1,
-//     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-//   });
-// }
+ // CRUD SEGUROS
+ async function listaSeguros(connection: oracledb.Connection) {
+   return await connection.execute("select * from seguro", [], {
+     // maxRows: 1,
+     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+   });
+  }
 
-// // CRUD ARRIENDO
-// async function listaArriendos(connection: oracledb.Connection) {
-//   return await connection.execute("select * from arriendo", [], {
-//     // maxRows: 1,
-//     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-//   });
-// }
+ // CRUD ARRIENDO
+ async function listaArriendos(connection: oracledb.Connection) {
+   return await connection.execute("select * from arriendo", [], {
+     // maxRows: 1,
+     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+   });
+ }
 
-// // CRUD PAGO
-// async function listaPagos(connection: oracledb.Connection) {
-//   return await connection.execute("select * from pago", [], {
-//     // maxRows: 1,
-//     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-//   });
-// }
+ // CRUD PAGO
+ async function listaPagos(connection: oracledb.Connection) {
+   return await connection.execute("select * from pago", [], {
+     // maxRows: 1,
+     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+   });
+ }
 
-// // CRUD ENCUESTA
-// async function listaEncuestas(connection: oracledb.Connection) {
-//   return await connection.execute("select * from encuesta", [], {
-//     // maxRows: 1,
-//     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-//   });
-// }
+ // CRUD ENCUESTA
+ async function listaEncuestas(connection: oracledb.Connection) {
+   return await connection.execute("select * from encuesta", [], {
+     // maxRows: 1,
+     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+   });
+ }
 
-// // CRUD ENCUESTA
-// async function listaArriendoDisponibles(connection: oracledb.Connection) {
-//   return await connection.execute("select * from arriendos_disponibles", [], {
-//     // maxRows: 1,
-//     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
-//   });
-// }
+ // CRUD ARRIENDOS DISPONIBLES
+ async function listaArriendoDisponibles(connection: oracledb.Connection) {
+   return await connection.execute("select * from arriendos_disponibles", [], {
+     // maxRows: 1,
+     //, outFormat: oracledb.OUT_FORMAT_OBJECT  // query result format
+   });
+ }
 
 // //una funcion que retorne todos los arriendos activos que estan asociados al asistente: recibe como parametro el id del asistente
 // async function listaArriendosActivos(
@@ -162,6 +162,154 @@ app.get("/api/embarcaciones", async function(req, res) {
   }
   res.send(resultado);
 });
+
+app.get("/api/seguros", async function(req, res) {
+  let resultado = undefined;
+  try {
+    connection = await oracledb.getConnection({
+      user: "usuario",
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    resultado = await listaSeguros(connection);
+
+    console.log(resultado.metaData);
+    console.log(resultado.rows);
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.get("/api/arriendos", async function(req, res) {
+  let resultado = undefined;
+  try {
+    connection = await oracledb.getConnection({
+      user: "usuario",
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    resultado = await listaArriendos(connection);
+
+    console.log(resultado.metaData);
+    console.log(resultado.rows);
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.get("/api/pagos", async function(req, res) {
+  let resultado = undefined;
+  try {
+    connection = await oracledb.getConnection({
+      user: "usuario",
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    resultado = await listaPagos(connection);
+
+    console.log(resultado.metaData);
+    console.log(resultado.rows);
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.get("/api/encuestas", async function(req, res) {
+  let resultado = undefined;
+  try {
+    connection = await oracledb.getConnection({
+      user: "usuario",
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    resultado = await listaEncuestas(connection);
+
+    console.log(resultado.metaData);
+    console.log(resultado.rows);
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+app.get("/api/arriendoDisponibles", async function(req, res) {
+  let resultado = undefined;
+  try {
+    connection = await oracledb.getConnection({
+      user: "usuario",
+      password: mypw,
+      connectString: "localhost/XEPDB1",
+    });
+
+    resultado = await listaArriendoDisponibles(connection);
+
+    console.log(resultado.metaData);
+    console.log(resultado.rows);
+  } catch (err) {
+    console.error(err);
+    resultado = err;
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.error(err);
+        resultado = err;
+      }
+    }
+  }
+  res.send(resultado);
+});
+
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at port:${port}`);

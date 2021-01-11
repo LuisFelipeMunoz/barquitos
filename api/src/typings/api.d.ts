@@ -53,8 +53,8 @@ export interface CrearArriendoData {
 }
 
 export interface IniciarSesionData {
-  rut: number;
-  password: number;
+  nombre: string;
+  password: string;
 }
 
 export interface QuitarEmbarcacionData {

@@ -45,9 +45,9 @@ const usuarios = (app) => {
         res.send(resultado);
     });
     // crear usuario
-    app.post("/api/usuarios/", async function (req, res) {
+    app.post("/api/usuarios", async function (req, res) {
         let resultado = undefined;
-        const data = req.body;
+        const data = JSON.parse(req.body);
         try {
             connection = await db.getConnection();
             const rawBD = await usuarios_1.crear(connection, data);

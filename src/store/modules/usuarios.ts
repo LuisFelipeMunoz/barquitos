@@ -17,6 +17,18 @@ const getters: GetterTree<UsuariosState, State> = {};
 const mutations: MutationTree<UsuariosState> = {};
 
 const actions: ActionTree<UsuariosState, State> = {
+  async all(ctx) {
+    const respuesta = await fetch("/api/usuarios");
+    return respuesta;
+  },
+  async get(ctx, id: number) {
+    if (!id) {
+      return "";
+    }
+    // falta la funcion en la api
+    return id;
+    return id;
+  },
   async set(ctx, data: Usuario) {
     const usuario = {
       usuario: {
@@ -57,13 +69,21 @@ const actions: ActionTree<UsuariosState, State> = {
     });
     return respuesta;
   },
-  delete(ctx, id: string) {
+  patch(ctx, id: number) {
     if (!id) {
       return "";
     }
-    ctx.commit("delete", id);
+    // falta la funcion en la api
     return id;
   },
+  delete(ctx, id: number) {
+    if (!id) {
+      return "";
+    }
+    // falta la funcion en la api
+    return id;
+  },
+  iniciarSesion(ctx, data: { nombre: string; password: string }) {},
 };
 
 const usuarios = {

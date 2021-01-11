@@ -19,7 +19,7 @@ export const crearEncuesta = async (
 }
 
 // CRUD ENCUESTA
-export const lista = async (connection: db.Connection) {
+export const lista = async (connection: db.Connection) => {
   return await connection.execute("select * from encuesta", [], {
     // maxRows: 1,
     //, outFormat: db.OUT_FORMAT_OBJECT  // query result format

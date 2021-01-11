@@ -38,16 +38,3 @@ export default class VistaArriendosDisponibles extends Vue {
 
 
 
-export default class VistaArriendos extends Vue {
-  async created() {
-    this.arriendos = await this.allArriendos();
-  }
-  dialogoFormulario = false;
-
-  arriendos: Arriendos = {};
-
-  get items() {
-    return Object.values(this.arriendos);
-  }
-}
-</script>

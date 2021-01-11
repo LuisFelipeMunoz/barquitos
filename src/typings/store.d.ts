@@ -141,11 +141,11 @@ declare module "vue/types/vue" {
     //arriendos disponibles
     arriendosDisponibles: ArriendosDisponibles;
     allArriendosDisponibles(): Promise<Arriendos>;
-    setArriendosDisponibles(data: ArriendosDisponibles): Promise<void>;
+    setArriendosDisponibles(data: ArriendoDisponible): Promise<void>;
     //embarcaciones
     embarcaciones: Embarcaciones;
     allEmbarcaciones(): Promise<Embarcaciones>;
-    setEmbarcaciones(data: Embarcaciones): Promise<void>;
+    setEmbarcaciones(data: Embarcacion): Promise<void>;
     // usuarios
     usuarios: Usuarios;
     allUsuarios(): Promise<Usuarios>;

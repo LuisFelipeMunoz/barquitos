@@ -23,11 +23,12 @@
     <!------------------------------------------------------->
     <!-- MENU -->
     <!------------------------------------------------------->
-    
-    
+
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn block elevation="2"
+        <v-btn
+          block
+          elevation="2"
           color="success"
           dark
           v-bind="attrs"
@@ -37,70 +38,52 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item
-          v-for="(item, index) in items"
-          :key="index"
-        >
+        <v-list-item v-for="(item, index) in items" :key="index">
           <v-list-item-title>{{ item.title }}</v-list-item-title>
-          <v-dialog
-      v-model="dialog"
-      width="500"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="red lighten-2"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Responder
-        </v-btn>
-      </template>
+          <v-dialog v-model="dialog" width="500">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
+                Responder
+              </v-btn>
+            </template>
 
-      <v-card>
-        <v-card-title class="headline grey lighten-2">
-          ENCUESTA
-        </v-card-title>
+            <v-card>
+              <v-card-title class="headline grey lighten-2">
+                ENCUESTA
+              </v-card-title>
 
-        <v-card-text>
-          CALIFICA DE 1 A 5 NUESTRO SERVICIO :
-          <v-rating
-            v-model="rating"
-            background-color="indigo lighten-3"
-            color="indigo"
-            size="64"
-          ></v-rating>
-        </v-card-text>
-        <v-card-text>
-          HAZ UN COMENTARIO RESPECTO A TU EXPERENCIA :
-          <v-container fluid>
-            <v-textarea
-              autocomplete="email"
-              label="Ingresalo aqui"
-            ></v-textarea>
-          </v-container>
-        </v-card-text>
-        
-        <v-divider></v-divider>
+              <v-card-text>
+                CALIFICA DE 1 A 5 NUESTRO SERVICIO :
+                <v-rating
+                  v-model="rating"
+                  background-color="indigo lighten-3"
+                  color="indigo"
+                  size="64"
+                ></v-rating>
+              </v-card-text>
+              <v-card-text>
+                HAZ UN COMENTARIO RESPECTO A TU EXPERENCIA :
+                <v-container fluid>
+                  <v-textarea
+                    autocomplete="email"
+                    label="Ingresalo aqui"
+                  ></v-textarea>
+                </v-container>
+              </v-card-text>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="dialog = false"
-          >
-            Enviar Encuesta
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="dialog = false">
+                  Enviar Encuesta
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-list-item>
       </v-list>
     </v-menu>
-    
-
- 
   </v-container>
 </template>
 
@@ -111,8 +94,10 @@ import { Component, Vue } from "vue-property-decorator";
 import ListaEmbarcaciones from "@/components/embarcaciones/Lista.vue"; // @ is an alias to /src
 import FormularioArriendo from "@/components/arriendos/Formulario.vue";
 import DescargarComprobanteArriendo from "@/components/arriendos/DescargarComprobante.vue";
+import { mapActions } from "vuex";
 
 @Component({
+  methods: mapActions({}),
   components: {
     ListaEmbarcaciones,
     FormularioArriendo,
@@ -124,12 +109,11 @@ export default class EmbarcacionesDisponibles extends Vue {
   dialogoComprobante = false;
 
   barcos = ["barco", "barco", "barco", "barco"];
-  items= [
-        { title: 'ENCUESTA 1' },
-        { title: 'ENCUESTA 2' },
-        { title: 'ENCUESTA 3' },
-        
-      ];
+  items = [
+    { title: "ENCUESTA 1" },
+    { title: "ENCUESTA 2" },
+    { title: "ENCUESTA 3" },
+  ];
 
   abrirDialogoArrendar() {
     this.dialogoArrendar = true;
@@ -143,6 +127,5 @@ export default class EmbarcacionesDisponibles extends Vue {
   descargarComprobante() {
     this.dialogoComprobante = false;
   }
-
 }
 </script>

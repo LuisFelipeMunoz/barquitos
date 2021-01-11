@@ -131,8 +131,9 @@ type Rutas = Array<Ruta>;
 
 declare module "vue/types/vue" {
   interface Vue {
-    // user
-    getUser: User | null;
-    setUser(data: User | null): void;
+    // usuarios
+    usuarios: Usuarios;
+    allUsuarios(): Promise<Usuarios>;
+    setUsuario(data: Usuario): Promise<void>
   }
 }

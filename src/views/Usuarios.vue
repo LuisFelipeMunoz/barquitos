@@ -32,54 +32,33 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 // tipos
-import { Usuario } from "@/typings/store";
+import { Usuarios } from "@/typings/store";
 // componentes
 import TablaUsuarios from "@/components/usuarios/Tabla.vue";
 import FormularioUsuario from "@/components/usuarios/Formulario.vue";
+import { mapActions } from "vuex";
 
 @Component({
+  methods: mapActions({
+    allUsuarios: "usuarios/all",
+    setUsuario: "usuarios/set",
+  }),
   components: {
     TablaUsuarios,
     FormularioUsuario,
   },
 })
-export default class Usuarios extends Vue {
+export default class VistaUsuarios extends Vue {
+  async created() {
+    this.usuarios = await this.allUsuarios();
+  }
+
   dialogoFormulario = false;
 
-  items: Array<Usuario> = [
-    {
-      id: 0,
-      nombre: "usuario 0",
-      password: "000000",
-      tipo: "administrador",
-    },
-    {
-      id: 1,
-      nombre: "usuario 1",
-      password: "000000",
-      tipo: "cliente",
-      cliente: {
-        rut: 11111111,
-        nombre: "cliente 0",
-        direccion: "",
-        telefono: 953035459,
-        idUsuario: 1,
-      },
-    },
-    {
-      id: 2,
-      nombre: "usuario 2",
-      password: "000000",
-      tipo: "asistente",
-      asistente: {
-        id: 2,
-        rut: 22222222,
-        nombre: "asistente 2",
-        direccion: "",
-        telefono: 953035459,
-        idUsuario: 2,
-      },
-    },
-  ];
+  usuarios: Usuarios = {};
+
+  get items() {
+    return Object.values(this.usuarios);
+  }
 }
 </script>

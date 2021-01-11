@@ -3,16 +3,16 @@
     <v-row>
       <v-col cols="12">
         <ListaEmbarcaciones
-          :items="barcos"
+          :items="items"
           @click-item="abrirDialogoArrendar"
         ></ListaEmbarcaciones>
       </v-col>
     </v-row>
     <!-- Dialogos -->
     <v-dialog v-model="dialogoArrendar" max-width="600">
-      <FormularioArriendo
+      <FormularioArrendar
         @click-confirmar="guardarArriendo"
-      ></FormularioArriendo>
+      ></FormularioArrendar>
     </v-dialog>
     <v-dialog v-model="dialogoComprobante" max-width="600" persistent>
       <DescargarComprobanteArriendo
@@ -24,7 +24,7 @@
     <!-- MENU -->
     <!------------------------------------------------------->
 
-    <v-menu offset-y>
+    <!-- <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           block
@@ -83,7 +83,7 @@
           </v-dialog>
         </v-list-item>
       </v-list>
-    </v-menu>
+    </v-menu> -->
   </v-container>
 </template>
 
@@ -92,35 +92,44 @@
 import { Component, Vue } from "vue-property-decorator";
 // componentes
 import ListaEmbarcaciones from "@/components/embarcaciones/Lista.vue"; // @ is an alias to /src
-import FormularioArriendo from "@/components/arriendos/Formulario.vue";
+import FormularioArrendar from "@/components/arriendos/FormularioArrendar.vue";
 import DescargarComprobanteArriendo from "@/components/arriendos/DescargarComprobante.vue";
 import { mapActions } from "vuex";
+import { Embarcacion, Embarcaciones } from "@/typings/store";
 
 @Component({
-  methods: mapActions({}),
+  methods: mapActions({
+    arriendosDisponiblesEmbarcaciones: "embarcaciones/arriendosDisponibles",
+  }),
   components: {
     ListaEmbarcaciones,
-    FormularioArriendo,
+    FormularioArrendar,
     DescargarComprobanteArriendo,
   },
 })
 export default class EmbarcacionesDisponibles extends Vue {
+  async created() {
+    this.embarcaciones = await this.arriendosDisponiblesEmbarcaciones();
+  }
   dialogoArrendar = false;
   dialogoComprobante = false;
 
-  barcos = ["barco", "barco", "barco", "barco"];
-  items = [
-    { title: "ENCUESTA 1" },
-    { title: "ENCUESTA 2" },
-    { title: "ENCUESTA 3" },
-  ];
+  embarcaciones: Embarcaciones = {};
 
-  abrirDialogoArrendar() {
+  embarcacion: Embarcacion | null | undefined = null;
+
+  get items() {
+    return Object.values(this.embarcaciones);
+  }
+
+  abrirDialogoArrendar(data: Embarcacion) {
+    this.embarcacion = data;
     this.dialogoArrendar = true;
   }
 
   guardarArriendo() {
     this.dialogoArrendar = false;
+
     this.dialogoComprobante = true;
   }
 

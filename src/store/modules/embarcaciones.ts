@@ -57,7 +57,10 @@ const actions: ActionTree<EmbarcacionesState, State> = {
     // falta la funcion en la api
     return id;
   },
-  iniciarSesion(ctx, data: { nombre: string; password: string }) {},
+  async arriendosDisponibles(ctx) {
+    const respuesta = await fetch("/api/embarcaciones/arriendos_disponibles");
+    return respuesta;
+  },
 };
 
 const embarcaciones = {

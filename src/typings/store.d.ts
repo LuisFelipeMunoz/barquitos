@@ -138,5 +138,7 @@ declare module "vue/types/vue" {
     usuarios: Usuarios;
     allUsuarios(): Promise<Usuarios>;
     setUsuario(data: Usuario): Promise<void>
+    // embarcaciones
+    arriendosDisponiblesEmbarcaciones(): Promise<Embarcaciones>
   }
 }

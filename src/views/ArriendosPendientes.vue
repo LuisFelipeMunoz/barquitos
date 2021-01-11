@@ -54,6 +54,7 @@
 import { Component, Vue } from "vue-property-decorator";
 // componentes
 import ListaEmbarcaciones from "@/components/embarcaciones/Lista.vue"; // @ is an alias to /src
+import { Arriendos } from "@/typings/store";
 
 @Component({
   components: {
@@ -63,17 +64,7 @@ import ListaEmbarcaciones from "@/components/embarcaciones/Lista.vue"; // @ is a
 export default class ArriendosPendientes extends Vue {
   dialogoInfo = false;
 
-  arriendos = [
-    "arriendo",
-    "arriendo",
-    "arriendo",
-    "arriendo",
-    "arriendo",
-    "arriendo",
-    "arriendo",
-    "arriendo",
-    "arriendo",
-  ];
+  arriendos: Arriendos = {};
 
   abrirDialogoInfo() {
     this.dialogoInfo = true;

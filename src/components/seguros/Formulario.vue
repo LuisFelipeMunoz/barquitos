@@ -41,7 +41,7 @@
 
 <script lang="ts">
 // decoradores
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 // tipos
 import { Embarcacion } from "@/typings/store";
 //vuelidate
@@ -53,9 +53,7 @@ import { required } from "vuelidate/lib/validators";
     embarcacion: { required },
   },
 })
-export default class FormularioUsuario extends Vue {
-  @Prop() readonly embarcaciones!: Array<Embarcacion>;
-
+export default class FormularioSeguro extends Vue {
   valor = "";
   embarcacion: Embarcacion | null | undefined = null;
 

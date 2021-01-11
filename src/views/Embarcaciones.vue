@@ -34,7 +34,7 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 // tipos
-import { Embarcacion, Embarcaciones, Usuario } from "@/typings/store";
+import { Embarcaciones } from "@/typings/store";
 // componentes
 import TablaEmbarcaciones from "@/components/embarcaciones/Tabla.vue";
 import FormularioEmbarcacion from "@/components/embarcaciones/Formulario.vue";
@@ -52,7 +52,7 @@ import { mapActions } from "vuex";
 })
 export default class VistaEmbarcaciones extends Vue {
   async created() {
-  this.embarcaciones = await this.allEmbarcaciones();
+    this.embarcaciones = await this.allEmbarcaciones();
   }
 
   dialogoFormulario = false;
@@ -64,5 +64,3 @@ export default class VistaEmbarcaciones extends Vue {
   }
 }
 </script>
-
-

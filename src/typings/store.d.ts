@@ -135,28 +135,23 @@ type Rutas = Array<Ruta>;
 declare module "vue/types/vue" {
   interface Vue {
     // arriendos
-    arriendos: Arriendos;
     allArriendos(): Promise<Arriendos>;
     setArriendos(data: Arriendo): Promise<void>;
 
     //arriendos disponibles
-    arriendosDisponibles: ArriendosDisponibles;
     allArriendosDisponibles(): Promise<Arriendos>;
     setArriendosDisponibles(data: ArriendoDisponible): Promise<void>;
 
     //embarcaciones
-    embarcaciones: Embarcaciones;
     allEmbarcaciones(): Promise<Embarcaciones>;
     setEmbarcaciones(data: Embarcacion): Promise<void>;
     arriendosDisponiblesEmbarcaciones(): Promise<Embarcaciones>
 
     // usuarios
-    usuarios: Usuarios;
     allUsuarios(): Promise<Usuarios>;
     setUsuario(data: Usuario): Promise<void>
 
     //encuestas
-    encuestas: Encuestas;
     allEncuestas(): Promise<Encuestas>;
     setEncuestas(data: Encuesta): Promise<void>;
     deleteEncuestas(id: string): Promise<void>;
@@ -166,7 +161,6 @@ declare module "vue/types/vue" {
     setSeguros(data: Seguro): Promise<void>;
 
     // pagos
-    pagos: Pagos;
     allPagos(): Promise<Pagos>;
     setPagos(data: Pago): Promise<void>;
   }

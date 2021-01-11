@@ -1,5 +1,6 @@
 // CRUD SEGUROS
-async function listaSeguros(connection: db.Connection) {
+export const listaSeguros =  async(connection: db.Connection
+  ,data: { rut: number; password: string }) {
   return await connection.execute("select * from seguro", [], {
     // maxRows: 1,
     //, outFormat: db.OUT_FORMAT_OBJECT  // query result format

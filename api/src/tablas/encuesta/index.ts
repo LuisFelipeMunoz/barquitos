@@ -1,6 +1,4 @@
-async function crearEncuesta(
-  connection: db.Connection,
-  data: CrearEncuestaData
+async function crearEncuesta(connection: db.Connection, data: CrearEncuestaData
 ) {
   return await connection.execute(
     "begin crear_encuesta(:idCliente, :idArriendo, :valoracion, :comentario); end;",

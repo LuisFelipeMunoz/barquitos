@@ -150,5 +150,18 @@ declare module "vue/types/vue" {
     usuarios: Usuarios;
     allUsuarios(): Promise<Usuarios>;
     setUsuario(data: Usuario): Promise<void>;
+
+    //encuestas
+    allEncuestas(): Promise<Encuestas>;
+    setEncuestas(data: Encuesta): Promise<void>;
+    deleteEncuestas(id: string): Promise<void>;
+
+    //seguros
+    allSeguros(): Promise<Seguros>;
+    setSeguros(data: Seguro): Promise<void>;
+
+    // pagos
+    allPagos(): Promise<Pagos>;
+    setPagos(data: Pago): Promise<void>;
   }
 }

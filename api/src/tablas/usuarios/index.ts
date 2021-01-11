@@ -1,5 +1,5 @@
 import * as db from "../../db";
-import { CrearUsuarioData } from "../../typings/api";
+import { CrearUsuarioData, IniciarSesion } from "../../typings/api";
 
 export const lista = async (connection: db.Connection) => {
   return await connection.execute(
@@ -34,7 +34,7 @@ export const crear = async (
 
 export const iniciarSesion = async (
   connection: db.Connection,
-  data: { rut: number; password: string }
+  data: IniciarSesion
 ) => {
   return await connection.execute(
     "begin iniciar_sesion(:rut, :password, :resultado, :mensaje); end;",

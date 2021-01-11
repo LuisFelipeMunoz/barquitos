@@ -1,5 +1,5 @@
 import * as db from "../../db";
-import { IngresarEmbarcacionData } from "../../typings/api";
+import { IngresarEmbarcacionData, QuitaEmbarcacion } from "../../typings/api";
 
 export const crear = async (
   connection: db.Connection,
@@ -18,7 +18,7 @@ export const crear = async (
 
 export const quitar = async (
   connection: db.Connection,
-  data: { idEmbarcacion: number }
+  data: QuitaEmbarcacion
 ) => {
   return await connection.execute(
     "begin quitar_embarcacion(:idEmbarcacion, :mensaje); END;",

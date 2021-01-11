@@ -46,3 +46,17 @@ export interface CrearArriendoData {
   NEW_ID_EMBARCACION: number;
   NEW_ID_ARRIENDO_DISPONIBLES: number;
 }
+
+export interface ListaSeguros {
+  rut: number;
+  password: number;
+}
+
+export interface IniciarSesion {
+  rut: number;
+  password: number;
+}
+
+export interface QuitaEmbarcacion {
+  idEmbarcacion: number;
+}

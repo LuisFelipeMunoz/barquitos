@@ -1,7 +1,6 @@
-async function crearEncuesta(connection: db.Connection, data: CrearEncuestaData
-) {
 import * as db from "../../db";
 import { CrearEncuestaData } from "../../typings/api";
+
 
 export const crearEncuesta = async (
   connection: db.Connection,

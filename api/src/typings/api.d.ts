@@ -13,9 +13,9 @@ export interface CrearUsuarioData {
     tipo: "administrador" | "cliente" | "asistente";
   };
   persona: {
-    rut: string;
+    rut: number;
     nombre: string;
-    telefono: string;
+    telefono: number;
     direccion: string;
   };
 }

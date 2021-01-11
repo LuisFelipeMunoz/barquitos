@@ -1,15 +1,23 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex, { StoreOptions } from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+import modules from "./modules";
+
+export interface State {
+  value: string;
+}
+
+const state: State = {
+  value: "La Carito Sabe XD",
+};
+
+const storeData: StoreOptions<State> = {
+  state,
+  modules,
+};
+
+const store = new Vuex.Store(storeData);
+
+export default store;

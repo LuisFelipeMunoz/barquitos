@@ -54,9 +54,9 @@ const usuarios = (app: Express) => {
     res.send(resultado);
   });
   // crear usuario
-  app.post("/api/usuarios/", async function(req, res) {
+  app.post("/api/usuarios", async function(req, res) {
     let resultado = undefined;
-    const data = req.body as CrearUsuarioData;
+    const data = JSON.parse(req.body) as CrearUsuarioData;
     try {
       connection = await db.getConnection();
 

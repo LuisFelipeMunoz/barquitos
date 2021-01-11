@@ -1,5 +1,5 @@
 import * as db from "../../db";
-import { IngresarEmbarcacionData } from "../../typings/api";
+import { IngresarEmbarcacionData, QuitaEmbarcacion } from "../../typings/api";
 
 export const crear = async (
   connection: db.Connection,
@@ -18,7 +18,7 @@ export const crear = async (
 
 export const quitar = async (
   connection: db.Connection,
-  data: { idEmbarcacion: number }
+  data: QuitaEmbarcacion
 ) => {
   return await connection.execute(
     "begin quitar_embarcacion(:idEmbarcacion, :mensaje); END;",
@@ -29,7 +29,7 @@ export const quitar = async (
   );
 };
 
-async function listaEmbarcaciones(connection: db.Connection) {
+export const lista = async (connection: db.Connection) => {
   return await connection.execute("select * from embarcacion", [], {
     // maxRows: 1,
     //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
@@ -37,7 +37,7 @@ async function listaEmbarcaciones(connection: db.Connection) {
 }
 
 // Una funcion que enliste todos los barcos que tiene arriendos disponibles
-async function listaBarcosArriendoDisponibles(connection: db.Connection) {
+export const listaBarcos = async (connection: db.Connection) => {
   return await connection.execute(
     "select * from embarcacion inner join arriendos_disponibles.id_embarcacion on embarcacion.id_embarcacion = arriendos_disponibles.id_embarcacion",
     [],

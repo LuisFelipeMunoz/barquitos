@@ -1,7 +1,11 @@
-async function crearEncuesta(
+import * as db from "../../db";
+import { CrearEncuestaData } from "../../typings/api";
+
+
+export const crearEncuesta = async (
   connection: db.Connection,
   data: CrearEncuestaData
-) {
+) => {
   return await connection.execute(
     "begin crear_encuesta(:idCliente, :idArriendo, :valoracion, :comentario); end;",
     {
@@ -14,7 +18,7 @@ async function crearEncuesta(
 }
 
 // CRUD ENCUESTA
-async function listaEncuestas(connection: db.Connection) {
+export const lista = async (connection: db.Connection) => {
   return await connection.execute("select * from encuesta", [], {
     // maxRows: 1,
     //, outFormat: db.OUT_FORMAT_OBJECT  // query result format

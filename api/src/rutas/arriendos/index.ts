@@ -2,9 +2,20 @@ import { Express } from "express";
 // conexion oracle
 import * as db from "../../db";
 // metodos tabla arriendo
-import { buscar, crear } from "../../tablas/arriendos";
+import {
+  buscar,
+  crear,
+  finalizar,
+  listaPendientesAsistente,
+} from "../../tablas/arriendos";
 // tipos
-import { BuscarArriendoData, CrearArriendoData } from "../../typings/api";
+import {
+  BuscarArriendoData,
+  CrearArriendoData,
+  FinArriendoData,
+  ListaPendientesAsistenteData,
+  Resultado,
+} from "../../typings/api";
 
 let connection: db.Connection | undefined = undefined;
 
@@ -59,13 +70,15 @@ const arriendos = (app: Express) => {
     res.send(resultado);
   });
 
-  app.post("/api/arriendosActivos", async function(req, res) {
+  app.get("/api/arriendos/pendientes/asistente/:id", async function(req, res) {
     let resultado = undefined;
-    const data = req.body as { ASISTENTE_ID: number; ARRIENDOS_: string };
+    const data: ListaPendientesAsistenteData = {
+      idAsistente: parseInt(req.params.id),
+    };
     try {
       connection = await db.getConnection();
 
-      const rawBD = await arriendosActivos(connection, data);
+      const rawBD = await listaPendientesAsistente(connection, data);
 
       resultado = rawBD;
     } catch (err) {
@@ -84,13 +97,13 @@ const arriendos = (app: Express) => {
     res.send(resultado);
   });
 
-  app.post("/api/finArriendos", async function(req, res) {
+  app.post("/api/arriendos/finalizar", async function(req, res) {
     let resultado = undefined;
-    const data = req.body as { ID_ARRIENDO_ES: number; ESTADO_ES: number };
+    const data = req.body as FinArriendoData;
     try {
       connection = await db.getConnection();
 
-      const rawBD = await finArriendo(connection, data);
+      const rawBD = await finalizar(connection, data);
 
       resultado = rawBD;
     } catch (err) {
@@ -228,3 +241,5 @@ const arriendos = (app: Express) => {
     res.send(resultado);
   });
 };
+
+export default arriendos;

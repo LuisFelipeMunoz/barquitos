@@ -1,12 +1,13 @@
 import * as db from "../../db";
 import {
   FinArriendoData,
-  NuevoArriendoData,
   BuscarArriendoData,
+  CrearArriendoData,
+  ListaPendientesAsistenteData,
 } from "../../typings/api";
 
 // Todos los arriendo finalizados que tienen la encuesta pendiente por usuario
-export const listaEncuestasPendientes = async (
+export const listaEncuestasPendientesCliente = async (
   connection: db.Connection,
   idCliente: number
 ) => {
@@ -43,13 +44,13 @@ export const lista = async (connection: db.Connection) => {
 };
 
 //una funcion que retorne todos los arriendos activos que estan asociados al asistente: recibe como parametro el id del asistente
-export const listaActivos = async (
+export const listaPendientesAsistente = async (
   connection: db.Connection,
-  idAsistente: number
+  data: ListaPendientesAsistenteData
 ) => {
   return await connection.execute(
     "select * from arriendo where arriendo.id_asistente = :id and arriendo.estado = 0;",
-    [idAsistente],
+    [data.idAsistente],
     {
       // maxRows: 1,
       //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
@@ -81,7 +82,7 @@ export const finalizar = async (
 
 export const crear = async (
   connection: db.Connection,
-  data: NuevoArriendoData
+  data: CrearArriendoData
 ) => {
   return await connection.execute(
     "begin crear_arriendo(:idCliente, :idEmbarcacion, :idArriendoDisponible, :idPago, :mensaje, :resultado ); end;",

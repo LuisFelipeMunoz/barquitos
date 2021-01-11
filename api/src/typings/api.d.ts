@@ -41,17 +41,11 @@ export interface IngresarEmbarcacionData {
   patente: string;
 }
 
-export interface CrearArriendoData {
-  NEW_RUT: number;
-  NEW_ID_EMBARCACION: number;
-  NEW_ID_ARRIENDO_DISPONIBLES: number;
-}
-
 export interface FinArriendoData {
   idArriendo: number;
 }
 
-export interface NuevoArriendoData {
+export interface CrearArriendoData {
   idCliente: number;
   idEmbarcacion: number;
   idArriendoDisponible: number;
@@ -69,4 +63,12 @@ export interface QuitaEmbarcacion {
 
 export interface BuscarArriendoData {
   idArriendo: number;
+}
+
+export interface ListaPendientesAsistenteData {
+  idAsistente: number;
+}
+
+export interface ListaEncuestasPendientesClienteData {
+  idCliente: number;
 }

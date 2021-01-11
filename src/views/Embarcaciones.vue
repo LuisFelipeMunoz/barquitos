@@ -34,20 +34,35 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 // tipos
-import { Usuario } from "@/typings/store";
+import { Embarcacion, Embarcaciones, Usuario } from "@/typings/store";
 // componentes
 import TablaEmbarcaciones from "@/components/embarcaciones/Tabla.vue";
 import FormularioEmbarcacion from "@/components/embarcaciones/Formulario.vue";
+import { mapActions } from "vuex";
 
 @Component({
+  methods: mapActions({
+    allEmbarcaciones: "embarcaciones/all",
+    setEmbarcaciones: "embarcaciones/set",
+  }),
   components: {
     TablaEmbarcaciones,
     FormularioEmbarcacion,
   },
 })
-export default class Embarcaciones extends Vue {
+export default class VistaEmbarcaciones extends Vue {
+  async created() {
+  this.embarcaciones = await this.allEmbarcaciones();
+  }
+
   dialogoFormulario = false;
 
-  items: Array<Usuario> = [];
+  embarcaciones: Embarcaciones = {};
+
+  get items() {
+    return Object.values(this.embarcaciones);
+  }
 }
 </script>
+
+

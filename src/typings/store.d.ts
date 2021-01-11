@@ -158,7 +158,6 @@ declare module "vue/types/vue" {
     deleteEncuestas(id: string): Promise<void>;
 
     //seguros
-    seguros: Seguros;
     allSeguros(): Promise<Seguros>;
     setSeguros(data: Seguro): Promise<void>;
 

@@ -1,14 +1,14 @@
 import * as db from "../../db";
-import { IngresarEmbarcacionData, QuitaEmbarcacion } from "../../typings/api";
+import { CrearEmbarcacionData, QuitarEmbarcacionData } from "../../typings/api";
 
 export const crear = async (
   connection: db.Connection,
-  data: IngresarEmbarcacionData
+  data: CrearEmbarcacionData
 ) => {
   return await connection.execute(
-    "begin ingresar_embarcacion(:id, :tipo, :precio, :patente); END;",
+    "begin crear_embarcacion(:idAsistente, :tipo, :precio, :patente, :mensaje, :resultado); end;",
     {
-      id: data.id,
+      idAsistente: data.idAsistente,
       tipo: data.tipo,
       precio: data.precio,
       patente: data.patente,
@@ -18,7 +18,7 @@ export const crear = async (
 
 export const quitar = async (
   connection: db.Connection,
-  data: QuitaEmbarcacion
+  data: QuitarEmbarcacionData
 ) => {
   return await connection.execute(
     "begin quitar_embarcacion(:idEmbarcacion, :mensaje); END;",
@@ -34,10 +34,10 @@ export const lista = async (connection: db.Connection) => {
     // maxRows: 1,
     //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
   });
-}
+};
 
 // Una funcion que enliste todos los barcos que tiene arriendos disponibles
-export const listaBarcos = async (connection: db.Connection) => {
+export const listaArriendosDisponibles = async (connection: db.Connection) => {
   return await connection.execute(
     "select * from embarcacion inner join arriendos_disponibles.id_embarcacion on embarcacion.id_embarcacion = arriendos_disponibles.id_embarcacion",
     [],
@@ -46,4 +46,4 @@ export const listaBarcos = async (connection: db.Connection) => {
       //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
     }
   );
-}
+};

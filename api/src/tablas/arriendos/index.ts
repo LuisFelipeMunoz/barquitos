@@ -4,19 +4,29 @@ import {
   BuscarArriendoData,
   CrearArriendoData,
   ListaPendientesAsistenteData,
+  ListaEncuestasPendientesClienteData,
 } from "../../typings/api";
 
-// Todos los arriendo finalizados que tienen la encuesta pendiente por usuario
-export const listaEncuestasPendientesCliente = async (
+export const lista = async (connection: db.Connection) => {
+  return await connection.execute("select * from arriendo", [], {
+    // maxRows: 1,
+    //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
+  });
+};
+
+export const crear = async (
   connection: db.Connection,
-  idCliente: number
+  data: CrearArriendoData
 ) => {
   return await connection.execute(
-    "select * from arriendo left outer join encuesta on arriendo.id_arriendo = encuensta.id_arriendo where arriendo.id_cliente = :id and encuesta.id_encuesta = null",
-    [idCliente],
+    "begin crear_arriendo(:idCliente, :idEmbarcacion, :idArriendoDisponible, :idPago, :mensaje, :resultado ); end;",
     {
-      // maxRows: 1,
-      //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
+      idCliente: data.idCliente,
+      idEmbarcacion: data.idEmbarcacion,
+      idArriendoDisponible: data.idArriendoDisponible,
+      idPago: data.idPago,
+      mensaje: { type: db.STRING, dir: db.BIND_OUT },
+      resultado: { type: db.STRING, dir: db.BIND_OUT },
     }
   );
 };
@@ -35,33 +45,6 @@ export const buscar = async (
   );
 };
 
-// CRUD ARRIENDO
-export const lista = async (connection: db.Connection) => {
-  return await connection.execute("select * from arriendo", [], {
-    // maxRows: 1,
-    //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
-  });
-};
-
-//una funcion que retorne todos los arriendos activos que estan asociados al asistente: recibe como parametro el id del asistente
-export const listaPendientesAsistente = async (
-  connection: db.Connection,
-  data: ListaPendientesAsistenteData
-) => {
-  return await connection.execute(
-    "select * from arriendo where arriendo.id_asistente = :id and arriendo.estado = 0;",
-    [data.idAsistente],
-    {
-      // maxRows: 1,
-      //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
-    }
-  );
-};
-
-//---------------------------------------------------
-// FIN ARRIENDO
-//---------------------------------------------------
-
 export const finalizar = async (
   connection: db.Connection,
   data: FinArriendoData
@@ -76,23 +59,32 @@ export const finalizar = async (
   );
 };
 
-//---------------------------------------------------
-// NUEVO ARRIENDO
-//---------------------------------------------------
-
-export const crear = async (
+// Todos los arriendo finalizados que tienen la encuesta pendiente por usuario
+export const listaEncuestasPendientesCliente = async (
   connection: db.Connection,
-  data: CrearArriendoData
+  data: ListaEncuestasPendientesClienteData
 ) => {
   return await connection.execute(
-    "begin crear_arriendo(:idCliente, :idEmbarcacion, :idArriendoDisponible, :idPago, :mensaje, :resultado ); end;",
+    "select * from arriendo left outer join encuesta on arriendo.id_arriendo = encuensta.id_arriendo where arriendo.id_cliente = :id and encuesta.id_encuesta = null",
+    [data.idCliente],
     {
-      idCliente: data.idCliente,
-      idEmbarcacion: data.idEmbarcacion,
-      idArriendoDisponible: data.idArriendoDisponible,
-      idPago: data.idPago,
-      mensaje: { type: db.STRING, dir: db.BIND_OUT },
-      resultado: { type: db.STRING, dir: db.BIND_OUT },
+      // maxRows: 1,
+      //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
+    }
+  );
+};
+
+//una funcion que retorne todos los arriendos activos que estan asociados al asistente: recibe como parametro el id del asistente
+export const listaPendientesAsistente = async (
+  connection: db.Connection,
+  data: ListaPendientesAsistenteData
+) => {
+  return await connection.execute(
+    "select * from arriendo where arriendo.id_asistente = :id and arriendo.estado = 0;",
+    [data.idAsistente],
+    {
+      // maxRows: 1,
+      //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
     }
   );
 };

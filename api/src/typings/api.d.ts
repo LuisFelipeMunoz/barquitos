@@ -34,8 +34,8 @@ export interface CrearPagoData {
   tipo: string;
 }
 
-export interface IngresarEmbarcacionData {
-  id: number;
+export interface CrearEmbarcacionData {
+  idAsistente: number;
   tipo: string;
   precio: number;
   patente: string;
@@ -57,7 +57,7 @@ export interface IniciarSesionData {
   password: number;
 }
 
-export interface QuitaEmbarcacion {
+export interface QuitarEmbarcacionData {
   idEmbarcacion: number;
 }
 
@@ -71,4 +71,8 @@ export interface ListaPendientesAsistenteData {
 
 export interface ListaEncuestasPendientesClienteData {
   idCliente: number;
+}
+
+export interface ListaArriendosDisponiblesEmbarcacionData {
+  idEmbarcacion: number;
 }

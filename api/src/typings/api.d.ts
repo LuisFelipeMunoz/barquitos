@@ -1,9 +1,9 @@
-export interface EntraBD {
+export interface EntradaBD {
   [nombreCampo: string]: any;
 }
 
 export interface Resultado {
-  [id: number]: EntraBD;
+  [id: number]: EntradaBD;
 }
 
 export interface CrearUsuarioData {
@@ -45,4 +45,15 @@ export interface CrearArriendoData {
   NEW_RUT: number;
   NEW_ID_EMBARCACION: number;
   NEW_ID_ARRIENDO_DISPONIBLES: number;
+}
+
+export interface FinArriendoData {
+  idArriendo: number;
+}
+
+export interface NuevoArriendoData {
+  idCliente: number;
+  idEmbarcacion: number;
+  idArriendoDisponible: number;
+  idPago: number;
 }

@@ -1,8 +1,11 @@
+import * as db from "../../db";
+import { FinArriendoData, NuevoArriendoData } from "../../typings/api";
+
 // Todos los arriendo finalizados que tienen la encuesta pendiente por usuario
-async function ListaEncuestasPendientes(
+export const listaEncuestasPendientes = async (
   connection: db.Connection,
   idCliente: number
-) {
+) => {
   return await connection.execute(
     "select * from arriendo left outer join encuesta on arriendo.id_arriendo = encuensta.id_arriendo where arriendo.id_cliente = :id and encuesta.id_encuesta = null",
     [idCliente],
@@ -11,21 +14,21 @@ async function ListaEncuestasPendientes(
       //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
     }
   );
-}
+};
 
 // CRUD ARRIENDO
-async function listaArriendos(connection: db.Connection) {
+export const lista = async (connection: db.Connection) => {
   return await connection.execute("select * from arriendo", [], {
     // maxRows: 1,
     //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
   });
-}
+};
 
 //una funcion que retorne todos los arriendos activos que estan asociados al asistente: recibe como parametro el id del asistente
-async function listaArriendosActivos(
+export const listaActivos = async (
   connection: db.Connection,
   idAsistente: number
-) {
+) => {
   return await connection.execute(
     "select * from arriendo where arriendo.id_asistente = :id and arriendo.estado = 0;",
     [idAsistente],
@@ -34,66 +37,43 @@ async function listaArriendosActivos(
       //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
     }
   );
-}
-
-//---------------------------------------------------
-//ARRIENDOS ACTIVOS
-//---------------------------------------------------
-
-async function arriendosActivos(
-  connection: db.Connection,
-  data: { ASISTENTE_ID: number; ARRIENDOS_: string }
-) {
-  return await connection.execute(
-    "begin ARRIENDOS_ACTIVOS(:ASISTENTE_ID, :ARRIENDOS_); END;",
-    {
-      ASISTENTE_ID: data.ASISTENTE_ID,
-      ARRIENDOS_: { type: db.STRING, dir: db.BIND_OUT },
-    }
-  );
-}
+};
 
 //---------------------------------------------------
 // FIN ARRIENDO
 //---------------------------------------------------
 
-async function finArriendo(
+export const finalizar = async (
   connection: db.Connection,
-  data: { ID_ARRIENDO_ES: number; ESTADO_ES: number }
-) {
+  data: FinArriendoData
+) => {
   return await connection.execute(
-    "begin FIN_ARRIENDO(:ID_ARRIENDO, :ESTADO, :MENSAJE_ES, :ESTADO_ES); END;",
+    "begin fin_arriendo(:idArriendo, :mensaje, :resultado); END;",
     {
-      ID_ARRIENDO: data.ID_ARRIENDO_ES,
-      ESTADO: data.ESTADO_ES,
-      MENSAJE_ES: { type: db.STRING, dir: db.BIND_OUT },
-      ESTADO_ES: { type: db.NUMBER, dir: db.BIND_OUT },
+      idArriendo: data.idArriendo,
+      mensaje: { type: db.STRING, dir: db.BIND_OUT },
+      resultado: { type: db.NUMBER, dir: db.BIND_OUT },
     }
   );
-}
+};
 
 //---------------------------------------------------
 // NUEVO ARRIENDO
 //---------------------------------------------------
 
-async function nuevoArriendo(
+export const crear = async (
   connection: db.Connection,
-  data: {
-    NEW_ID_ARRIENDO: number;
-    NEW_RUT: number;
-    NEW_ID_EMBARCACION: number;
-    NEW_ID_ARRIENDO_DISPONIBLES: number;
-    RESULTADO_OUT: boolean;
-  }
-) {
+  data: NuevoArriendoData
+) => {
   return await connection.execute(
-    "begin NUEVO_ARRIENDO(:NEW_ID_ARRIENDO, :NEW_RUT, : NEW_ID_EMBARCACION, :NEW_ID_ARRIENDO_DISPONIBLES, :RESULTADO_OUT ); END;",
+    "begin crear_arriendo(:idCliente, :idEmbarcacion, :idArriendoDisponible, :idPago, :mensaje, :resultado ); end;",
     {
-      NEW_ID_ARRIENDO: data.NEW_ID_ARRIENDO,
-      NEW_RUT: data.NEW_RUT,
-      NEW_ID_EMBARCACION: data.NEW_ID_EMBARCACION,
-      NEW_ID_ARRIENDO_DISPONIBLES: data.NEW_ID_ARRIENDO_DISPONIBLES,
-      RESULTADO_OUT: { type: db.NUMBER, dir: db.BIND_OUT },
+      idCliente: data.idCliente,
+      idEmbarcacion: data.idEmbarcacion,
+      idArriendoDisponible: data.idArriendoDisponible,
+      idPago: data.idPago,
+      mensaje: { type: db.STRING, dir: db.BIND_OUT },
+      resultado: { type: db.STRING, dir: db.BIND_OUT },
     }
   );
-}
+};

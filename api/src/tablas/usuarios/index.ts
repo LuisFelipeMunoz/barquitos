@@ -37,9 +37,9 @@ export const iniciarSesion = async (
   data: IniciarSesionData
 ) => {
   return await connection.execute(
-    "begin iniciar_sesion(:rut, :password, :resultado, :mensaje); end;",
+    "begin iniciar_sesion(:nombre, :password, :resultado, :mensaje); end;",
     {
-      rut: data.rut,
+      nombre: data.nombre,
       password: data.password,
       resultado: { type: db.STRING, dir: db.BIND_OUT },
       mensaje: { type: db.STRING, dir: db.BIND_OUT },

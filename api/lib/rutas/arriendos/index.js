@@ -148,7 +148,7 @@ const arriendos = (app) => {
     });
     app.post("/api/arriendos/", async function (req, res) {
         let resultado = undefined;
-        const data = req.body;
+        const data = JSON.parse(req.body);
         try {
             connection = await db.getConnection();
             const rawBD = await arriendos_1.crear(connection, data);

@@ -27,7 +27,6 @@ const actions: ActionTree<UsuariosState, State> = {
     }
     // falta la funcion en la api
     return id;
-    return id;
   },
   async set(ctx, data: Usuario) {
     const usuario = {

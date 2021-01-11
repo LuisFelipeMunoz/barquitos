@@ -11,7 +11,7 @@ let connection: db.Connection | undefined = undefined;
 const pagos = (app: Express) => {
   app.post("/api/pagos/", async function(req, res) {
     let resultado = undefined;
-    const data = req.body as CrearPagoData;
+    const data = JSON.parse(req.body) as CrearPagoData;
     try {
       connection = await db.getConnection();
 

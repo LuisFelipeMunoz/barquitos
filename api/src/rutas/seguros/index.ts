@@ -8,6 +8,8 @@ import { Resultado, EntradaBD } from "../../typings/api";
 
 let connection: db.Connection | undefined = undefined;
 
+//FALTA EL INSERTAR EL SEGURO
+///////////////////////////
 const seguros = (app: Express) => {
   app.get("/api/seguros", async function(req, res) {
     let resultado: Resultado = {};

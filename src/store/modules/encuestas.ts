@@ -1,11 +1,11 @@
 import { ActionTree, GetterTree, MutationTree } from "vuex";
 
 //tipos
-import { Encuesta } from "@/typings/store";
+import { Encuesta, Encuestas } from "@/typings/store";
 import { State } from "@/store";
 
 interface EncuestasState {
-  all: Encuesta;
+  all: Encuestas;
 }
 
 const state: EncuestasState = {
@@ -18,17 +18,17 @@ const mutations: MutationTree<EncuestasState> = {};
 
 const actions: ActionTree<EncuestasState, State> = {
   async set(ctx, data: Encuesta) {
-    const encuestas = {
-        id: data.id,
+    const encuesta = {
+      encuesta: {
+        idCliente: data.cliente.rut,
+        idArriendo: data.arriendo.id,
         valoracion: data.valoracion,
         comentario: data.comentario,
-        cliente: data.cliente,
-        arriendo:  data.arriendo,
       },
     };
-    const respuesta = await fetch("/api/encuesta", {
+    const respuesta = await fetch("/api/encuestas", {
       method: "post",
-      body: JSON.stringify(usuario),
+      body: JSON.stringify(encuesta),
     });
     return respuesta;
   },
@@ -41,7 +41,7 @@ const actions: ActionTree<EncuestasState, State> = {
   },
 };
 
-const usuarios = {
+const encuestas = {
   namespaced: true,
   state,
   getters,
@@ -49,4 +49,4 @@ const usuarios = {
   actions,
 };
 
-export default usuarios;
+export default encuestas;

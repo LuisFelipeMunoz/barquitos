@@ -41,10 +41,18 @@ interface Embarcacion {
   asistente: Asistente;
 }
 
+interface Embarcaciones {
+  [id: string]: Embarcacion;
+}
+
 interface Seguro {
   id: number;
   valor: number;
   embarcacion: Embarcacion;
+}
+
+interface Seguros {
+  [id: string]: Seguro;
 }
 
 interface Arriendo {
@@ -75,6 +83,10 @@ interface Encuesta {
   arriendo: Arriendo;
 }
 
+interface Encuestas {
+  [id: string]: Encuesta;
+}
+
 interface ArriendoDisponible {
   id: number;
   retiro: {
@@ -90,11 +102,19 @@ interface ArriendoDisponible {
   embarcacion: Embarcacion;
 }
 
+interface ArriendosDisponibles {
+  [id: string]: ArriendoDisponible;
+}
+
 interface Pago {
   id: number;
   valor: number;
   tipo: string;
   arriendo: Arriendo;
+}
+
+interface Pagos {
+  [id: string]: Pago;
 }
 
 interface Ruta {

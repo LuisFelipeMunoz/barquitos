@@ -9,9 +9,9 @@ import { CrearEncuestaData, Resultado, EntradaBD } from "../../typings/api";
 let connection: db.Connection | undefined = undefined;
 
 const encuestas = (app: Express) => {
-  app.post("/api/crear", async function(req, res) {
+  app.post("/api/encuentas", async function(req, res) {
     let resultado = undefined;
-    const data = req.body as CrearEncuestaData;
+    const data = JSON.parse(req.body) as CrearEncuestaData;
     try {
       connection = await db.getConnection();
 

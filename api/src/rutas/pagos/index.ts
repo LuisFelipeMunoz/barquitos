@@ -1,60 +1,75 @@
-app.post("/api/hace_unpago", async function(req, res) {
-  let resultado = undefined;
-  const data = req.body as CrearPagoData;
-  try {
-    connection = await db.getConnection();
+import { Express } from "express";
+// conexion oracle
+import * as db from "../../db";
+// metodos tabla usuario
+import { crear, lista } from "../../tablas/pagos";
+// tipos
+import { CrearPagoData, Resultado, EntradaBD } from "../../typings/api";
 
-    const rawBD = await pagos.crear(connection, data);
+let connection: db.Connection | undefined = undefined;
 
-    resultado = rawBD;
-  } catch (err) {
-    console.error(err);
-    resultado = err;
-  } finally {
-    if (connection) {
-      try {
-        await connection.close();
-      } catch (err) {
-        console.error(err);
-        resultado = err;
+const pagos = (app: Express) => {
+  app.post("/api/pagos/", async function(req, res) {
+    let resultado = undefined;
+    const data = req.body as CrearPagoData;
+    try {
+      connection = await db.getConnection();
+
+      const rawBD = await crear(connection, data);
+
+      resultado = rawBD;
+    } catch (err) {
+      console.error(err);
+      resultado = err;
+    } finally {
+      if (connection) {
+        try {
+          await connection.close();
+        } catch (err) {
+          console.error(err);
+          resultado = err;
+        }
       }
     }
-  }
-  res.send(resultado);
-});
+    res.send(resultado);
+  });
 
-app.get("/api/pagos", async function(req, res) {
-  let resultado: Resultado = {};
-  try {
-    connection = await db.getConnection();
+  app.get("/api/pagos/", async function(req, res) {
+    let resultado: Resultado = {};
+    try {
+      connection = await db.getConnection();
 
-    const rawBD = await listaPagos(connection);
-    rawBD.rows?.forEach((item) => {
-      const datos = item as Array<any>;
+      const rawBD = await lista(connection);
 
-      const pago: EntraBD = {};
+      rawBD.rows?.forEach((item) => {
+        const datos = item as Array<any>;
 
-      datos.forEach((val, index) => {
-        const nombreCampo = rawBD.metaData
-          ? rawBD.metaData[index].name
-          : "COL" + index.toString();
-        pago[nombreCampo] = val;
+        const pago: EntradaBD = {};
+
+        datos.forEach((val, index) => {
+          const nombreCampo = rawBD.metaData
+            ? rawBD.metaData[index].name
+            : "COL" + index.toString();
+          pago[nombreCampo] = val;
+        });
+
+        resultado[pago.ID_PAGO] = pago;
       });
-
-      resultado[pago.ID_PAGO] = pago;
-    });
-  } catch (err) {
-    console.error(err);
-    resultado[0] = { error: err };
-  } finally {
-    if (connection) {
-      try {
-        await connection.close();
-      } catch (err) {
-        console.error(err);
-        resultado[0] = { error: err };
+    } catch (err) {
+      console.error(err);
+      resultado[0] = { error: err };
+    } finally {
+      if (connection) {
+        try {
+          await connection.close();
+        } catch (err) {
+          console.error(err);
+          resultado[0] = { error: err };
+        }
       }
     }
-  }
-  res.send(resultado);
-});
+    res.send(resultado);
+  });
+};
+
+export default pagos;

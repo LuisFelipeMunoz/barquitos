@@ -17,7 +17,7 @@ export const crear = async (
 };
 
 // CRUD PAGO
-export const listaPagos =  async (connection: db.Connection, data: CrearPagoData) => {
+export const lista =  async (connection: db.Connection) => {
   return await connection.execute("select * from pago", [], {
     // maxRows: 1,
     //, outFormat: db.OUT_FORMAT_OBJECT  // query result format

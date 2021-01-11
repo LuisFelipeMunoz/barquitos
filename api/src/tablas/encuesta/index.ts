@@ -1,8 +1,7 @@
 import * as db from "../../db";
 import { CrearEncuestaData } from "../../typings/api";
 
-
-export const crearEncuesta = async (
+export const crear = async (
   connection: db.Connection,
   data: CrearEncuestaData
 ) => {
@@ -15,7 +14,7 @@ export const crearEncuesta = async (
       comenrario: data.comentario,
     }
   );
-}
+};
 
 // CRUD ENCUESTA
 export const lista = async (connection: db.Connection) => {
@@ -23,4 +22,4 @@ export const lista = async (connection: db.Connection) => {
     // maxRows: 1,
     //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
   });
-}
+};

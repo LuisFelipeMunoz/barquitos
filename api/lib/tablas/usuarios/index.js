@@ -22,8 +22,8 @@ exports.crear = async (connection, data) => {
     });
 };
 exports.iniciarSesion = async (connection, data) => {
-    return await connection.execute("begin iniciar_sesion(:rut, :password, :resultado, :mensaje); end;", {
-        rut: data.rut,
+    return await connection.execute("begin iniciar_sesion(:nombre, :password, :resultado, :mensaje); end;", {
+        nombre: data.nombre,
         password: data.password,
         resultado: { type: db.STRING, dir: db.BIND_OUT },
         mensaje: { type: db.STRING, dir: db.BIND_OUT },

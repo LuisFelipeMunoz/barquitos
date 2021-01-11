@@ -32,20 +32,32 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 // tipos
-import { Encuesta } from "@/typings/store";
+import { Encuestas } from "@/typings/store";
 // componentes
 import TablaEncuestas from "@/components/usuarios/Tabla.vue";
 import FormularioEncuesta from "@/components/usuarios/Formulario.vue";
-
+import { mapActions } from "vuex";
 @Component({
+  methods: mapActions({
+    allEncuestas: "encuestas/all",
+    setEncuestas: "encuestas/set",
+    deleteEncuestas: "encuestas/delete",
+  }),
   components: {
     TablaEncuestas,
     FormularioEncuesta,
   },
 })
 export default class VistaEncuestas extends Vue {
+  async created() {
+    this.encuestas = await this.allEncuestas();
+  }
   dialogoFormulario = false;
 
-  items: Array<Encuesta> = [];
+  encuestas: Encuestas = {};
+
+  get items() {
+    return Object.values(this.encuestas);
+  }
 }
 </script>

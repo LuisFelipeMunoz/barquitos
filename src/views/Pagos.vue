@@ -32,20 +32,32 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 // tipos
-import { Pago } from "@/typings/store";
+import { Pagos } from "@/typings/store";
 // componentes
 import TablaPagos from "@/components/pagos/Tabla.vue";
 import FormularioPago from "@/components/pagos/Formulario.vue";
+import { mapActions } from "vuex";
 
 @Component({
+  methods: mapActions({
+    allPagos: "pagos/all",
+    setPagos: "pagos/set",
+  }),
   components: {
     TablaPagos,
     FormularioPago,
   },
 })
-export default class Pagos extends Vue {
-  dialogoFormulario = false;
+export default class VistaPagos extends Vue {
+  async created() {
+    this.pagos = await this.allPagos();
+  }
 
-  items: Array<Pago> = [];
+  dialogoFormulario = false;
+  pagos: Pagos = {};
+
+  get items() {
+      return Object.values(this.pagos);
+  }
 }
 </script>

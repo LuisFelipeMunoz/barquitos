@@ -32,20 +32,32 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 // tipos
-import { Seguro } from "@/typings/store";
+import { Seguros } from "@/typings/store";
 // componentes
 import TablaSeguros from "@/components/seguros/Tabla.vue";
 import FormularioSeguros from "@/components/seguros/Formulario.vue";
+import { mapActions } from "vuex";
 
 @Component({
+  methods: mapActions({
+    allSeguros: "seguros/all",
+    setSeguros: "seguros/set",
+  }),
   components: {
     TablaSeguros,
     FormularioSeguros,
   },
 })
 export default class VistaSeguros extends Vue {
+  async created() {
+    this.seguros = await this.allSeguros();
+  }
   dialogoFormulario = false;
 
-  items: Array<Seguro> = [];
+  seguros: Seguros = {};
+
+  get items() {
+    return Object.values(this.seguros);
+  }
 }
 </script>

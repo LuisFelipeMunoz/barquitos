@@ -32,20 +32,35 @@
 // decoradores
 import { Component, Vue } from "vue-property-decorator";
 // tipos
-import { Arriendo } from "@/typings/store";
+import { Arriendos } from "@/typings/store";
 // componentes
 import TablaArriendos from "@/components/arriendos/Tabla.vue";
 import FormularioArriendo from "@/components/arriendos/Formulario.vue";
+import { mapActions } from "vuex";
 
 @Component({
+  methods: mapActions({
+    allArriendos: "arriendos/all", 
+    setArriendos: "arriendos/set",
+  }),
   components: {
     TablaArriendos,
     FormularioArriendo,
   },
 })
 export default class VistaArriendos extends Vue {
+  async created() {
+    this.arriendos = await this.allArriendos();
+  }
   dialogoFormulario = false;
 
-  items: Array<Arriendo> = [];
+  arriendos: Arriendos = {};
+
+  get items() {
+    return Object.values(this.arriendos);
+  }
 }
 </script>
+
+
+

@@ -134,9 +134,21 @@ type Rutas = Array<Ruta>;
 
 declare module "vue/types/vue" {
   interface Vue {
+    // arriendos
+    arriendos: Arriendos;
+    allArriendos(): Promise<Arriendos>;
+    setArriendos(data: Arriendo): Promise<void>;
+    //arriendos disponibles
+    arriendosDisponibles: ArriendosDisponibles;
+    allArriendosDisponibles(): Promise<Arriendos>;
+    setArriendosDisponibles(data: ArriendosDisponibles): Promise<void>;
+    //embarcaciones
+    embarcaciones: Embarcaciones;
+    allEmbarcaciones(): Promise<Embarcaciones>;
+    setEmbarcaciones(data: Embarcaciones): Promise<void>;
     // usuarios
     usuarios: Usuarios;
     allUsuarios(): Promise<Usuarios>;
-    setUsuario(data: Usuario): Promise<void>
+    setUsuario(data: Usuario): Promise<void>;
   }
 }

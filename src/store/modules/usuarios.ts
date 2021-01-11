@@ -17,7 +17,7 @@ const getters: GetterTree<UsuariosState, State> = {};
 const mutations: MutationTree<UsuariosState> = {};
 
 const actions: ActionTree<UsuariosState, State> = {
-  async all(ctx) {
+  async all() {
     const respuesta = await fetch("/api/usuarios");
     return respuesta;
   },
@@ -82,7 +82,6 @@ const actions: ActionTree<UsuariosState, State> = {
     // falta la funcion en la api
     return id;
   },
-  iniciarSesion(ctx, data: { nombre: string; password: string }) {},
 };
 
 const usuarios = {

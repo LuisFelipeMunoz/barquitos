@@ -17,7 +17,7 @@ const getters: GetterTree<EmbarcacionesState, State> = {};
 const mutations: MutationTree<EmbarcacionesState> = {};
 
 const actions: ActionTree<EmbarcacionesState, State> = {
-  async all(ctx) {
+  async all() {
     const respuesta = await fetch("/api/embarcaciones");
     return respuesta;
   },
@@ -29,17 +29,15 @@ const actions: ActionTree<EmbarcacionesState, State> = {
     return id;
   },
   async set(ctx, data: Embarcacion) {
-    const Embarcacion = {
-      embarcacion: {
-        idAsistente: data.asistente.id,
-        tipo: data.tipo,
-        precio: data.precio,
-        patente: data.patente,
-      },
-    };
+    const embarcacion = {
+      idAsistente: data.asistente.id,
+      tipo: data.tipo,
+      precio: data.precio,
+      patente: data.patente,
+    }
     const respuesta = await fetch("/api/embarcaciones", {
       method: "post",
-      body: JSON.stringify(Embarcacion),
+      body: JSON.stringify(embarcacion),
     });
     return respuesta;
   },
@@ -57,7 +55,7 @@ const actions: ActionTree<EmbarcacionesState, State> = {
     // falta la funcion en la api
     return id;
   },
-  async arriendosDisponibles(ctx) {
+  async arriendosDisponibles() {
     const respuesta = await fetch("/api/embarcaciones/arriendos_disponibles");
     return respuesta;
   },

@@ -1,6 +1,6 @@
 import { ActionTree, GetterTree, MutationTree } from "vuex";
 
-import { Arriendo,Arriendos } from "@/typings/store";
+import { Arriendos } from "@/typings/store";
 
 import { State } from "@/store";
 interface ArriendosState {
@@ -16,30 +16,36 @@ const getters: GetterTree<ArriendosState, State> = {};
 const mutations: MutationTree<ArriendosState> = {};
 
 const actions: ActionTree<ArriendosState, State> = {
-  async all(ctx) {
+  async all() {
     const respuesta = await fetch("/api/arriendos");
     return respuesta;
   },
   async get(ctx, id: number) {
-    const respuesta = await fetch("/api/arriendos/"+id);
+    const respuesta = await fetch("/api/arriendos/" + id);
     return respuesta;
-    
+
   },
   async set(ctx, data: {
-        idCliente: number;
-        idEmbarcacion: number;
-        idArriendoDisponible: number;
-        idPago: number;}) {
-
+    idCliente: number;
+    idEmbarcacion: number;
+    idArriendoDisponible: number;
+    idPago: number;
+  }) {
     const arriendo = {
-        idCliente: data.idCliente,
-        idEmbarcacion: data.idEmbarcacion,
-        idArriendoDisponible: data.idArriendoDisponible,
-        idPago: data.idPago,
+      idCliente: data.idCliente,
+      idEmbarcacion: data.idEmbarcacion,
+      idArriendoDisponible: data.idArriendoDisponible,
+      idPago: data.idPago,
     }
 
+    const respuesta = await fetch("/api/usuarios", {
+      method: "post",
+      body: JSON.stringify(arriendo),
+    });
+
+    return respuesta;
   },
-  
+
   patch(ctx, id: number) {
     if (!id) {
       return "";
@@ -54,18 +60,18 @@ const actions: ActionTree<ArriendosState, State> = {
     // falta la funcion en la api
     return id;
   },
-  
+
   async listaPendientesAsistente(ctx, id: number) {
-    const respuesta = await fetch("/api/arriendos/pendientes/asistente/"+id);
+    const respuesta = await fetch("/api/arriendos/pendientes/asistente/" + id);
     return respuesta;
-    
+
   },
   async listaEncuestasPendientesCliente(ctx, id: number) {
-    const respuesta = await fetch("/api/arriendos/encuestas/pendientes/cliente/"+id);
+    const respuesta = await fetch("/api/arriendos/encuestas/pendientes/cliente/" + id);
     return respuesta;
   },
 
-  finalizar(ctx, data: { idArriendo:number }) {
+  finalizar(ctx, data: { idArriendo: number }) {
     const body = {
       idArriendo: data.idArriendo
     }
@@ -77,7 +83,7 @@ const actions: ActionTree<ArriendosState, State> = {
   },
 };
 
-const arriendosDisponibles = {
+const arriendo = {
   namespaced: true,
   state,
   getters,
@@ -85,4 +91,4 @@ const arriendosDisponibles = {
   actions,
 };
 
-export default arriendosDisponibles;
+export default arriendo;

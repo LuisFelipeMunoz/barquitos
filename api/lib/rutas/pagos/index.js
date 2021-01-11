@@ -8,7 +8,7 @@ let connection = undefined;
 const pagos = (app) => {
     app.post("/api/pagos/", async function (req, res) {
         let resultado = undefined;
-        const data = req.body;
+        const data = JSON.parse(req.body);
         try {
             connection = await db.getConnection();
             const rawBD = await pagos_1.crear(connection, data);

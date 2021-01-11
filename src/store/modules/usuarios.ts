@@ -40,26 +40,26 @@ const actions: ActionTree<UsuariosState, State> = {
           data.tipo == "administrador"
             ? ""
             : data.tipo == "asistente"
-            ? data.asistente?.rut
-            : data.cliente?.rut,
+              ? data.asistente?.rut
+              : data.cliente?.rut,
         nombre:
           data.tipo == "administrador"
             ? ""
             : data.tipo == "asistente"
-            ? data.asistente?.nombre
-            : data.cliente?.nombre,
+              ? data.asistente?.nombre
+              : data.cliente?.nombre,
         telefono:
           data.tipo == "administrador"
             ? ""
             : data.tipo == "asistente"
-            ? data.asistente?.telefono
-            : data.cliente?.telefono,
+              ? data.asistente?.telefono
+              : data.cliente?.telefono,
         direccion:
           data.tipo == "administrador"
             ? ""
             : data.tipo == "asistente"
-            ? data.asistente?.direccion
-            : data.cliente?.direccion,
+              ? data.asistente?.direccion
+              : data.cliente?.direccion,
       },
     };
     const respuesta = await fetch("/api/usuarios", {
@@ -81,6 +81,9 @@ const actions: ActionTree<UsuariosState, State> = {
     }
     // falta la funcion en la api
     return id;
+  },
+  iniciarSesion(ctx, data: { nombre: string; password: string }) {
+    console.log(data);
   },
 };
 

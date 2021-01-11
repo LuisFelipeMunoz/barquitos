@@ -17,7 +17,7 @@ const getters: GetterTree<PagosState, State> = {};
 const mutations: MutationTree<PagosState> = {};
 
 const actions: ActionTree<PagosState, State> = {
-  async all(ctx) {
+  async all() {
     const respuesta = await fetch("/api/pagos");
     return respuesta;
   },
@@ -57,7 +57,6 @@ const actions: ActionTree<PagosState, State> = {
     // falta la funcion en la api
     return id;
   },
-  iniciarSesion(ctx, data: { nombre: string; password: string }) {},
 };
 
 const pagos = {

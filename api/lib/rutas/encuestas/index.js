@@ -6,9 +6,9 @@ const db = require("../../db");
 const encuesta_1 = require("../../tablas/encuesta");
 let connection = undefined;
 const encuestas = (app) => {
-    app.post("/api/crear", async function (req, res) {
+    app.post("/api/encuentas", async function (req, res) {
         let resultado = undefined;
-        const data = req.body;
+        const data = JSON.parse(req.body);
         try {
             connection = await db.getConnection();
             const rawBD = await encuesta_1.crear(connection, data);

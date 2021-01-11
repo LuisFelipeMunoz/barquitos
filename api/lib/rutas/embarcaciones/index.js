@@ -43,7 +43,7 @@ const embarcaciones = (app) => {
     });
     app.post("/api/embarcaciones", async function (req, res) {
         let resultado = undefined;
-        const data = req.body;
+        const data = JSON.parse(req.body);
         try {
             connection = await db.getConnection();
             const rawBD = await embarcaciones_1.crear(connection, data);

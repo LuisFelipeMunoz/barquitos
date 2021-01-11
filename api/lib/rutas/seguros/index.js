@@ -5,6 +5,8 @@ const db = require("../../db");
 // metodos tabla usuario
 const seguros_1 = require("../../tablas/seguros");
 let connection = undefined;
+//FALTA EL INSERTAR EL SEGURO
+///////////////////////////
 const seguros = (app) => {
     app.get("/api/seguros", async function (req, res) {
         var _a;

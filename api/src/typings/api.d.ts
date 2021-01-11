@@ -57,16 +57,16 @@ export interface NuevoArriendoData {
   idArriendoDisponible: number;
   idPago: number;
 }
-export interface ListaSeguros {
-  rut: number;
-  password: number;
-}
 
-export interface IniciarSesion {
+export interface IniciarSesionData {
   rut: number;
   password: number;
 }
 
 export interface QuitaEmbarcacion {
   idEmbarcacion: number;
+}
+
+export interface BuscarArriendoData {
+  idArriendo: number;
 }

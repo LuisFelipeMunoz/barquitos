@@ -4,7 +4,12 @@ import * as db from "../../db";
 // metodos tabla usuario
 import { crear, iniciarSesion, lista } from "../../tablas/usuarios";
 // tipos
-import { CrearUsuarioData, Resultado, EntradaBD } from "../../typings/api";
+import {
+  CrearUsuarioData,
+  Resultado,
+  EntradaBD,
+  IniciarSesionData,
+} from "../../typings/api";
 
 let connection: db.Connection | undefined = undefined;
 
@@ -49,7 +54,7 @@ const usuarios = (app: Express) => {
     res.send(resultado);
   });
   // crear usuario
-  app.post("/api/crear_usuario", async function(req, res) {
+  app.post("/api/usuarios/", async function(req, res) {
     let resultado = undefined;
     const data = req.body as CrearUsuarioData;
     try {
@@ -74,9 +79,9 @@ const usuarios = (app: Express) => {
     res.send(resultado);
   });
   // iniciar sesion usuario
-  app.post("/api/iniciar_sesion", async function(req, res) {
+  app.post("/api/usuarios/iniciar_sesion", async function(req, res) {
     let resultado = undefined;
-    const data = req.body as { rut: number; password: string };
+    const data = req.body as IniciarSesionData;
     try {
       connection = await db.getConnection();
 

@@ -75,6 +75,9 @@ interface Arriendo {
   estado: boolean; // false = pendiente, true = finalizado
 }
 
+interface Arriendos {
+  [id: string]: Arriendo;
+}
 interface Encuesta {
   id: number;
   valoracion: number;

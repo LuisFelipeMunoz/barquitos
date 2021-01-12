@@ -105,6 +105,7 @@ import {
 @Component({
   methods: mapActions({
     arriendosDisponiblesEmbarcaciones: "embarcaciones/arriendosDisponibles",
+    listaEmbarcacionArriendosDisponibles: "arriendosDisponibles/listaEmbarcacion",
   }),
   components: {
     ListaEmbarcaciones,
@@ -126,12 +127,18 @@ export default class EmbarcacionesDisponibles extends Vue {
   arriendosDisponibles: ArriendosDisponibles = {};
 
   get items() {
-    return Object.values(this.embarcaciones);
+    console.log(this.embarcaciones);
+    return this.embarcaciones ? Object.values(this.embarcaciones): [];
+    //es un if, la primera parte es la condicion. 
   }
 
-  abrirDialogoArrendar(data: Embarcacion) {
+  async abrirDialogoArrendar(data: Embarcacion) {
+    console.log(data);
+    const resultado = await this.listaEmbarcacionArriendosDisponibles(data);
     this.embarcacion = data;
+    this.arriendosDisponibles = resultado;
     this.dialogoArrendar = true;
+    console.log(resultado);
   }
 
   guardarArriendo() {

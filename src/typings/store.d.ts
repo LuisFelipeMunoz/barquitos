@@ -34,7 +34,7 @@ interface Usuarios {
 }
 
 interface Embarcacion {
-  id: number;
+  id: string;
   tipo: string;
   precio: number;
   patente: number;
@@ -97,7 +97,7 @@ interface ArriendoDisponible {
     fecha: string;
     hora: string;
   };
-  entrada: {
+  entrega: {
     lugar: string;
     fecha: string;
     hora: string;
@@ -142,6 +142,9 @@ declare module "vue/types/vue" {
     //arriendos disponibles
     allArriendosDisponibles(): Promise<ArriendosDisponibles>;
     setArriendosDisponibles(data: ArriendoDisponible): Promise<void>;
+    listaEmbarcacionArriendosDisponibles(
+      data: Embarcacion
+    ): Promise<ArriendosDisponibles>;
 
     //embarcaciones
     allEmbarcaciones(): Promise<Embarcaciones>;

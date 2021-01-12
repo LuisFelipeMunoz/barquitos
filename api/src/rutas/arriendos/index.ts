@@ -1,3 +1,5 @@
+//RUTAS HTML
+
 import { Express } from "express";
 // conexion oracle
 import * as db from "../../db";
@@ -24,7 +26,7 @@ import {
 let connection: db.Connection | undefined = undefined;
 
 const arriendos = (app: Express) => {
-  app.get("/api/arriendos", async function (req, res) {
+  app.get("/api/arriendos", async function(req, res) {
     let resultado: Resultado = {};
     try {
       connection = await db.getConnection();
@@ -60,7 +62,7 @@ const arriendos = (app: Express) => {
     res.send(resultado);
   });
 
-  app.get("/api/arriendos/:id", async function (req, res) {
+  app.get("/api/arriendos/:id", async function(req, res) {
     let resultado = undefined;
     const data: BuscarArriendoData = { idArriendo: parseInt(req.params.id) };
     try {
@@ -85,7 +87,7 @@ const arriendos = (app: Express) => {
     res.send(resultado);
   });
 
-  app.get("/api/arriendos/pendientes/asistente/:id", async function (req, res) {
+  app.get("/api/arriendos/pendientes/asistente/:id", async function(req, res) {
     let resultado: Resultado = {};
     const data: ListaPendientesAsistenteData = {
       idAsistente: parseInt(req.params.id),
@@ -127,7 +129,7 @@ const arriendos = (app: Express) => {
     res.send(resultado);
   });
 
-  app.get("/api/arriendos/encuestas/pendientes/cliente/:id", async function (
+  app.get("/api/arriendos/encuestas/pendientes/cliente/:id", async function(
     req,
     res
   ) {
@@ -172,7 +174,7 @@ const arriendos = (app: Express) => {
     res.send(resultado);
   });
 
-  app.post("/api/arriendos/", async function (req, res) {
+  app.post("/api/arriendos/", async function(req, res) {
     let resultado = undefined;
     const data = JSON.parse(req.body) as CrearArriendoData;
     try {
@@ -197,7 +199,7 @@ const arriendos = (app: Express) => {
     res.send(resultado);
   });
 
-  app.post("/api/arriendos/finalizar", async function (req, res) {
+  app.post("/api/arriendos/finalizar", async function(req, res) {
     let resultado = undefined;
     const data = req.body as FinArriendoData;
     try {

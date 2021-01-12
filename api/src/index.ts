@@ -1,4 +1,6 @@
+//Libreria epress para crear servidores web
 import * as express from "express";
+//history api para que funcione correctamente vue
 import * as history_api from "connect-history-api-fallback";
 import rutas from "./rutas";
 
@@ -13,10 +15,10 @@ const history = history_api({
 
 const app = express();
 const port = 8000;
-
+//le indica al servidor que la aplicacion cliente se encuentra en la carpeta dist
 const staticFileMiddleware = express.static("dist");
-
 app.use(staticFileMiddleware);
+
 app.use((req, res, next) => {
   if (req.path.includes("api/")) {
     next();
@@ -24,7 +26,7 @@ app.use((req, res, next) => {
     history(req, res, next);
   }
 });
-
+app.use(staticFileMiddleware);
 // RUTAS
 
 rutas(app);

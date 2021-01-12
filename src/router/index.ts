@@ -9,6 +9,7 @@ import Embarcaciones from "@/views/Embarcaciones.vue";
 import Pagos from "@/views/Pagos.vue";
 import Encuestas from "@/views/Encuestas.vue";
 import Arriendos from "@/views/Arriendos.vue";
+import ArriendosDisponibles from "@/views/ArriendosDisponibles.vue";
 
 Vue.use(VueRouter);
 
@@ -57,6 +58,11 @@ const routes: Array<RouteConfig> = [
     path: "/arriendos",
     name: "arriendos",
     component: Arriendos,
+  },
+  {
+    path: "/arriendos/disponibles",
+    name: "arriendos.disponibles",
+    component: ArriendosDisponibles,
   },
 ];
 

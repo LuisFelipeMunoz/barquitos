@@ -34,8 +34,8 @@ import { Component, Vue } from "vue-property-decorator";
 // tipos
 import { Encuestas } from "@/typings/store";
 // componentes
-import TablaEncuestas from "@/components/usuarios/Tabla.vue";
-import FormularioEncuesta from "@/components/usuarios/Formulario.vue";
+import TablaEncuestas from "@/components/encuestas/Tabla.vue";
+import FormularioEncuestas from "@/components/encuestas/Formulario.vue";
 import { mapActions } from "vuex";
 @Component({
   methods: mapActions({
@@ -45,7 +45,7 @@ import { mapActions } from "vuex";
   }),
   components: {
     TablaEncuestas,
-    FormularioEncuesta,
+    FormularioEncuestas,
   },
 })
 export default class VistaEncuestas extends Vue {

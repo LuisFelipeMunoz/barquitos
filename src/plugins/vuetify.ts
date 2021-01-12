@@ -11,3 +11,4 @@ export default new Vuetify({
     current: "es",
   },
 });
+//agrega componentes visuales

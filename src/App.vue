@@ -16,6 +16,9 @@
 </template>
 
 <script lang="ts">
+
+//componente raiz de la aplicacion 
+
 import { Component, Vue } from "vue-property-decorator";
 import AppBar from "@/components/AppBar.vue";
 import NavDrawer from "@/components/navDrawer/NavDrawer.vue";

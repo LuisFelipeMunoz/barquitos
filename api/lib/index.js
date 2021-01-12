@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+//Libreria epress para crear servidores web
 const express = require("express");
+//history api para que funcione correctamente vue
 const history_api = require("connect-history-api-fallback");
 const rutas_1 = require("./rutas");
 // HISTORY API CONFIG
@@ -11,6 +13,7 @@ const history = history_api({
 // APP API CONFIG
 const app = express();
 const port = 8000;
+//le indica al servidor que la aplicacion cliente se encuentra en la carpeta dist
 const staticFileMiddleware = express.static("dist");
 app.use(staticFileMiddleware);
 app.use((req, res, next) => {
@@ -21,6 +24,7 @@ app.use((req, res, next) => {
         history(req, res, next);
     }
 });
+app.use(staticFileMiddleware);
 // RUTAS
 rutas_1.default(app);
 // LISTENER

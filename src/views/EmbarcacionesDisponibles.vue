@@ -99,7 +99,7 @@ import { Embarcacion, Embarcaciones } from "@/typings/store";
 
 @Component({
   methods: mapActions({
-    arriendosDisponiblesEmbarcaciones: "embarcaciones/arriendosDisponibles",
+    arriendosDisponiblesEmbarcaciones: "embarcaciones/arriendoDisponibles",
   }),
   components: {
     ListaEmbarcaciones,

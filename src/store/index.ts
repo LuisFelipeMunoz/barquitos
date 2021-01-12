@@ -10,7 +10,7 @@ export interface State {
 }
 
 const state: State = {
-  value: "La Carito Sabe XD",
+  value: "La Carito Sabe XD????",
 };
 
 const storeData: StoreOptions<State> = {

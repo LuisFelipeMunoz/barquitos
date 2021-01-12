@@ -132,24 +132,25 @@ interface Ruta {
 
 type Rutas = Array<Ruta>;
 
+//los tipos que se definen aqui son todos los componentes vue que existen en mi aplicacion
 declare module "vue/types/vue" {
   interface Vue {
     // arriendos
-    allArriendos(): Promise<Arriendos>;
+    allArriendos(): Promise<Arriendos>; //tengo de validarla diciendo que tiene algo que entra y que sale.
     setArriendos(data: Arriendo): Promise<void>;
 
     //arriendos disponibles
-    allArriendosDisponibles(): Promise<Arriendos>;
+    allArriendosDisponibles(): Promise<ArriendosDisponibles>;
     setArriendosDisponibles(data: ArriendoDisponible): Promise<void>;
 
     //embarcaciones
     allEmbarcaciones(): Promise<Embarcaciones>;
     setEmbarcaciones(data: Embarcacion): Promise<void>;
-    arriendosDisponiblesEmbarcaciones(): Promise<Embarcaciones>
+    arriendosDisponiblesEmbarcaciones(): Promise<Embarcaciones>;
 
     // usuarios
     allUsuarios(): Promise<Usuarios>;
-    setUsuario(data: Usuario): Promise<void>
+    setUsuario(data: Usuario): Promise<void>;
 
     //encuestas
     allEncuestas(): Promise<Encuestas>;

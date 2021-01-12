@@ -1,4 +1,5 @@
 "use strict";
+//RUTAS HTML
 Object.defineProperty(exports, "__esModule", { value: true });
 // conexion oracle
 const db = require("../../db");

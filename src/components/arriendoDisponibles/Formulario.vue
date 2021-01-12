@@ -100,6 +100,7 @@
 </template>
 
 <script lang="ts">
+//siempre reciben cosas y envian cosas, no leen directamente nada, tienen eventos
 // decoradores
 import { Component, Vue, Prop } from "vue-property-decorator";
 // tipos
@@ -110,7 +111,7 @@ import { required } from "vuelidate/lib/validators";
 @Component({
   validations: {
     id: { required },
-    embarcacion: { required }, //listo
+    embarcacion: { required }, 
     lugarRetiro: { required },
     lugarEntrada: { required },
     fechaRetiro: { required },
@@ -189,6 +190,7 @@ export default class FormularioArriendoDisponible extends Vue {
 
   guardar() {
     this.$v.$touch();
-  }
+    this.$emit("click-guardar", "la caro estuvo aqui"); //emite un evento hacia el padre (vistas)
+    }
 }
 </script>

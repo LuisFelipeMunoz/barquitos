@@ -8,10 +8,7 @@ import {
 } from "../../typings/api";
 
 export const lista = async (connection: db.Connection) => {
-  return await connection.execute("select * from arriendo", [], {
-    // maxRows: 1,
-    //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
-  });
+  return await connection.execute("select * from arriendo", []);
 };
 
 export const crear = async (
@@ -37,11 +34,7 @@ export const buscar = async (
 ) => {
   return await connection.execute(
     "select * from arriendo left outer join cliente on arriendo.id_cliente = cliente.id_cliente left outer join embarcacion on arriendo.id_embarcacion = embarcacion.id_embarcacion left outer join asistente on arriendo.id_asistente = asistente.id_asistente left outer join seguro on arriendo.id_seguro = seguro.id_seguro left outer join pago on arriendo.id_pago = pago.id_pago where arriendo.id_arriendo = :idArriendo",
-    [data.idArriendo],
-    {
-      // maxRows: 1,
-      //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
-    }
+    [data.idArriendo]
   );
 };
 
@@ -66,11 +59,7 @@ export const listaEncuestasPendientesCliente = async (
 ) => {
   return await connection.execute(
     "select * from arriendo left outer join encuesta on arriendo.id_arriendo = encuensta.id_arriendo where arriendo.id_cliente = :id and encuesta.id_encuesta = null",
-    [data.idCliente],
-    {
-      // maxRows: 1,
-      //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
-    }
+    [data.idCliente]
   );
 };
 

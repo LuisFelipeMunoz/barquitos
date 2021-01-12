@@ -1,3 +1,5 @@
+//definiciones de datos
+
 export interface EntradaBD {
   [nombreCampo: string]: any;
 }

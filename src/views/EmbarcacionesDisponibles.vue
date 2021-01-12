@@ -11,6 +11,7 @@
     <!-- Dialogos -->
     <v-dialog v-model="dialogoArrendar" max-width="600">
       <FormularioArrendar
+        :arriendosDisponibles="arriendosDisponibles"
         @click-confirmar="guardarArriendo"
       ></FormularioArrendar>
     </v-dialog>
@@ -95,11 +96,15 @@ import ListaEmbarcaciones from "@/components/embarcaciones/Lista.vue"; // @ is a
 import FormularioArrendar from "@/components/arriendos/FormularioArrendar.vue";
 import DescargarComprobanteArriendo from "@/components/arriendos/DescargarComprobante.vue";
 import { mapActions } from "vuex";
-import { Embarcacion, Embarcaciones } from "@/typings/store";
+import {
+  ArriendosDisponibles,
+  Embarcacion,
+  Embarcaciones,
+} from "@/typings/store";
 
 @Component({
   methods: mapActions({
-    arriendosDisponiblesEmbarcaciones: "embarcaciones/arriendoDisponibles",
+    arriendosDisponiblesEmbarcaciones: "embarcaciones/arriendosDisponibles",
   }),
   components: {
     ListaEmbarcaciones,
@@ -117,6 +122,8 @@ export default class EmbarcacionesDisponibles extends Vue {
   embarcaciones: Embarcaciones = {};
 
   embarcacion: Embarcacion | null | undefined = null;
+
+  arriendosDisponibles: ArriendosDisponibles = {};
 
   get items() {
     return Object.values(this.embarcaciones);

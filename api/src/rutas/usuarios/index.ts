@@ -80,14 +80,29 @@ const usuarios = (app: Express) => {
   });
   // iniciar sesion usuario
   app.post("/api/usuarios/iniciar_sesion", async function(req, res) {
-    let resultado = undefined;
-    const data = req.body as IniciarSesionData;
+    let resultado: Resultado = {};
+    const data = JSON.parse(req.body) as IniciarSesionData;
     try {
       connection = await db.getConnection();
 
       const rawBD = await iniciarSesion(connection, data);
 
-      resultado = rawBD;
+      rawBD.rows?.forEach((item) => {
+        const datos = item as Array<any>;
+
+        const usuario: EntradaBD = {};
+
+        datos.forEach((val, index) => {
+          const nombreCampo = rawBD.metaData
+            ? rawBD.metaData[index].name
+            : "COL" + index.toString();
+          if (val) {
+            usuario[nombreCampo] = val;
+          }
+        });
+
+        resultado[usuario.ID_USUARIO] = usuario;
+      });
     } catch (err) {
       console.error(err);
       resultado = err;

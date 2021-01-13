@@ -37,7 +37,6 @@ export default class TablaPagos extends Vue {
     { text: "id", value: "id" },
     { text: "precio", value: "valor" },
     { text: "tipo", value: "tipo" },
-    { text: "id arriendo", value: "arriendo" },
   ];
 
   get itemsMap() {
@@ -45,12 +44,10 @@ export default class TablaPagos extends Vue {
       const id = item.id;
       const valor = item.valor;
       const tipo = item.tipo;
-      const arriendo = item.arriendo.id;
       return {
         id,
         valor,
         tipo,
-        arriendo,
         item: item,
       };
     });

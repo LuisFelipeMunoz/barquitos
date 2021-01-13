@@ -1,7 +1,7 @@
 import { ActionTree, GetterTree, MutationTree } from "vuex";
 
 //tipos
-import { Embarcacion, Embarcaciones } from "@/typings/store";
+import { Asistente, Embarcacion, Embarcaciones } from "@/typings/store";
 import { State } from "@/store";
 
 interface EmbarcacionesState {
@@ -34,7 +34,7 @@ const actions: ActionTree<EmbarcacionesState, State> = {
       tipo: data.tipo,
       precio: data.precio,
       patente: data.patente,
-    }
+    };
     const respuesta = await fetch("/api/embarcaciones", {
       method: "post",
       body: JSON.stringify(embarcacion),
@@ -57,7 +57,33 @@ const actions: ActionTree<EmbarcacionesState, State> = {
   },
   async arriendosDisponibles() {
     const respuesta = await fetch("/api/embarcaciones/arriendos_disponibles");
-    return respuesta;
+    const data = (await respuesta.json()) as { [id: string]: any };
+    console.log(data);
+    const temp = Object.values(data).map((item) => {
+      const asistente: Asistente = {
+        id: item.ID_ASISTENTE.toString(),
+        rut: item.RUT,
+        nombre: item.NOMBREASISTENTE,
+        direccion: item.DIRECCION,
+        telefono: item.TELEFONO,
+        idUsuario: item.ID_USUARIO,
+      };
+      const embarcacion: Embarcacion = {
+        id: item.ID_EMBARCACION.toString(),
+        tipo: item.TIPOEMBARCACION,
+        precio: item.PRECIO,
+        patente: item.PATENTE,
+        asistente: asistente,
+      };
+      return embarcacion;
+    }); //objeto de objetos a arreglo de objetos
+    console.log(temp);
+    const embarcaciones: Embarcaciones = {};
+    temp.forEach((item) => {
+      embarcaciones[item.id] = item;
+    });
+    console.log(embarcaciones);
+    return embarcaciones;
   },
 };
 

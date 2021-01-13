@@ -40,26 +40,26 @@ const actions: ActionTree<UsuariosState, State> = {
           data.tipo == "administrador"
             ? ""
             : data.tipo == "asistente"
-              ? data.asistente?.rut
-              : data.cliente?.rut,
+            ? data.asistente?.rut
+            : data.cliente?.rut,
         nombre:
           data.tipo == "administrador"
             ? ""
             : data.tipo == "asistente"
-              ? data.asistente?.nombre
-              : data.cliente?.nombre,
+            ? data.asistente?.nombre
+            : data.cliente?.nombre,
         telefono:
           data.tipo == "administrador"
             ? ""
             : data.tipo == "asistente"
-              ? data.asistente?.telefono
-              : data.cliente?.telefono,
+            ? data.asistente?.telefono
+            : data.cliente?.telefono,
         direccion:
           data.tipo == "administrador"
             ? ""
             : data.tipo == "asistente"
-              ? data.asistente?.direccion
-              : data.cliente?.direccion,
+            ? data.asistente?.direccion
+            : data.cliente?.direccion,
       },
     };
     const respuesta = await fetch("/api/usuarios", {
@@ -82,8 +82,47 @@ const actions: ActionTree<UsuariosState, State> = {
     // falta la funcion en la api
     return id;
   },
-  iniciarSesion(ctx, data: { nombre: string; password: string }) {
-    console.log(data);
+  async iniciarSesion(ctx, login: { nombre: string; password: string }) {
+    console.log(login);
+    const respuesta = await fetch("/api/usuarios/iniciar_sesion", {
+      method: "post",
+      body: JSON.stringify(login),
+    });
+    const data = (await respuesta.json()) as { [id: string]: any };
+    const temp = Object.values(data).map((item) => {
+      const usuario: Usuario = {
+        id: item.ID_USUARIO.toString(),
+        nombre: item.NOMBRE_USUARIO,
+        password: item.CONTRAENIA,
+        tipo: item.TIPO.toLowerCase(),
+      };
+      switch (usuario.tipo) {
+        case "cliente":
+          usuario.cliente = {
+            rut: item.RUT,
+            nombre: item.NOMBRECLIENTE,
+            direccion: item.DIRECCION,
+            telefono: item.TELEFONO,
+          };
+          break;
+        case "asistente":
+          usuario.asistente = {
+            id: item.ID_ASISTENTE.toString(),
+            rut: item.RUT,
+            nombre: item.NOMBREASISTENTE,
+            direccion: item.DIRECCION,
+            telefono: item.TELEFONO,
+            idUsuario: item.ID_USUARIO,
+          };
+          break;
+      }
+      return usuario;
+    }); //objeto de objetos a arreglo de objetos
+    const usuarios: Usuarios = {};
+    temp.forEach((item) => {
+      usuarios[item.id] = item;
+    });
+    return usuarios;
   },
 };
 

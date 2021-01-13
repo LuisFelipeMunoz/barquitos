@@ -41,21 +41,9 @@ export default class Home extends Vue {
     this.snackbar.model = true;
   }
 
-  login(usuario: string) {
+  login(data: { nombre: string; password: string }) {
     // codigo consulta api login
     console.log("login");
-    switch (usuario) {
-      case "cliente":
-        // cambio de ruta
-        this.$router.push({ name: "embarcaciones.disponibles" });
-        break;
-      case "asistente":
-        this.$router.push({ name: "arriendos.pendientes" });
-        break;
-      default:
-        this.mensaje("error login", "error");
-        break;
-    }
   }
 }
 </script>

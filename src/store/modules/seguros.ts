@@ -21,6 +21,26 @@ const actions: ActionTree<SegurosState, State> = {
     const respuesta = await fetch("/api/seguros");
     return respuesta;
   },
+
+  // async all() {
+  //   const respuesta = await fetch("/api/pagos");
+  //   const data = (await respuesta.json()) as { [id: string]: any };
+  //   const temp = Object.values(data).map((item) => {
+  //     const pago: Pago = {
+  //       id: item.ID_PAGO.toString(),
+  //       valor: item.VALOR,
+  //       tipo: item.TIPO.toString(),
+  //       arriendo: item.ID_ARRIENDO, //AQUI SE SUPONE QUE NO LO TENGO DEFINIDO. ////////////////////////
+  //     };
+  //     return pago;
+  //   }); //objeto de objetos a arreglo de objetos
+  //      const pagos: Pagos = {};
+  //      temp.forEach((item) => {
+  //       pagos[item.id] = item;
+  //      });
+  //      return pagos;
+  // },
+
   async get(ctx, id: number) {
     if (!id) {
       return "";

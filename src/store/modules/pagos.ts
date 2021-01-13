@@ -19,8 +19,22 @@ const mutations: MutationTree<PagosState> = {};
 const actions: ActionTree<PagosState, State> = {
   async all() {
     const respuesta = await fetch("/api/pagos");
-    return respuesta;
+    const data = (await respuesta.json()) as { [id: string]: any };
+    const temp = Object.values(data).map((item) => {
+      const pago: Pago = {
+        id: item.ID_PAGO.toString(),
+        valor: item.VALOR,
+        tipo: item.TIPO,
+      };
+      return pago;
+    }); //objeto de objetos a arreglo de objetos
+    const pagos: Pagos = {};
+    temp.forEach((item) => {
+      pagos[item.id] = item;
+    });
+    return pagos;
   },
+
   async get(ctx, id: number) {
     if (!id) {
       return "";
@@ -32,7 +46,6 @@ const actions: ActionTree<PagosState, State> = {
     const pago = {
       pago: {
         id: data.id,
-        idArriendo: data.arriendo.id,
         valor: data.valor,
         tipo: data.tipo,
       },

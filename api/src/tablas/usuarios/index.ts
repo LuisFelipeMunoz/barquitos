@@ -37,12 +37,7 @@ export const iniciarSesion = async (
   data: IniciarSesionData
 ) => {
   return await connection.execute(
-    "begin iniciar_sesion(:nombre, :password, :resultado, :mensaje); end;",
-    {
-      nombre: data.nombre,
-      password: data.password,
-      resultado: { type: db.STRING, dir: db.BIND_OUT },
-      mensaje: { type: db.STRING, dir: db.BIND_OUT },
-    }
+    "select * from usuario left outer join cliente on (cliente.id_usuario = usuario.id_usuario) left outer join asistente on (asistente.id_usuario = usuario.id_usuario) where usuario.nombre_usuario = :nombre and usuario.contrasenia = :password",
+    [data.nombre, data.password]
   );
 };

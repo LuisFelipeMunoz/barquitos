@@ -4,7 +4,7 @@ import * as Firebase from "firebase/app";
 type User = Firebase.User;
 
 interface Usuario {
-  id: number;
+  id: string;
   nombre: string;
   password: string;
   tipo: "administrador" | "cliente" | "asistente";
@@ -17,7 +17,6 @@ interface Cliente {
   nombre: string;
   direccion: string;
   telefono: number;
-  idUsuario: number;
 }
 
 interface Asistente {
@@ -34,7 +33,7 @@ interface Usuarios {
 }
 
 interface Embarcacion {
-  id: number;
+  id: string;
   tipo: string;
   precio: number;
   patente: number;
@@ -97,7 +96,7 @@ interface ArriendoDisponible {
     fecha: string;
     hora: string;
   };
-  entrada: {
+  entrega: {
     lugar: string;
     fecha: string;
     hora: string;
@@ -110,10 +109,9 @@ interface ArriendosDisponibles {
 }
 
 interface Pago {
-  id: number;
+  id: string;
   valor: number;
   tipo: string;
-  arriendo: Arriendo;
 }
 
 interface Pagos {
@@ -142,6 +140,9 @@ declare module "vue/types/vue" {
     //arriendos disponibles
     allArriendosDisponibles(): Promise<ArriendosDisponibles>;
     setArriendosDisponibles(data: ArriendoDisponible): Promise<void>;
+    listaEmbarcacionArriendosDisponibles(
+      data: Embarcacion
+    ): Promise<ArriendosDisponibles>;
 
     //embarcaciones
     allEmbarcaciones(): Promise<Embarcaciones>;

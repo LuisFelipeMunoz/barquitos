@@ -2,6 +2,7 @@ import { ActionTree, GetterTree, MutationTree } from "vuex";
 
 //tipos
 import {
+  ArriendoDisponible,
   ArriendosDisponibles,
   Embarcacion,
 } from "@/typings/store";
@@ -51,11 +52,35 @@ const actions: ActionTree<ArriendosDisponiblesState, State> = {
     // falta la funcion en la api
     return id;
   },
-  async listaEmbarcacion(ctx, data: Embarcacion) {
+  async listaEmbarcacion(ctx, embarcacion: Embarcacion) {
     const respuesta = await fetch(
-      "/api/arriendos_disponibles/embarcacion/" + data.id
+      "/api/arriendos_disponibles/embarcacion/" + embarcacion.id
     );
-    return respuesta;
+    const data = (await respuesta.json()) as { [id: string]: any };
+    const temp = Object.values(data).map((item) => {
+      const arriendoDisponible: ArriendoDisponible = {
+        id: item.ID_ARRIENDO_DISPONIBLES.toString(),
+        retiro: {
+          lugar: item.LUGAR_RETIRO,
+          fecha: item.FECHA_RETIRO,
+          hora: item.HORA_RETIRO,
+        },
+        entrega: {
+          lugar: item.LUGAR_ENTREGA,
+          fecha: item.FECHA_ENTREGA,
+          hora: item.HORA_ENTREGA,
+        },
+        embarcacion: embarcacion,
+      };
+      return arriendoDisponible;
+    });
+    console.log(temp);
+    const arriendosDisponibles: ArriendosDisponibles = {};
+    temp.forEach((item) => {
+      arriendosDisponibles[item.id] = item;
+    });
+    console.log(arriendosDisponibles);
+    return arriendosDisponibles;
   },
 };
 

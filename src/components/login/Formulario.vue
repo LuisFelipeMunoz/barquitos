@@ -5,11 +5,6 @@
         <v-col cols="100%" class="text-h6 text-uppercase">
           iniciar sesion
         </v-col>
-        <v-col cols="auto">
-          <v-btn small icon>
-            <v-icon small>mdi-close</v-icon>
-          </v-btn>
-        </v-col>
       </v-row>
       <v-row dense class="text-capitalize">
         <v-col cols="12">
@@ -18,13 +13,22 @@
             v-model="nombre"
             outlined
             hide-details="auto"
+            :error-messages="nombreError"
+            @input="$v.nombre.$touch()"
+            @blur="$v.nombre.$touch()"
           ></v-text-field>
         </v-col>
         <v-col cols="12">
           <v-text-field
             label="password"
+            v-model="password"
+            type="password"
+            counter=""
             outlined
             hide-details="auto"
+            :error-messages="passwordError"
+            @input="$v.password.$touch()"
+            @blur="$v.password.$touch()"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -47,12 +51,40 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-@Component
+//vuelidate
+import { required } from "vuelidate/lib/validators";
+
+@Component({
+  validations: {
+    nombre: { required },
+    password: { required },
+  },
+})
 export default class FormularioLogin extends Vue {
   nombre = "";
+  password = "";
+
+  get nombreError() {
+    const errors: Array<string> = [];
+    if (!this.$v.nombre.$dirty) return errors;
+    if (!this.$v.nombre.required) errors.push("Requerido");
+    return errors;
+  }
+
+  get passwordError() {
+    const errors: Array<string> = [];
+    if (!this.$v.password.$dirty) return errors;
+    if (!this.$v.password.required) errors.push("Requerido");
+    return errors;
+  }
 
   login() {
-    this.$emit("click-login", this.nombre);
+    this.$v.$touch(); //el $v es el validador
+    if (this.$v.$invalid) {
+      //el invalid es una variable del validator que indica el estado del formulario
+      return;
+    }
+    this.$emit("click-login", { nombre: this.nombre, password: this.password });
   }
 }
 </script>

@@ -24,7 +24,9 @@ exports.lista = async (connection) => {
 };
 // Una funcion que enliste todos los barcos que tiene arriendos disponibles
 exports.listaArriendosDisponibles = async (connection) => {
-    return await connection.execute("select * from embarcacion inner join arriendos_disponibles.id_embarcacion on embarcacion.id_embarcacion = arriendos_disponibles.id_embarcacion", [], {
+    return await connection.execute(
+    //es un if, la primera parte es la condicion.
+    "select * from embarcacion inner join arriendos_disponibles on embarcacion.id_embarcacion = arriendos_disponibles.id_embarcacion inner join asistente on embarcacion.id_asistente = asistente.id_asistente", [], {
     // maxRows: 1,
     //, outFormat: db.OUT_FORMAT_OBJECT  // query result format
     });

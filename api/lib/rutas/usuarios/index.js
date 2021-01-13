@@ -73,7 +73,7 @@ const usuarios = (app) => {
     // iniciar sesion usuario
     app.post("/api/usuarios/iniciar_sesion", async function (req, res) {
         let resultado = undefined;
-        const data = req.body;
+        const data = JSON.parse(req.body);
         try {
             connection = await db.getConnection();
             const rawBD = await usuarios_1.iniciarSesion(connection, data);

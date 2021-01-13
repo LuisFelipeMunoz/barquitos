@@ -1,8 +1,16 @@
 import { ActionTree, GetterTree, MutationTree } from "vuex";
 
-import { Arriendos } from "@/typings/store";
+import {
+  Arriendo,
+  Arriendos,
+  Asistente,
+  Cliente,
+  Embarcacion,
+  Seguro,
+} from "@/typings/store";
 
 import { State } from "@/store";
+import embarcaciones from "./embarcaciones";
 interface ArriendosState {
   all: Arriendos;
 }
@@ -29,10 +37,64 @@ const actions: ActionTree<ArriendosState, State> = {
     const respuesta = await fetch("/api/arriendos");
     return respuesta;
   },
-  async get(ctx, id: number) {
+  async get(ctx, id: string) {
     const respuesta = await fetch("/api/arriendos" + id);
-    return respuesta;
+    const data = (await respuesta.json()) as { [id: string]: any };
+    const temp = Object.values(data).map((item) => {
+      const asistente: Asistente = {
+        id: item.ID_ASISTENTE.toString(),
+        rut: item.RUT_ASISTENTE,
+        nombre: item.NOMBREASISTENTE,
+        direccion: item.DIRECCION_ASISTENTE,
+        telefono: item.TELEFONO_ASISTENTE,
+        idUsuario: item.ID_USUARIO_ASISTENTE,
+      };
+      const embarcacion: Embarcacion = {
+        id: item.ID_EMBARCACION.toString(),
+        tipo: item.TIPOEMBARCACION,
+        precio: item.PRECIO,
+        patente: item.PATENTE,
+        asistente: asistente,
+      };
+      const cliente: Cliente = {
+        rut: item.RUT,
+        nombre: item.NOMBRECLIENTE,
+        direccion: item.DIRECCION,
+        telefono: item.TELEFONO,
+      };
+      const seguro: Seguro = {
+        id: item.ID_SEGURO,
+        valor: item.VALORSEGURO,
+        embarcacion: embarcacion,
+      };
+      const arriendo: Arriendo = {
+        id: item.ID_ARRIENDO.toString(),
+        asistente: asistente,
+        embarcacion: embarcacion,
+        cliente: cliente,
+        seguro: seguro,
+        retiro: {
+          lugar: item.LUGAR_RETIRO,
+          fecha: item.FECHA_RETIRO,
+          hora: item.HORA_RETIRO,
+        },
+        entrada: {
+          lugar: item.LUGAR_ENTREGA,
+          fecha: item.FECHA_ENTREGA,
+          hora: item.HORA_ENTREGA,
+        },
+        valor: item.VALOR,
+        estado: item.ESTADO,
+      };
+      return arriendo;
+    });
+    const arriendos: Arriendos = {};
+    temp.forEach((item) => {
+      arriendos[item.id] = item;
+    });
+    return arriendos;
   },
+
   async set(
     ctx,
     data: {
@@ -49,12 +111,16 @@ const actions: ActionTree<ArriendosState, State> = {
       idPago: data.idPago,
     };
 
-    const respuesta = await fetch("/api/usuarios", {
-      method: "post",
+    const respuesta = await fetch("/api/arriendos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(arriendo),
     });
-
-    return respuesta;
+    const temp = await respuesta.json();
+    if (temp.outBinds.resultado.toLowerCase() == "true") {
+      return temp.outBinds.mensaje.toLowerCase();
+    }
+    return -1;
   },
 
   patch(ctx, id: number) {

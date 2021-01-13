@@ -19,7 +19,8 @@ import { Component, Vue } from "vue-property-decorator";
 // componentes
 import FormularioLogin from "@/components/login/Formulario.vue";
 import Snackbar from "@/components/Snackbar.vue";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
+import { State } from "@/store";
 
 @Component({
   methods: {
@@ -30,6 +31,12 @@ import { mapActions, mapMutations } from "vuex";
       setUsuario: "setUsuario",
     }),
   },
+  computed: mapState({
+    usuarioLogin: (val) => {
+      const state = val as State;
+      return state.usuario;
+    },
+  }),
   components: {
     FormularioLogin,
     Snackbar,
@@ -59,6 +66,7 @@ export default class Home extends Vue {
     if (temp.length > 0) {
       const usuario = temp[0];
       this.setUsuario(usuario);
+      console.log(this.usuarioLogin);
       switch (usuario.tipo) {
         case "cliente":
           this.$router.push({

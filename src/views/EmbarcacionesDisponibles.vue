@@ -17,6 +17,7 @@
     </v-dialog>
     <v-dialog v-model="dialogoComprobante" max-width="600" persistent>
       <DescargarComprobanteArriendo
+        :arriendo="arriendo"
         @click-descargar="descargarComprobante"
       ></DescargarComprobanteArriendo>
     </v-dialog>
@@ -97,6 +98,7 @@ import FormularioArrendar from "@/components/arriendos/FormularioArrendar.vue";
 import DescargarComprobanteArriendo from "@/components/arriendos/DescargarComprobante.vue";
 import { mapActions, mapState } from "vuex";
 import {
+  Arriendo,
   ArriendoDisponible,
   ArriendosDisponibles,
   Embarcacion,
@@ -116,6 +118,8 @@ import { State } from "@/store";
     listaEmbarcacionArriendosDisponibles:
       "arriendosDisponibles/listaEmbarcacion",
     crearPagoArriendo: "pagos/setArriendo",
+    setArriendo: "arriendos/set",
+    getArriendo: "arriendos/get",
   }),
   components: {
     ListaEmbarcaciones,
@@ -135,6 +139,7 @@ export default class EmbarcacionesDisponibles extends Vue {
   embarcacion: Embarcacion | null | undefined = null;
 
   arriendosDisponibles: ArriendosDisponibles = {};
+  arriendo: Arriendo | null = null;
 
   get items() {
     console.log(this.embarcaciones);
@@ -155,15 +160,30 @@ export default class EmbarcacionesDisponibles extends Vue {
     arriendoDisponible: ArriendoDisponible;
     medioPago: string;
   }) {
-    if (!this.embarcacion) {
+    if (!this.embarcacion || !this.usuarioLogin?.cliente) {
+      console.log("error", this.embarcacion, this.usuarioLogin, data);
       return;
     }
     console.log("crearPagoArriendo");
-    const resultado = await this.crearPagoArriendo({
+    const idPago = await this.crearPagoArriendo({
       idEmbarcacion: this.embarcacion.id,
       tipo: data.medioPago,
     });
-    console.log(resultado);
+    console.log(idPago);
+
+    const respuesta = await this.setArriendo({
+      idCliente: this.usuarioLogin.cliente.rut,
+      idEmbarcacion: parseInt(this.embarcacion.id),
+      idArriendoDisponible: data.arriendoDisponible.id,
+      idPago: parseInt(idPago),
+    });
+    console.log(respuesta);
+    this.embarcaciones = await this.arriendosDisponiblesEmbarcaciones();
+    const arriendos = await this.getArriendo(respuesta);
+    const temp = Object.values(arriendos);
+    if (temp.length > 0) {
+      this.arriendo = temp[0];
+    }
     this.dialogoArrendar = false;
     this.dialogoComprobante = true;
   }

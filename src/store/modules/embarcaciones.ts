@@ -62,11 +62,11 @@ const actions: ActionTree<EmbarcacionesState, State> = {
     const temp = Object.values(data).map((item) => {
       const asistente: Asistente = {
         id: item.ID_ASISTENTE.toString(),
-        rut: item.RUT,
+        rut: item.RUT_ASISTENTE,
         nombre: item.NOMBREASISTENTE,
-        direccion: item.DIRECCION,
-        telefono: item.TELEFONO,
-        idUsuario: item.ID_USUARIO,
+        direccion: item.DIRECCION_ASISTENTE,
+        telefono: item.TELEFONO_ASISTENTE,
+        idUsuario: item.ID_USUARIO_ASISTENTE,
       };
       const embarcacion: Embarcacion = {
         id: item.ID_EMBARCACION.toString(),

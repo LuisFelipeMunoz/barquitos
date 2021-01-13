@@ -81,7 +81,11 @@ const actions: ActionTree<PagosState, State> = {
         tipo: data.tipo,
       }),
     });
-    return await respuesta.json();
+    const temp = await respuesta.json();
+    if (temp.outBinds.resultado.toLowerCase() == "true") {
+      return temp.outBinds.mensaje.toLowerCase();
+    }
+    return -1;
   },
 };
 

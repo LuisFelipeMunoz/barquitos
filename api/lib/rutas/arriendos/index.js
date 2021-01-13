@@ -153,6 +153,7 @@ const arriendos = (app) => {
         try {
             connection = await db.getConnection();
             const rawBD = await arriendos_1.crear(connection, data);
+            console.log(rawBD);
             resultado = rawBD;
         }
         catch (err) {

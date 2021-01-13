@@ -16,7 +16,7 @@ export const crear = async (
   data: CrearArriendoData
 ) => {
   return await connection.execute(
-    "begin crear_arriendo(:idCliente, :idEmbarcacion, :idArriendoDisponible, :idPago, :mensaje, :resultado ); end;",
+    "begin crear_arriendo(:idCliente, :idEmbarcacion, :idArriendoDisponible, :idPago, :resultado, :mensaje ); end;",
     {
       idCliente: data.idCliente,
       idEmbarcacion: data.idEmbarcacion,

@@ -181,7 +181,7 @@ const arriendos = (app: Express) => {
       connection = await db.getConnection();
 
       const rawBD = await crear(connection, data);
-
+      console.log(rawBD);
       resultado = rawBD;
     } catch (err) {
       console.error(err);

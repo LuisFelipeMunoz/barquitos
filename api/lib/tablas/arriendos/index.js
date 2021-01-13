@@ -6,7 +6,7 @@ exports.lista = async (connection) => {
     return await connection.execute("select * from arriendo", []);
 };
 exports.crear = async (connection, data) => {
-    return await connection.execute("begin crear_arriendo(:idCliente, :idEmbarcacion, :idArriendoDisponible, :idPago, :mensaje, :resultado ); end;", {
+    return await connection.execute("begin crear_arriendo(:idCliente, :idEmbarcacion, :idArriendoDisponible, :idPago, :resultado, :mensaje ); end;", {
         idCliente: data.idCliente,
         idEmbarcacion: data.idEmbarcacion,
         idArriendoDisponible: data.idArriendoDisponible,

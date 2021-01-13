@@ -17,13 +17,14 @@ const state: State = {
 };
 const mutations: MutationTree<State> = {
   setUsuario(state, data) {
-    state.usuario = data ?? null;
+    state.usuario = data;
   },
 };
 
 const storeData: StoreOptions<State> = {
   state,
   modules,
+  mutations,
 };
 
 const store = new Vuex.Store(storeData);

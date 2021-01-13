@@ -55,7 +55,7 @@ interface Seguros {
 }
 
 interface Arriendo {
-  id: number;
+  id: string;
   asistente: Asistente;
   embarcacion: Embarcacion;
   cliente: Cliente;
@@ -135,7 +135,13 @@ declare module "vue/types/vue" {
   interface Vue {
     // arriendos
     allArriendos(): Promise<Arriendos>; //tengo de validarla diciendo que tiene algo que entra y que sale.
-    setArriendos(data: Arriendo): Promise<void>;
+    setArriendo(data: {
+      idCliente: number;
+      idEmbarcacion: number;
+      idArriendoDisponible: number;
+      idPago: number;
+    }): Promise<string>;
+    getArriendo(id: string): Promise<Arriendos>;
 
     //arriendos disponibles
     allArriendosDisponibles(): Promise<ArriendosDisponibles>;
@@ -173,6 +179,6 @@ declare module "vue/types/vue" {
     crearPagoArriendo(data: {
       idEmbarcacion: string;
       tipo: string;
-    }): Promise<String>;
+    }): Promise<string>;
   }
 }

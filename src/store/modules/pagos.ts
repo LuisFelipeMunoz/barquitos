@@ -70,6 +70,19 @@ const actions: ActionTree<PagosState, State> = {
     // falta la funcion en la api
     return id;
   },
+  async setArriendo(ctx, data: { idEmbarcacion: string; tipo: string }) {
+    const respuesta = await fetch("/api/pagos/arriendo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idEmbarcacion: parseInt(data.idEmbarcacion),
+        tipo: data.tipo,
+      }),
+    });
+    return await respuesta.json();
+  },
 };
 
 const pagos = {

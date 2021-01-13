@@ -176,7 +176,7 @@ const arriendos = (app: Express) => {
 
   app.post("/api/arriendos/", async function(req, res) {
     let resultado = undefined;
-    const data = JSON.parse(req.body) as CrearArriendoData;
+    const data = req.body as CrearArriendoData;
     try {
       connection = await db.getConnection();
 

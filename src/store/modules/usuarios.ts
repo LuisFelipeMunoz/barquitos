@@ -85,10 +85,14 @@ const actions: ActionTree<UsuariosState, State> = {
   async iniciarSesion(ctx, login: { nombre: string; password: string }) {
     console.log(login);
     const respuesta = await fetch("/api/usuarios/iniciar_sesion", {
-      method: "post",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(login),
     });
     const data = (await respuesta.json()) as { [id: string]: any };
+    console.log(data);
     const temp = Object.values(data).map((item) => {
       const usuario: Usuario = {
         id: item.ID_USUARIO.toString(),
@@ -122,6 +126,7 @@ const actions: ActionTree<UsuariosState, State> = {
     temp.forEach((item) => {
       usuarios[item.id] = item;
     });
+    console.log(usuarios);
     return usuarios;
   },
 };

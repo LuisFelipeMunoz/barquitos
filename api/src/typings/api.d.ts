@@ -36,6 +36,11 @@ export interface CrearPagoData {
   tipo: string;
 }
 
+export interface CrearPagoArriendoData {
+  idEmbarcacion: number;
+  tipo: string;
+}
+
 export interface CrearEmbarcacionData {
   idAsistente: number;
   tipo: string;

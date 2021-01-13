@@ -8,10 +8,37 @@ let connection = undefined;
 const pagos = (app) => {
     app.post("/api/pagos/", async function (req, res) {
         let resultado = undefined;
-        const data = JSON.parse(req.body);
+        const data = req.body;
         try {
             connection = await db.getConnection();
             const rawBD = await pagos_1.crear(connection, data);
+            resultado = rawBD;
+        }
+        catch (err) {
+            console.error(err);
+            resultado = err;
+        }
+        finally {
+            if (connection) {
+                try {
+                    await connection.close();
+                }
+                catch (err) {
+                    console.error(err);
+                    resultado = err;
+                }
+            }
+        }
+        res.send(resultado);
+    });
+    app.post("/api/pagos/arriendo", async function (req, res) {
+        let resultado = undefined;
+        const data = req.body;
+        console.log(data);
+        try {
+            connection = await db.getConnection();
+            const rawBD = await pagos_1.crearArriendo(connection, data);
+            console.log(rawBD);
             resultado = rawBD;
         }
         catch (err) {

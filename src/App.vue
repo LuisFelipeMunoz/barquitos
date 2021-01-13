@@ -16,8 +16,7 @@
 </template>
 
 <script lang="ts">
-
-//componente raiz de la aplicacion 
+//componente raiz de la aplicacion
 
 import { Component, Vue } from "vue-property-decorator";
 import AppBar from "@/components/AppBar.vue";
@@ -30,6 +29,13 @@ import NavDrawer from "@/components/navDrawer/NavDrawer.vue";
   },
 })
 export default class Home extends Vue {
+  created() {
+    if (this.$route.name != "login") {
+      this.$router.push({
+        name: "login",
+      });
+    }
+  }
   nav = true;
 
   get ruta() {

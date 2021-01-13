@@ -8,7 +8,7 @@ let connection = undefined;
 const encuestas = (app) => {
     app.post("/api/encuentas", async function (req, res) {
         let resultado = undefined;
-        const data = JSON.parse(req.body);
+        const data = req.body;
         try {
             connection = await db.getConnection();
             const rawBD = await encuesta_1.crear(connection, data);

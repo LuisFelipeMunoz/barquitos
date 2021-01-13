@@ -47,7 +47,7 @@ const usuarios = (app) => {
     // crear usuario
     app.post("/api/usuarios", async function (req, res) {
         let resultado = undefined;
-        const data = JSON.parse(req.body);
+        const data = req.body;
         try {
             connection = await db.getConnection();
             const rawBD = await usuarios_1.crear(connection, data);
@@ -72,12 +72,26 @@ const usuarios = (app) => {
     });
     // iniciar sesion usuario
     app.post("/api/usuarios/iniciar_sesion", async function (req, res) {
-        let resultado = undefined;
-        const data = JSON.parse(req.body);
+        var _a;
+        let resultado = {};
+        const data = req.body;
+        data.nombre = data.nombre.toUpperCase();
         try {
             connection = await db.getConnection();
             const rawBD = await usuarios_1.iniciarSesion(connection, data);
-            resultado = rawBD;
+            (_a = rawBD.rows) === null || _a === void 0 ? void 0 : _a.forEach((item) => {
+                const datos = item;
+                const usuario = {};
+                datos.forEach((val, index) => {
+                    const nombreCampo = rawBD.metaData
+                        ? rawBD.metaData[index].name
+                        : "COL" + index.toString();
+                    if (val) {
+                        usuario[nombreCampo] = val;
+                    }
+                });
+                resultado[usuario.ID_USUARIO] = usuario;
+            });
         }
         catch (err) {
             console.error(err);

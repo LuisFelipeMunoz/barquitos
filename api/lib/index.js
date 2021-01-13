@@ -13,7 +13,8 @@ const history = history_api({
 // APP API CONFIG
 const app = express();
 const port = 8000;
-//le indica al servidor que la aplicacion cliente se encuentra en la carpeta dist
+app.use(express.json());
+//le indica al servidor que la aplicacion cliente se encuentra en la carpeta dist4
 const staticFileMiddleware = express.static("dist");
 app.use(staticFileMiddleware);
 app.use((req, res, next) => {

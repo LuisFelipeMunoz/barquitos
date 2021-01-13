@@ -19,8 +19,17 @@ import { Component, Vue } from "vue-property-decorator";
 // componentes
 import FormularioLogin from "@/components/login/Formulario.vue";
 import Snackbar from "@/components/Snackbar.vue";
+import { mapActions, mapMutations } from "vuex";
 
 @Component({
+  methods: {
+    ...mapActions({
+      iniciarSesion: "usuarios/iniciarSesion",
+    }),
+    ...mapMutations({
+      setUsuario: "setUsuario",
+    }),
+  },
   components: {
     FormularioLogin,
     Snackbar,
@@ -41,9 +50,35 @@ export default class Home extends Vue {
     this.snackbar.model = true;
   }
 
-  login(data: { nombre: string; password: string }) {
+  async login(data: { nombre: string; password: string }) {
     // codigo consulta api login
-    console.log("login");
+    console.log("login", data);
+    const usuarios = await this.iniciarSesion(data);
+    console.log(usuarios);
+    const temp = Object.values(usuarios);
+    if (temp.length > 0) {
+      const usuario = temp[0];
+      this.setUsuario(usuario);
+      switch (usuario.tipo) {
+        case "cliente":
+          this.$router.push({
+            name: "embarcaciones.disponibles",
+          });
+          break;
+        case "asistente":
+          this.$router.push({
+            name: "arriendos.pendientes",
+          });
+          break;
+        case "administrador":
+          this.$router.push({
+            name: "arriendos",
+          });
+          break;
+      }
+    } else {
+      this.mensaje("Intentelo otra vez", "error");
+    }
   }
 }
 </script>

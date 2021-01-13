@@ -95,17 +95,27 @@ import { Component, Vue } from "vue-property-decorator";
 import ListaEmbarcaciones from "@/components/embarcaciones/Lista.vue"; // @ is an alias to /src
 import FormularioArrendar from "@/components/arriendos/FormularioArrendar.vue";
 import DescargarComprobanteArriendo from "@/components/arriendos/DescargarComprobante.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import {
+  ArriendoDisponible,
   ArriendosDisponibles,
   Embarcacion,
   Embarcaciones,
 } from "@/typings/store";
+import { State } from "@/store";
 
 @Component({
+  computed: mapState({
+    usuarioLogin: (val) => {
+      const state = val as State;
+      return state.usuario;
+    },
+  }),
   methods: mapActions({
     arriendosDisponiblesEmbarcaciones: "embarcaciones/arriendosDisponibles",
-    listaEmbarcacionArriendosDisponibles: "arriendosDisponibles/listaEmbarcacion",
+    listaEmbarcacionArriendosDisponibles:
+      "arriendosDisponibles/listaEmbarcacion",
+    crearPagoArriendo: "pagos/setArriendo",
   }),
   components: {
     ListaEmbarcaciones,
@@ -128,8 +138,8 @@ export default class EmbarcacionesDisponibles extends Vue {
 
   get items() {
     console.log(this.embarcaciones);
-    return this.embarcaciones ? Object.values(this.embarcaciones): [];
-    //es un if, la primera parte es la condicion. 
+    return this.embarcaciones ? Object.values(this.embarcaciones) : [];
+    //es un if, la primera parte es la condicion.
   }
 
   async abrirDialogoArrendar(data: Embarcacion) {
@@ -141,9 +151,20 @@ export default class EmbarcacionesDisponibles extends Vue {
     console.log(resultado);
   }
 
-  guardarArriendo() {
+  async guardarArriendo(data: {
+    arriendoDisponible: ArriendoDisponible;
+    medioPago: string;
+  }) {
+    if (!this.embarcacion) {
+      return;
+    }
+    console.log("crearPagoArriendo");
+    const resultado = await this.crearPagoArriendo({
+      idEmbarcacion: this.embarcacion.id,
+      tipo: data.medioPago,
+    });
+    console.log(resultado);
     this.dialogoArrendar = false;
-
     this.dialogoComprobante = true;
   }
 

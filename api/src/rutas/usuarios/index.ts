@@ -56,7 +56,7 @@ const usuarios = (app: Express) => {
   // crear usuario
   app.post("/api/usuarios", async function(req, res) {
     let resultado = undefined;
-    const data = JSON.parse(req.body) as CrearUsuarioData;
+    const data = req.body as CrearUsuarioData;
     try {
       connection = await db.getConnection();
 
@@ -81,7 +81,8 @@ const usuarios = (app: Express) => {
   // iniciar sesion usuario
   app.post("/api/usuarios/iniciar_sesion", async function(req, res) {
     let resultado: Resultado = {};
-    const data = JSON.parse(req.body) as IniciarSesionData;
+    const data = req.body as IniciarSesionData;
+    data.nombre = data.nombre.toUpperCase();
     try {
       connection = await db.getConnection();
 

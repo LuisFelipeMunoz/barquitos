@@ -82,9 +82,13 @@ export default class FormularioLogin extends Vue {
     this.$v.$touch(); //el $v es el validador
     if (this.$v.$invalid) {
       //el invalid es una variable del validator que indica el estado del formulario
-      return;
+    } else {
+      console.log("click-login", this.nombre, this.password);
+      this.$emit("click-login", {
+        nombre: this.nombre,
+        password: this.password,
+      });
     }
-    this.$emit("click-login", { nombre: this.nombre, password: this.password });
   }
 }
 </script>

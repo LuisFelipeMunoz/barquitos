@@ -2,21 +2,52 @@ import { Express } from "express";
 // conexion oracle
 import * as db from "../../db";
 // metodos tabla usuario
-import { crear, lista } from "../../tablas/pagos";
+import { crear, crearArriendo, lista } from "../../tablas/pagos";
 // tipos
-import { CrearPagoData, Resultado, EntradaBD } from "../../typings/api";
+import {
+  CrearPagoData,
+  Resultado,
+  EntradaBD,
+  CrearPagoArriendoData,
+} from "../../typings/api";
 
 let connection: db.Connection | undefined = undefined;
 
 const pagos = (app: Express) => {
   app.post("/api/pagos/", async function(req, res) {
     let resultado = undefined;
-    const data = JSON.parse(req.body) as CrearPagoData;
+    const data = req.body as CrearPagoData;
     try {
       connection = await db.getConnection();
 
       const rawBD = await crear(connection, data);
 
+      resultado = rawBD;
+    } catch (err) {
+      console.error(err);
+      resultado = err;
+    } finally {
+      if (connection) {
+        try {
+          await connection.close();
+        } catch (err) {
+          console.error(err);
+          resultado = err;
+        }
+      }
+    }
+    res.send(resultado);
+  });
+
+  app.post("/api/pagos/arriendo", async function(req, res) {
+    let resultado = undefined;
+    const data = req.body as CrearPagoArriendoData;
+    console.log(data);
+    try {
+      connection = await db.getConnection();
+
+      const rawBD = await crearArriendo(connection, data);
+      console.log(rawBD);
       resultado = rawBD;
     } catch (err) {
       console.error(err);

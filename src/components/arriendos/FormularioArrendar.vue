@@ -191,7 +191,10 @@ export default class FormularioArrendar extends Vue {
       //el invalid es una variable del validator que indica el estado del formulario
       return;
     }
-    this.$emit("click-confirmar", this.arriendoDisponible);
+    this.$emit("click-confirmar", {
+      arriendoDisponible: this.arriendoDisponible,
+      medioPago: this.medioPago,
+    });
   }
 }
 </script>

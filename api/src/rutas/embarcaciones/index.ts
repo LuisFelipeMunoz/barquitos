@@ -59,7 +59,7 @@ const embarcaciones = (app: Express) => {
 
   app.post("/api/embarcaciones", async function(req, res) {
     let resultado = undefined;
-    const data = JSON.parse(req.body) as CrearEmbarcacionData;
+    const data = req.body as CrearEmbarcacionData;
     try {
       connection = await db.getConnection();
 

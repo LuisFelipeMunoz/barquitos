@@ -152,6 +152,11 @@ declare module "vue/types/vue" {
     // usuarios
     allUsuarios(): Promise<Usuarios>;
     setUsuario(data: Usuario): Promise<void>;
+    iniciarSesion(data: {
+      nombre: string;
+      password: string;
+    }): Promise<Usuarios>;
+    usuarioLogin: Usuario | null;
 
     //encuestas
     allEncuestas(): Promise<Encuestas>;
@@ -165,5 +170,9 @@ declare module "vue/types/vue" {
     // pagos
     allPagos(): Promise<Pagos>;
     setPagos(data: Pago): Promise<void>;
+    crearPagoArriendo(data: {
+      idEmbarcacion: string;
+      tipo: string;
+    }): Promise<String>;
   }
 }
